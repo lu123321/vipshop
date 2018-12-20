@@ -3,7 +3,7 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://root:123456@47.94.235.82:7776/eureka/
+      defaultZone: http://root:123456@123.206.255.244:7776/eureka/
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/js-deposit
@@ -23,3 +23,14 @@ spring:
     name: wph_shopcar_provider
   profiles:
     active: dev
+  rabbitmq:
+    host: 123.206.255.244
+    port: 5672
+    username: admin
+    password: 123456
+    virtual-host: /rabbit-1
+    publisher-confirms: true
+    publisher-returns: true
+    listener:
+      simple:
+        prefetch: 1
