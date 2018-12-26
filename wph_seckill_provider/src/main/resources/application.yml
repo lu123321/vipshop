@@ -3,10 +3,10 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://root:123456@47.94.235.82:7776/eureka/
+      defaultZone: http://root:123456@123.206.255.244:7776/eureka/
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/js-deposit
+    url: jdbc:mysql://localhost:3306/quartz
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
@@ -20,6 +20,17 @@ spring:
       validationQuery: select 'x'
       timeBetweenEvictionRunsMillis: 60000
   application:
-    name: wph_seckill_provider
+    name: wph-seckill-provider
   profiles:
     active: dev
+  rabbitmq:
+    host: 123.206.255.244
+    port: 5672
+    username: admin
+    password: 123456
+    virtual-host: /rabbit-1
+    publisher-confirms: true
+    publisher-returns: true
+    listener:
+        simple:
+          prefetch: 1
