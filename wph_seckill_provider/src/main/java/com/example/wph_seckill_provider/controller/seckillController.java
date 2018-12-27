@@ -1,6 +1,10 @@
 package com.example.wph_seckill_provider.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.wph_seckill_provider.service.CutRepertoryService;
+import com.example.wph_seckill_provider.service.pojo.MoneyRepertoey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class seckillController {
@@ -21,12 +26,21 @@ public class seckillController {
     @RequestMapping(value = "cutRepertory",method = RequestMethod.POST,produces = "text/html;charset=utf-8")
     @ResponseBody
         public String cutRepertory(@RequestParam("pinpaiId") String pinpaiId,@RequestParam("productId") String productId,@RequestParam("number") String number){
-//        String userid = request.getHeader("userid");
-//        System.out.println(userid);
-        System.out.println("aaaaaaaaaaaaaaaaaaaaa");
         return cutRepertoryService.cutrepertory(pinpaiId,productId,number);
     }
 
+    /**
+     * 购物车加减进行库存的锁定
+     * @param pinpaiId
+     * @param productId
+     * @param number
+     * @return
+     */
+    @RequestMapping(value = "cutlistRepertory",method = RequestMethod.POST,produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String cutlistRepertory(@RequestParam("pinpaiId") String pinpaiId,@RequestParam("productId") String productId,@RequestParam("number") String number){
+        return  cutRepertoryService.cutmoneyrep(pinpaiId,productId,number);
+    }
     /**
      * 此方法为商品上架时进行商品的添加
      * @param brandId 品牌id

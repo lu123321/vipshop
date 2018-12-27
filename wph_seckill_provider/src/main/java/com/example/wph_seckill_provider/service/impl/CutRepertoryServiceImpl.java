@@ -5,6 +5,7 @@ import com.example.wph_seckill_provider.config.RabbitConfig;
 import com.example.wph_seckill_provider.entity.Kc;
 import com.example.wph_seckill_provider.service.CutRepertoryService;
 import com.example.wph_seckill_provider.service.pojo.GetRepertoey;
+import com.example.wph_seckill_provider.service.pojo.MoneyRepertoey;
 import com.example.wph_seckill_provider.util.RedisUtil;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -62,6 +63,43 @@ public class CutRepertoryServiceImpl implements CutRepertoryService {
         }
         return  null;
     }
+
+    /**
+     *点加减进行库存增减
+     * @param pinpaiId
+     * @param productId
+     * @param number
+     * @return
+     */
+    @Override
+    public String cutmoneyrep(String pinpaiId,String productId, String number) {
+        if(number != null & number != ""){
+            //大于进行所库存
+            if(Integer.parseInt(number) > 0){
+               return cutrepertory(pinpaiId, productId, number);
+            }
+            //小于零进行还库存
+            if(Integer.parseInt(number)<0){
+                boolean b = redisUtil.hasKey(pinpaiId+"pp");
+                System.out.println(b);
+                if(b){
+                    System.out.println("111111111");
+                    long l = Long.parseLong(number);
+                    redisUtil.hincr(pinpaiId+"pp",productId,l);
+                    return "1";
+                }else{
+                    System.out.println("ccccccccccccc");
+                    GetRepertoey g = new GetRepertoey();
+                    g.setProductId(productId);
+                    g.setNumber(Integer.parseInt(number));
+                    rabbitTemplate.convertAndSend(RabbitConfig.XJFKC_Queue,JSON.toJSONString(g));
+                    return "1";
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * 通过品牌订单和商品信息来进行商品的上架
      * @param brandId

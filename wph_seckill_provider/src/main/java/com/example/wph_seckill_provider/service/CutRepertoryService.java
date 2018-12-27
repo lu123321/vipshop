@@ -10,6 +10,12 @@ public interface CutRepertoryService {
     String cutrepertory(String pinpaiId,String productId,String number);
 
     /**
+     * 通过发来的多个商品信息来进行库存锁定
+     * @param meaaage
+     * @return
+     */
+    String cutmoneyrep(String pinpaiId,String productId, String number);
+    /**
      * 通过品牌订单和商品信息来进行商品的上架
      * @param brandId
      * @param message
