@@ -19,11 +19,12 @@ public class RabbitConfig {
 
     public static final String WPH_SHOPING = "wph_shoping";//商品上架队列
     public static final String WPH_SPRETURN = "wph_spReturn";//存款队列
-    public static final String DLE_Queue = "del_queue";
+    public static final String DLE_Queue = "dle_queue";
     public static  final  String DLE_change = "dle_change";
     public static final String user_change = "user_change";
     public static final String YS_Queue = "ys_queue";
-    public static final String KC_Queue = "kc_queue";//返库存
+    public static final String FKC_Queue = "fkc_queue";//返库存
+
     @Bean
     public Queue seckillOrderQueue() {
         return new Queue(WPH_SHOPING);
@@ -39,15 +40,17 @@ public class RabbitConfig {
         Map<String,Object> args = new HashMap<String, Object>();
         args.put("x-dead-letter-exchange",user_change);
         args.put("x-dead-letter-routing-key",DLE_Queue);
-        args.put("x-message-ttl",12000);
+        args.put("x-message-ttl",1000*55); //毫秒
         return new Queue(DLE_Queue,false,false,false,args);
     }
     //配置用户队列
     @Bean
     public Queue ysqueue(){return new Queue(YS_Queue);}
+
     //返库存
     @Bean
-    public Queue kcqueue(){return new Queue(KC_Queue);}
+    public Queue fkcqueue(){return new Queue(FKC_Queue);}
+
     //配置延时交换机
     @Bean
     public DirectExchange dalyExchange(){

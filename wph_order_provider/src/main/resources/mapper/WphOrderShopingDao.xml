@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_order_provider.dao.WphOrderShopingDao">
+
+    <resultMap type="com.example.wph_order_provider.entity.WphOrderShoping" id="WphOrderShopingMap">
+        <result property="orderShopingId" column="order_shoping_id" jdbcType="INTEGER"/>
+        <result property="orderId" column="order_id" jdbcType="INTEGER"/>
+        <result property="skuId" column="sku_id" jdbcType="INTEGER"/>
+        <result property="orderShopingNum" column="order_shoping_num" jdbcType="INTEGER"/>
+        <result property="ordershopingmoney" column="order_shoping_money" jdbcType="INTEGER"/>
+        <result property="skuname" column="skuname" jdbcType="VARCHAR"/>
+        <result property="skumoney" column="skumoney" jdbcType="INTEGER"/>
+        <result property="picture" column="picture" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <!--通过订单编号作为筛选条件查询-->
+    <select id="queryAll" resultMap="WphOrderShopingMap" parameterType="Integer">
+        select order_shoping_id, order_id, skuSerialnumber, order_shoping_num,order_shoping_money,skuname,skumoney,picture
+        from myone.wph_order_shoping  where order_id = #{orderid}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="orderShopingId" useGeneratedKeys="true">
+        insert into myone.wph_order_shoping(order_id, skuSerialnumber, order_shoping_num,order_shoping_money,skuname,skumoney,picture)
+        values (#{orderid}, #{skuSerialnumber}, #{num},#{order_shoping_money},#{skuname},#{skumoney},#{picture})
+    </insert>
+
+    <!--通过订单id删除-->
+    <delete id="deleteById">
+        delete from myone.wph_order_shoping where order_id = #{orderid}
+    </delete>
+
+</mapper>

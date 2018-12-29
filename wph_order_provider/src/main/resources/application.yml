@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: 7080
 eureka:
   client:
     service-url:
-      defaultZone: http://root:123456@47.94.235.82:7776/eureka/
+      defaultZone: http://root:123456@123.206.255.244:7776/eureka/
 spring:
   datasource:
     # 使用druid数据源
@@ -26,6 +26,19 @@ spring:
       #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       timeBetweenEvictionRunsMillis: 60000
   application:
-    name: wph_order_provider
+    name: wph-order-provider
   profiles:
     active: dev
+  rabbitmq:
+    host: 123.206.255.244
+    port: 5672
+    username: admin
+    password: 123456
+    virtual-host: /rabbit-1
+    publisher-confirms: true
+    publisher-returns: true
+    listener:
+      simple:
+        prefetch: 1
+mybatis:
+  mapperLocations: classpath:mapper/*.xml

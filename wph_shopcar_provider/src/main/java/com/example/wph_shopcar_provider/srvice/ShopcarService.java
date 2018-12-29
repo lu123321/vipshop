@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface ShopcarService {
-    void wph_shopcart_add(String id,int num);
-    void wph_shopcart_del(String id);
-    void wph_shopcart_update(String id,int num);
+    String wph_shopcart_add(String listnumber,Integer userid);
+    void wph_shopcart_del(String userid,String skuserialnumber);
+    void wph_shopcart_update(Integer userid,String shoping);
     Map wph_shopcart_sel(String id);
-
+    Map wph_shophistroy_sel(String id);
 }

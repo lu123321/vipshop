@@ -14,7 +14,11 @@ public class WphShopcarProviderApplicationTests {
 
     @Test
     public void contextLoads() {
-
+        int i=0,k=10;
+        while (k-->0){
+            i=i++;
+        }
+        System.out.println(i);
     }
 }
 
