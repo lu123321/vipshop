@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_shoping_provider.dao.WphAttributevalueDao">
+
+    <resultMap type="com.example.wph_shoping_provider.entity.WphAttributevalue" id="WphAttributevalueMap">
+        <result property="attributevalueId" column="attributevalue_id" jdbcType="INTEGER"/>
+        <result property="attributevalueName" column="attributevalue_name" jdbcType="VARCHAR"/>
+        <result property="attributevalueAttributenameid" column="attributevalue_attributenameid" jdbcType="INTEGER"/>
+        <result property="attributevalueType" column="attributevalue_type" jdbcType="INTEGER"/>
+        <result property="attributevalue_1" column="attributevalue_1" jdbcType="VARCHAR"/>
+        <result property="attributevalue_2" column="attributevalue_2" jdbcType="VARCHAR"/>
+        <result property="attributevalue_3" column="attributevalue_3" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="WphAttributevalueMap">
+        select
+          attributevalue_id, attributevalue_name, attributevalue_attributenameid, attributevalue_type, attributevalue_1, attributevalue_2, attributevalue_3
+        from wph.wph_attributevalue
+        where attributevalue_id = #{attributevalueId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="WphAttributevalueMap">
+        select
+          attributevalue_id, attributevalue_name, attributevalue_attributenameid, attributevalue_type, attributevalue_1, attributevalue_2, attributevalue_3
+        from wph.wph_attributevalue
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="WphAttributevalueMap">
+        select
+          attributevalue_id, attributevalue_name, attributevalue_attributenameid, attributevalue_type, attributevalue_1, attributevalue_2, attributevalue_3
+        from wph.wph_attributevalue
+        <where>
+            <if test="attributevalueId != null">
+                and attributevalue_id = #{attributevalueId}
+            </if>
+            <if test="attributevalueName != null and attributevalueName != ''">
+                and attributevalue_name = #{attributevalueName}
+            </if>
+            <if test="attributevalueAttributenameid != null">
+                and attributevalue_attributenameid = #{attributevalueAttributenameid}
+            </if>
+            <if test="attributevalueType != null">
+                and attributevalue_type = #{attributevalueType}
+            </if>
+            <if test="attributevalue_1 != null and attributevalue_1 != ''">
+                and attributevalue_1 = #{attributevalue_1}
+            </if>
+            <if test="attributevalue_2 != null and attributevalue_2 != ''">
+                and attributevalue_2 = #{attributevalue_2}
+            </if>
+            <if test="attributevalue_3 != null and attributevalue_3 != ''">
+                and attributevalue_3 = #{attributevalue_3}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="attributevalueId" useGeneratedKeys="true">
+        insert into wph.wph_attributevalue(attributevalue_name, attributevalue_attributenameid, attributevalue_type, attributevalue_1, attributevalue_2, attributevalue_3)
+        values (#{attributevalueName}, #{attributevalueAttributenameid}, #{attributevalueType}, #{attributevalue_1}, #{attributevalue_2}, #{attributevalue_3})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update wph.wph_attributevalue
+        <set>
+            <if test="attributevalueName != null and attributevalueName != ''">
+                attributevalue_name = #{attributevalueName},
+            </if>
+            <if test="attributevalueAttributenameid != null">
+                attributevalue_attributenameid = #{attributevalueAttributenameid},
+            </if>
+            <if test="attributevalueType != null">
+                attributevalue_type = #{attributevalueType},
+            </if>
+            <if test="attributevalue_1 != null and attributevalue_1 != ''">
+                attributevalue_1 = #{attributevalue_1},
+            </if>
+            <if test="attributevalue_2 != null and attributevalue_2 != ''">
+                attributevalue_2 = #{attributevalue_2},
+            </if>
+            <if test="attributevalue_3 != null and attributevalue_3 != ''">
+                attributevalue_3 = #{attributevalue_3},
+            </if>
+        </set>
+        where attributevalue_id = #{attributevalueId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from wph.wph_attributevalue where attributevalue_id = #{attributevalueId}
+    </delete>
+
+</mapper>

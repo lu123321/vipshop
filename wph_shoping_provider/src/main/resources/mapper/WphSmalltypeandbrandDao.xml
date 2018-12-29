@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_shoping_provider.dao.WphSmalltypeandbrandDao">
+
+    <resultMap type="com.example.wph_shoping_provider.entity.WphSmalltypeandbrand" id="WphSmalltypeandbrandMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="sandbAmalltypeid" column="sandb_amalltypeid" jdbcType="INTEGER"/>
+        <result property="sandbBrandid" column="sandb_brandid" jdbcType="INTEGER"/>
+        <result property="sand_1" column="sand_1" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="WphSmalltypeandbrandMap">
+        select
+          id, sandb_amalltypeid, sandb_brandid, sand_1
+        from wph.wph_smalltypeandbrand
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="WphSmalltypeandbrandMap">
+        select
+          id, sandb_amalltypeid, sandb_brandid, sand_1
+        from wph.wph_smalltypeandbrand
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="WphSmalltypeandbrandMap">
+        select
+          id, sandb_amalltypeid, sandb_brandid, sand_1
+        from wph.wph_smalltypeandbrand
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="sandbAmalltypeid != null">
+                and sandb_amalltypeid = #{sandbAmalltypeid}
+            </if>
+            <if test="sandbBrandid != null">
+                and sandb_brandid = #{sandbBrandid}
+            </if>
+            <if test="sand_1 != null and sand_1 != ''">
+                and sand_1 = #{sand_1}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into wph.wph_smalltypeandbrand(sandb_amalltypeid, sandb_brandid, sand_1)
+        values (#{sandbAmalltypeid}, #{sandbBrandid}, #{sand_1})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update wph.wph_smalltypeandbrand
+        <set>
+            <if test="sandbAmalltypeid != null">
+                sandb_amalltypeid = #{sandbAmalltypeid},
+            </if>
+            <if test="sandbBrandid != null">
+                sandb_brandid = #{sandbBrandid},
+            </if>
+            <if test="sand_1 != null and sand_1 != ''">
+                sand_1 = #{sand_1},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from wph.wph_smalltypeandbrand where id = #{id}
+    </delete>
+
+</mapper>

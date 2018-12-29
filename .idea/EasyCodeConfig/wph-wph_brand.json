@@ -1,0 +1,66 @@
+{
+  "name" : "WphBrand",
+  "comment" : null,
+  "fullColumn" : [ {
+    "name" : "brandId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "brandName",
+    "comment" : "品牌名",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "brandDescribe",
+    "comment" : "品牌描述",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "brandType",
+    "comment" : "品牌类型",
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "brandSite",
+    "comment" : "冗余列1",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "brand_1",
+    "comment" : "冗余列2",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "brand_2",
+    "comment" : "冗余列3",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "brand_3",
+    "comment" : null,
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  } ],
+  "pkColumn" : null,
+  "otherColumn" : null,
+  "savePackageName" : "com.example.wph_shoping_provider",
+  "savePath" : "./wph_shoping_provider/src/main/java/com/example/wph_shoping_provider",
+  "saveModelName" : "wph_shoping_provider"
+}

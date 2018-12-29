@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_shoping_provider.dao.WphBrandDao">
+
+    <resultMap type="com.example.wph_shoping_provider.entity.WphBrand" id="WphBrandMap">
+        <result property="brandId" column="brand_id" jdbcType="INTEGER"/>
+        <result property="brandName" column="brand_name" jdbcType="VARCHAR"/>
+        <result property="brandDescribe" column="brand_describe" jdbcType="VARCHAR"/>
+        <result property="brandType" column="brand_type" jdbcType="INTEGER"/>
+        <result property="brandSite" column="brand_site" jdbcType="VARCHAR"/>
+        <result property="brand_1" column="brand_1" jdbcType="VARCHAR"/>
+        <result property="brand_2" column="brand_2" jdbcType="VARCHAR"/>
+        <result property="brand_3" column="brand_3" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="WphBrandMap">
+        select
+          brand_id, brand_name, brand_describe, brand_type, brand_site, brand_1, brand_2, brand_3
+        from wph.wph_brand
+        where brand_id = #{brandId} and brand_type=1
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="WphBrandMap">
+        select
+          brand_id, brand_name, brand_describe, brand_type, brand_site, brand_1, brand_2, brand_3
+        from wph.wph_brand
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="WphBrandMap">
+        select
+          brand_id, brand_name, brand_describe, brand_type, brand_site, brand_1, brand_2, brand_3
+        from wph.wph_brand
+        <where>
+            <if test="brandId != null">
+                and brand_id = #{brandId}
+            </if>
+            <if test="brandName != null and brandName != ''">
+                and brand_name = #{brandName}
+            </if>
+            <if test="brandDescribe != null and brandDescribe != ''">
+                and brand_describe = #{brandDescribe}
+            </if>
+            <if test="brandType != null">
+                and brand_type = #{brandType}
+            </if>
+            <if test="brandSite != null and brandSite != ''">
+                and brand_site = #{brandSite}
+            </if>
+            <if test="brand_1 != null and brand_1 != ''">
+                and brand_1 = #{brand_1}
+            </if>
+            <if test="brand_2 != null and brand_2 != ''">
+                and brand_2 = #{brand_2}
+            </if>
+            <if test="brand_3 != null and brand_3 != ''">
+                and brand_3 = #{brand_3}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="brandId" useGeneratedKeys="true">
+        insert into wph.wph_brand(brand_name, brand_describe, brand_type, brand_site, brand_1, brand_2, brand_3)
+        values (#{brandName}, #{brandDescribe}, #{brandType}, #{brandSite}, #{brand_1}, #{brand_2}, #{brand_3})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update wph.wph_brand
+        <set>
+            <if test="brandDescribe != null and brandDescribe != ''">
+                brand_describe = #{brandDescribe},
+            </if>
+            <if test="brandType != null">
+                brand_type = #{brandType},
+            </if>
+            <if test="brandSite != null and brandSite != ''">
+                brand_site = #{brandSite},
+            </if>
+            <if test="brand_1 != null and brand_1 != ''">
+                brand_1 = #{brand_1},
+            </if>
+            <if test="brand_2 != null and brand_2 != ''">
+                brand_2 = #{brand_2},
+            </if>
+            <if test="brand_3 != null and brand_3 != ''">
+                brand_3 = #{brand_3},
+            </if>
+        </set>
+        where brand_name = #{brandName},
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from wph.wph_brand where brand_id = #{brandId}
+    </delete>
+
+</mapper>

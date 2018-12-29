@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_shoping_provider.dao.WphSpuDao">
+
+    <resultMap type="com.example.wph_shoping_provider.entity.WphSpu" id="WphSpuMap">
+        <result property="spuId" column="spu_id" jdbcType="INTEGER"/>
+        <result property="spuName" column="spu_name" jdbcType="VARCHAR"/>
+        <result property="spuBrandid" column="spu_brandid" jdbcType="INTEGER"/>
+        <result property="spuListmoney" column="spu_listmoney" jdbcType="DOUBLE"/>
+        <result property="spuType" column="spu_type" jdbcType="INTEGER"/>
+        <result property="spuDetails" column="spu_details" jdbcType="VARCHAR"/>
+        <result property="spuAddtime" column="spu_addtime" jdbcType="TIMESTAMP"/>
+        <result property="spuUndertime" column="spu_undertime" jdbcType="TIMESTAMP"/>
+        <result property="spuSmalltypeId" column="spu_smalltypeid" jdbcType="INTEGER"/>
+        <result property="spu_1" column="spu_1" jdbcType="VARCHAR"/>
+        <result property="spu_2" column="spu_2" jdbcType="VARCHAR"/>
+        <result property="spu_3" column="spu_3" jdbcType="VARCHAR"/>
+        <result property="spuOriginalmoney" column="spu_originalmoney" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="WphSpuMap">
+        select
+          spu_id, spu_name, spu_brandid, spu_listmoney, spu_type, spu_details, spu_addtime, spu_undertime, spu_1, spu_2, spu_3,spu_originalmoney
+        from wph.wph_spu
+        where spu_id = #{spuId} and spu_type=1
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="WphSpuMap">
+        select
+          spu_id, spu_name, spu_brandid, spu_listmoney, spu_type, spu_details, spu_addtime, spu_undertime, spu_1, spu_2, spu_3,spu_originalmoney
+        from wph.wph_spu
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="WphSpuMap">
+        select
+          spu_id, spu_name, spu_listmoney, spu_details, spu_addtime,spu_originalmoney,spu_1
+        from wph_spu
+        <where>
+            <if test="spuId != null">
+                and spu_id = #{spuId}
+            </if>
+            <if test="spuName != null and spuName != ''">
+                and spu_name = #{spuName}
+            </if>
+            <if test="spuBrandid != null">
+                and spu_brandid = #{spuBrandid}
+            </if>
+            <if test="spuListmoney != null and spuListmoney != ''">
+                and spu_listmoney = #{spuListmoney}
+            </if>
+            <if test="spuType != null">
+                and spu_type = #{spuType}
+            </if>
+            <if test="spuDetails != null and spuDetails != ''">
+                and spu_details = #{spuDetails}
+            </if>
+            <if test="spuAddtime != null">
+                and spu_addtime = #{spuAddtime}
+            </if>
+            <if test="spuUndertime != null">
+                and spu_undertime = #{spuUndertime}
+            </if>
+            <if test="spuSmalltypeId != null">
+                and spu_smalltypeid = #{spuSmalltypeId}
+            </if>
+            <if test="spu_1 != null and spu_1 != ''">
+                and spu_1 = #{spu_1}
+            </if>
+            <if test="spu_2 != null and spu_2 != ''">
+                and spu_2 = #{spu_2}
+            </if>
+            <if test="spu_3 != null and spu_3 != ''">
+                and spu_3 = #{spu_3}
+            </if>
+            <if test="spuOriginalmoney !=null">
+                and spu_originalmoney=#{spuOriginalmoney}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="spuId" useGeneratedKeys="true">
+        insert into wph.wph_spu(spu_name, spu_brandid, spu_listmoney, spu_type, spu_details, spu_addtime, spu_undertime, spu_1, spu_2, spu_3,spu_originalmoney)
+        values (#{spuName}, #{spuBrandid}, #{spuListmoney}, #{spuType}, #{spuDetails}, #{spuAddtime}, #{spuUndertime},#{spuSmalltypeId} #{spu_1}, #{spu_2}, #{spu_3},#{spuOriginalmoney})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update wph.wph_spu
+        <set>
+            <if test="spuName != null and spuName != ''">
+                spu_name = #{spuName},
+            </if>
+            <if test="spuBrandid != null">
+                spu_brandid = #{spuBrandid},
+            </if>
+            <if test="spuListmoney != null and spuListmoney != ''">
+                spu_listmoney = #{spuListmoney},
+            </if>
+            <if test="spuType != null">
+                spu_type = #{spuType},
+            </if>
+            <if test="spuDetails != null and spuDetails != ''">
+                spu_details = #{spuDetails},
+            </if>
+            <if test="spuAddtime != null">
+                spu_addtime = #{spuAddtime},
+            </if>
+            <if test="spuUndertime != null">
+                spu_undertime = #{spuUndertime},
+            </if>
+            <if test="spu_1 != null and spu_1 != ''">
+                spu_1 = #{spu_1},
+            </if>
+            <if test="spuSmalltypeId != null">
+                spu_smalltypeid = #{spuSmalltypeId},
+            </if>
+            <if test="spu_2 != null and spu_2 != ''">
+                spu_2 = #{spu_2},
+            </if>
+            <if test="spu_3 != null and spu_3 != ''">
+                spu_3 = #{spu_3},
+            </if>
+            <if test="spuOriginalmoney !=null">
+                spu_originalmoney=#{spuOriginalmoney},
+            </if>
+        </set>
+        where spu_id = #{spuId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from wph.wph_spu where spu_id = #{spuId}
+    </delete>
+    <!--从小到大排序查询-->
+    <select id="ASC" resultMap="WphSpuMap">
+        SELECT * FROM wph.wph_spu
+        <where>
+            <if test="spuId != null">
+                and spu_id = #{spuId}
+            </if>
+            <if test="spuName != null and spuName != ''">
+                and spu_name = #{spuName}
+            </if>
+            <if test="spuBrandid != null">
+                and spu_brandid = #{spuBrandid}
+            </if>
+            <if test="spuListmoney != null and spuListmoney != ''">
+                and spu_listmoney = #{spuListmoney}
+            </if>
+            <if test="spuType != null">
+                and spu_type = #{spuType}
+            </if>
+            <if test="spuDetails != null and spuDetails != ''">
+                and spu_details = #{spuDetails}
+            </if>
+            <if test="spuAddtime != null">
+                and spu_addtime = #{spuAddtime}
+            </if>
+            <if test="spuUndertime != null">
+                and spu_undertime = #{spuUndertime}
+            </if>
+            <if test="spuSmalltypeId != null">
+                and spu_smalltypeid = #{spuSmalltypeId}
+            </if>
+            <if test="spu_1 != null and spu_1 != ''">
+                and spu_1 = #{spu_1}
+            </if>
+            <if test="spu_2 != null and spu_2 != ''">
+                and spu_2 = #{spu_2}
+            </if>
+            <if test="spu_3 != null and spu_3 != ''">
+                and spu_3 = #{spu_3}
+            </if>
+            <if test="spuOriginalmoney!=null">
+                and spu_originalmoney=#{spuOriginalmoney}
+            </if>
+        </where>
+        ORDER BY spu_listmoney ASC
+    </select>
+    <!--从大到小排序-->
+    <select id="DESC" resultMap="WphSpuMap">
+        SELECT * FROM wph.wph_spu
+        <where>
+            <if test="spuId != null">
+                and spu_id = #{spuId}
+            </if>
+            <if test="spuName != null and spuName != ''">
+                and spu_name = #{spuName}
+            </if>
+            <if test="spuBrandid != null">
+                and spu_brandid = #{spuBrandid}
+            </if>
+            <if test="spuListmoney != null and spuListmoney != ''">
+                and spu_listmoney = #{spuListmoney}
+            </if>
+            <if test="spuType != null">
+                and spu_type = #{spuType}
+            </if>
+            <if test="spuDetails != null and spuDetails != ''">
+                and spu_details = #{spuDetails}
+            </if>
+            <if test="spuAddtime != null">
+                and spu_addtime = #{spuAddtime}
+            </if>
+            <if test="spuUndertime != null">
+                and spu_undertime = #{spuUndertime}
+            </if>
+            <if test="spuSmalltypeId != null">
+                and spu_smalltypeid = #{spuSmalltypeId}
+            </if>
+            <if test="spu_1 != null and spu_1 != ''">
+                and spu_1 = #{spu_1}
+            </if>
+            <if test="spu_2 != null and spu_2 != ''">
+                and spu_2 = #{spu_2}
+            </if>
+            <if test="spu_3 != null and spu_3 != ''">
+                and spu_3 = #{spu_3}
+            </if>
+            <if test="spuOriginalmoney!=null">
+                and spu_originalmoney=#{spuOriginalmoney}
+            </if>
+        </where>
+        ORDER BY spu_listmoney DESC
+    </select>
+</mapper>

@@ -1,0 +1,59 @@
+{
+  "name" : "WphSmalltype",
+  "comment" : null,
+  "fullColumn" : [ {
+    "name" : "smalltypeId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "smalltypeName",
+    "comment" : "小类型名称",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "smalltypeMiddletypeid",
+    "comment" : "所属父类id",
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "smalltypeType",
+    "comment" : "小类型状态",
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "smalltype_1",
+    "comment" : "冗余列1",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "smalltype_2",
+    "comment" : "冗余列2",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "smalltype_3",
+    "comment" : "冗余列3",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  } ],
+  "pkColumn" : null,
+  "otherColumn" : null,
+  "savePackageName" : "com.example.wph_shoping_provider",
+  "savePath" : "./wph_shoping_provider/src/main/java/com/example/wph_shoping_provider",
+  "saveModelName" : "wph_shoping_provider"
+}

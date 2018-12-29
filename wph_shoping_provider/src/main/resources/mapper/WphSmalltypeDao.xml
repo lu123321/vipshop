@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_shoping_provider.dao.WphSmalltypeDao">
+
+    <resultMap type="com.example.wph_shoping_provider.entity.WphSmalltype" id="WphSmalltypeMap">
+        <result property="smalltypeId" column="smalltype_id" jdbcType="INTEGER"/>
+        <result property="smalltypeName" column="smalltype_name" jdbcType="VARCHAR"/>
+        <result property="smalltypeMiddletypeid" column="smalltype_middletypeid" jdbcType="INTEGER"/>
+        <result property="smalltypeType" column="smalltype_type" jdbcType="INTEGER"/>
+        <result property="smalltype_1" column="smalltype_1" jdbcType="VARCHAR"/>
+        <result property="smalltype_2" column="smalltype_2" jdbcType="VARCHAR"/>
+        <result property="smalltype_3" column="smalltype_3" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="WphSmalltypeMap">
+        select
+          smalltype_id, smalltype_name, smalltype_middletypeid, smalltype_type, smalltype_1, smalltype_2, smalltype_3
+        from wph.wph_smalltype
+        where smalltype_id = #{smalltypeId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="WphSmalltypeMap">
+        select
+          smalltype_id, smalltype_name, smalltype_middletypeid, smalltype_type, smalltype_1, smalltype_2, smalltype_3
+        from wph.wph_smalltype
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="WphSmalltypeMap">
+        select
+          smalltype_id, smalltype_name
+        from wph.wph_smalltype
+        <where>
+            <if test="smalltypeId != null">
+                and smalltype_id = #{smalltypeId}
+            </if>
+            <if test="smalltypeName != null and smalltypeName != ''">
+                and smalltype_name = #{smalltypeName}
+            </if>
+            <if test="smalltypeMiddletypeid != null">
+                and smalltype_middletypeid = #{smalltypeMiddletypeid}
+            </if>
+            <if test="smalltypeType != null">
+                and smalltype_type = #{smalltypeType}
+            </if>
+            <if test="smalltype_1 != null and smalltype_1 != ''">
+                and smalltype_1 = #{smalltype_1}
+            </if>
+            <if test="smalltype_2 != null and smalltype_2 != ''">
+                and smalltype_2 = #{smalltype_2}
+            </if>
+            <if test="smalltype_3 != null and smalltype_3 != ''">
+                and smalltype_3 = #{smalltype_3}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="smalltypeId" useGeneratedKeys="true">
+        insert into wph.wph_smalltype(smalltype_name, smalltype_middletypeid, smalltype_type, smalltype_1, smalltype_2, smalltype_3)
+        values (#{smalltypeName}, #{smalltypeMiddletypeid}, #{smalltypeType}, #{smalltype_1}, #{smalltype_2}, #{smalltype_3})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update wph.wph_smalltype
+        <set>
+            <if test="smalltypeName != null and smalltypeName != ''">
+                smalltype_name = #{smalltypeName},
+            </if>
+            <if test="smalltypeMiddletypeid != null">
+                smalltype_middletypeid = #{smalltypeMiddletypeid},
+            </if>
+            <if test="smalltypeType != null">
+                smalltype_type = #{smalltypeType},
+            </if>
+            <if test="smalltype_1 != null and smalltype_1 != ''">
+                smalltype_1 = #{smalltype_1},
+            </if>
+            <if test="smalltype_2 != null and smalltype_2 != ''">
+                smalltype_2 = #{smalltype_2},
+            </if>
+            <if test="smalltype_3 != null and smalltype_3 != ''">
+                smalltype_3 = #{smalltype_3},
+            </if>
+        </set>
+        where smalltype_id = #{smalltypeId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from wph.wph_smalltype where smalltype_id = #{smalltypeId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_shoping_provider.dao.WphSpuattributeDao">
+
+    <resultMap type="com.example.wph_shoping_provider.entity.WphSpuattribute" id="WphSpuattributeMap">
+        <result property="spuattributeId" column="spuattribute_id" jdbcType="INTEGER"/>
+        <result property="spuattributeSpuid" column="spuattribute_spuid" jdbcType="INTEGER"/>
+        <result property="spuattributeAttributenameid" column="spuattribute_attributenameid" jdbcType="INTEGER"/>
+        <result property="spuattributeAttributevalueid" column="spuattribute_attributevalueid" jdbcType="INTEGER"/>
+        <result property="spuattributeSkuid" column="spuattribute_skuid" jdbcType="INTEGER"/>
+        <result property="spuattribute_1" column="spuattribute_1" jdbcType="VARCHAR"/>
+        <result property="spuattribute_2" column="spuattribute_2" jdbcType="VARCHAR"/>
+        <result property="spuattribute_3" column="spuattribute_3" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="WphSpuattributeMap">
+        select
+          spuattribute_id, spuattribute_spuid, spuattribute_attributenameid, spuattribute_attributevalueid, spuattribute_skuid, spuattribute_1, spuattribute_2, spuattribute_3
+        from wph.wph_spuattribute
+        where spuattribute_id = #{spuattributeId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="WphSpuattributeMap">
+        select
+          spuattribute_id, spuattribute_spuid, spuattribute_attributenameid, spuattribute_attributevalueid, spuattribute_skuid, spuattribute_1, spuattribute_2, spuattribute_3
+        from wph.wph_spuattribute
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="WphSpuattributeMap">
+        select
+          spuattribute_id, spuattribute_spuid, spuattribute_attributenameid, spuattribute_attributevalueid, spuattribute_skuid, spuattribute_1, spuattribute_2, spuattribute_3
+        from wph.wph_spuattribute
+        <where>
+            <if test="spuattributeId != null">
+                and spuattribute_id = #{spuattributeId}
+            </if>
+            <if test="spuattributeSpuid != null">
+                and spuattribute_spuid = #{spuattributeSpuid}
+            </if>
+            <if test="spuattributeAttributenameid != null">
+                and spuattribute_attributenameid = #{spuattributeAttributenameid}
+            </if>
+            <if test="spuattributeAttributevalueid != null">
+                and spuattribute_attributevalueid = #{spuattributeAttributevalueid}
+            </if>
+            <if test="spuattributeSkuid != null">
+                and spuattribute_skuid = #{spuattributeSkuid}
+            </if>
+            <if test="spuattribute_1 != null and spuattribute_1 != ''">
+                and spuattribute_1 = #{spuattribute_1}
+            </if>
+            <if test="spuattribute_2 != null and spuattribute_2 != ''">
+                and spuattribute_2 = #{spuattribute_2}
+            </if>
+            <if test="spuattribute_3 != null and spuattribute_3 != ''">
+                and spuattribute_3 = #{spuattribute_3}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="spuattributeId" useGeneratedKeys="true">
+        insert into wph.wph_spuattribute(spuattribute_spuid, spuattribute_attributenameid, spuattribute_attributevalueid, spuattribute_skuid, spuattribute_1, spuattribute_2, spuattribute_3)
+        values (#{spuattributeSpuid}, #{spuattributeAttributenameid}, #{spuattributeAttributevalueid}, #{spuattributeSkuid}, #{spuattribute_1}, #{spuattribute_2}, #{spuattribute_3})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update wph.wph_spuattribute
+        <set>
+            <if test="spuattributeSpuid != null">
+                spuattribute_spuid = #{spuattributeSpuid},
+            </if>
+            <if test="spuattributeAttributenameid != null">
+                spuattribute_attributenameid = #{spuattributeAttributenameid},
+            </if>
+            <if test="spuattributeAttributevalueid != null">
+                spuattribute_attributevalueid = #{spuattributeAttributevalueid},
+            </if>
+            <if test="spuattributeSkuid != null">
+                spuattribute_skuid = #{spuattributeSkuid},
+            </if>
+            <if test="spuattribute_1 != null and spuattribute_1 != ''">
+                spuattribute_1 = #{spuattribute_1},
+            </if>
+            <if test="spuattribute_2 != null and spuattribute_2 != ''">
+                spuattribute_2 = #{spuattribute_2},
+            </if>
+            <if test="spuattribute_3 != null and spuattribute_3 != ''">
+                spuattribute_3 = #{spuattribute_3},
+            </if>
+        </set>
+        where spuattribute_id = #{spuattributeId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from wph.wph_spuattribute where spuattribute_id = #{spuattributeId}
+    </delete>
+
+</mapper>

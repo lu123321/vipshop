@@ -1,0 +1,31 @@
+{
+  "name" : "WphShopingpicture",
+  "comment" : null,
+  "fullColumn" : [ {
+    "name" : "pictureId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "pictureAddress",
+    "comment" : "图片地址",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "picture_1",
+    "comment" : "冗余列1",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  } ],
+  "pkColumn" : null,
+  "otherColumn" : null,
+  "savePackageName" : "com.example.wph_shoping_provider",
+  "savePath" : "./wph_shoping_provider/src/main/java/com/example/wph_shoping_provider",
+  "saveModelName" : "wph_shoping_provider"
+}

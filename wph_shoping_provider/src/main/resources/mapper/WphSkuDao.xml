@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_shoping_provider.dao.WphSkuDao">
+
+    <resultMap type="com.example.wph_shoping_provider.entity.WphSku" id="WphSkuMap">
+        <result property="skuId" column="sku_id" jdbcType="INTEGER"/>
+        <result property="skuSpuid" column="sku_spuid" jdbcType="INTEGER"/>
+        <result property="skuNumber" column="sku_number" jdbcType="INTEGER"/>
+        <result property="skuMoney" column="sku_money" jdbcType="OTHER"/>
+        <result property="skuSerialnumber" column="sku_serialnumber" jdbcType="VARCHAR"/>
+        <result property="skuName" column="sku_name" jdbcType="VARCHAR"/>
+        <result property="skuPictureid" column="sku_pictureid" jdbcType="INTEGER"/>
+        <result property="skuType" column="sku_type" jdbcType="INTEGER"/>
+        <result property="sku_1" column="sku_1" jdbcType="VARCHAR"/>
+        <result property="sku_2" column="sku_2" jdbcType="VARCHAR"/>
+        <result property="sku_3" column="sku_3" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="WphSkuMap">
+        select
+          sku_id, sku_spuid, sku_number, sku_money, sku_serialnumber, sku_name, sku_pictureid, sku_type, sku_1, sku_2, sku_3
+        from wph.wph_sku
+        where sku_id = #{skuId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="WphSkuMap">
+        select
+          sku_id, sku_spuid, sku_number, sku_money, sku_serialnumber, sku_name, sku_pictureid, sku_type, sku_1, sku_2, sku_3
+        from wph.wph_sku
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="WphSkuMap">
+        select
+          sku_id, sku_spuid, sku_number, sku_money, sku_serialnumber, sku_name, sku_pictureid, sku_type, sku_1, sku_2, sku_3
+        from wph.wph_sku
+        <where>
+            <if test="skuId != null">
+                and sku_id = #{skuId}
+            </if>
+            <if test="skuSpuid != null">
+                and sku_spuid = #{skuSpuid}
+            </if>
+            <if test="skuNumber != null">
+                and sku_number = #{skuNumber}
+            </if>
+            <if test="skuMoney != null">
+                and sku_money = #{skuMoney}
+            </if>
+            <if test="skuSerialnumber != null and skuSerialnumber != ''">
+                and sku_serialnumber = #{skuSerialnumber}
+            </if>
+            <if test="skuName != null and skuName != ''">
+                and sku_name = #{skuName}
+            </if>
+            <if test="skuPictureid != null">
+                and sku_pictureid = #{skuPictureid}
+            </if>
+            <if test="skuType != null">
+                and sku_type = #{skuType}
+            </if>
+            <if test="sku_1 != null and sku_1 != ''">
+                and sku_1 = #{sku_1}
+            </if>
+            <if test="sku_2 != null and sku_2 != ''">
+                and sku_2 = #{sku_2}
+            </if>
+            <if test="sku_3 != null and sku_3 != ''">
+                and sku_3 = #{sku_3}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="skuId" useGeneratedKeys="true">
+        insert into wph.wph_sku(sku_spuid, sku_number, sku_money, sku_serialnumber, sku_name, sku_pictureid, sku_type, sku_1, sku_2, sku_3)
+        values (#{skuSpuid}, #{skuNumber}, #{skuMoney}, #{skuSerialnumber}, #{skuName}, #{skuPictureid}, #{skuType}, #{sku_1}, #{sku_2}, #{sku_3})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update wph.wph_sku
+        <set>
+            <if test="skuSpuid != null">
+                sku_spuid = #{skuSpuid},
+            </if>
+            <if test="skuNumber != null">
+                sku_number = #{skuNumber},
+            </if>
+            <if test="skuMoney != null">
+                sku_money = #{skuMoney},
+            </if>
+            <if test="skuName != null and skuName != ''">
+                sku_name = #{skuName},
+            </if>
+            <if test="skuPictureid != null">
+                sku_pictureid = #{skuPictureid},
+            </if>
+            <if test="skuType != null">
+                sku_type = #{skuType},
+            </if>
+            <if test="sku_1 != null and sku_1 != ''">
+                sku_1 = #{sku_1},
+            </if>
+            <if test="sku_2 != null and sku_2 != ''">
+                sku_2 = #{sku_2},
+            </if>
+            <if test="sku_3 != null and sku_3 != ''">
+                sku_3 = #{sku_3},
+            </if>
+        </set>
+        where sku_serialnumber = #{skuSerialnumber}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from wph.wph_sku where sku_id = #{skuId}
+    </delete>
+
+</mapper>

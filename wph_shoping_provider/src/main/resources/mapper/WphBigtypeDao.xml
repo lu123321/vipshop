@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_shoping_provider.dao.WphBigtypeDao">
+
+    <resultMap type="com.example.wph_shoping_provider.entity.WphBigtype" id="WphBigtypeMap">
+        <result property="bigtypeId" column="bigtype_id" jdbcType="INTEGER"/>
+        <result property="bigtypeName" column="bigtype_name" jdbcType="VARCHAR"/>
+        <result property="bigtypeType" column="bigtype_type" jdbcType="INTEGER"/>
+        <result property="bigtype_1" column="bigtype_1" jdbcType="VARCHAR"/>
+        <result property="bigtype_2" column="bigtype_2" jdbcType="VARCHAR"/>
+        <result property="bigtype_3" column="bigtype_3" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="WphBigtypeMap">
+        select
+          bigtype_id, bigtype_name, bigtype_type, bigtype_1, bigtype_2, bigtype_3
+        from wph.wph_bigtype
+        where bigtype_id = #{bigtypeId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="WphBigtypeMap">
+        select
+          bigtype_id, bigtype_name, bigtype_type, bigtype_1, bigtype_2, bigtype_3
+        from wph.wph_bigtype
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="WphBigtypeMap">
+        select
+          bigtype_id, bigtype_name
+        from wph.wph_bigtype
+        <where>
+            <if test="bigtypeId != null">
+                and bigtype_id = #{bigtypeId}
+            </if>
+            <if test="bigtypeName != null and bigtypeName != ''">
+                and bigtype_name = #{bigtypeName}
+            </if>
+            <if test="bigtypeType != null">
+                and bigtype_type = #{bigtypeType}
+            </if>
+            <if test="bigtype_1 != null and bigtype_1 != ''">
+                and bigtype_1 = #{bigtype_1}
+            </if>
+            <if test="bigtype_2 != null and bigtype_2 != ''">
+                and bigtype_2 = #{bigtype_2}
+            </if>
+            <if test="bigtype_3 != null and bigtype_3 != ''">
+                and bigtype_3 = #{bigtype_3}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="bigtypeId" useGeneratedKeys="true">
+        insert into wph.wph_bigtype(bigtype_name, bigtype_type, bigtype_1, bigtype_2, bigtype_3)
+        values (#{bigtypeName}, #{bigtypeType}, #{bigtype_1}, #{bigtype_2}, #{bigtype_3})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update wph.wph_bigtype
+        <set>
+            <if test="bigtypeName != null and bigtypeName != ''">
+                bigtype_name = #{bigtypeName},
+            </if>
+            <if test="bigtypeType != null">
+                bigtype_type = #{bigtypeType},
+            </if>
+            <if test="bigtype_1 != null and bigtype_1 != ''">
+                bigtype_1 = #{bigtype_1},
+            </if>
+            <if test="bigtype_2 != null and bigtype_2 != ''">
+                bigtype_2 = #{bigtype_2},
+            </if>
+            <if test="bigtype_3 != null and bigtype_3 != ''">
+                bigtype_3 = #{bigtype_3},
+            </if>
+        </set>
+        where bigtype_id = #{bigtypeId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from wph.wph_bigtype where bigtype_id = #{bigtypeId}
+    </delete>
+
+</mapper>

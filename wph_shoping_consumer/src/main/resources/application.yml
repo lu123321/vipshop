@@ -2,14 +2,16 @@ server:
   port: 8081
 spring:
   application:
-    name: wph-shoping_consumer
+    name: wph-shoping-consumer
   sleuth:
     sampler:
       percentage: 1.0
 eureka:
   client:
     service-url:
-      defaultZone: http://root:123456@47.94.235.82:7776/eureka/
+      defaultZone: http://root:123456@123.206.255.244:7776/eureka/
 feign:
   hystrix:
     enabled: true
+logging:
+  level: info
