@@ -13,76 +13,220 @@
 	<script src="js/bootstrap.min.js" charset="UTF-8"></script>
 	<script src="js/swiper.min.js" charset="UTF-8"></script>
 	<script src="js/global.js" charset="UTF-8"></script>
-	<script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
-	<title>U袋网</title>
+
+	<title>唯品会</title>
 	<script type="text/javascript">
+        var ip="192.168.51.236"
+		//倒计时方法
+        function timer(intDiff){
+            window.setInterval(function(){
+                var day=0,
+                    hour=0,
+                    minute=0,
+                    second=0;//时间默认值
+                if(intDiff > 0){
+                    day = Math.floor(intDiff / (60 * 60 * 24));
+                    hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                    minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                    second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                }
+                if (minute <= 9) minute = '0' + minute;
+                if (second <= 9) second = '0' + second;
+                $('#minute_show').html('<s></s>'+minute+':');
+                $('#second_show').html('<s></s>'+second+'');
+                intDiff--;
+            }, 1000);
+        }
+        //读取url参数值
+        function GetQueryString(name)
+        {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        };
+		var userid;
         $(function(){
             var res = manyValues();
-        })
+			$.ajax({
+                url: "http://"+ip+":7081/selectAll",
+                dataType:"json",
+                data:{id:66},
+				type:"post",
+                success: function (resut) {
+                    for (i in resut) {
+                        var addCity=resut[i].addCity;
+                        var addAddress=resut[i].addAddress;
+                        var addDistrict=resut[i].addDistrict;
+                        var addId=resut[i].addId;
+                        var addName=resut[i].addName;
+                        var addPhone=resut[i].addPhone;
+                        var addProvince=resut[i].addProvince;
+                        var addState=resut[i].addState;
+                        var address=addProvince+addDistrict+addAddress+'('+addName+'收)'+addPhone;
+                        console.log(address)
+                        if (addState==1) {
+                            alert(address)
+                            str = '<div class="radio-line radio-box active"><label class="radio-label ep" title="'+address+'" onclick=f("'+address+'")> <input name="addr" checked="" value="0" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i> '+addProvince+' '+addDistrict+' '+addAddress+'('+addName+' 收)'+addPhone+' </label> <a href="javascript:;" class="default">默认地址</a> <a href="http://192.168.50.238:8083/udai_address_edit.html" class="edit">修改</a> </div>'
+                        }else{
+                            console.log(address)
+                            str='<div class="radio-line radio-box"><label class="radio-label ep" title="'+address+'" onclick=f("'+address+'")> <input name="addr" value="1" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>'+addProvince+' '+addDistrict+' '+addAddress+'('+addName+' 收)'+addPhone+' </label> <a onclick=z('+addId+') class="default">设为默认地址</a> <a href="http://192.168.50.238:8083/udai_address_edit.html" class="edit">修改</a></div>'
+                        }
+						$('#qqq').append(str)
+					}
+				}
+			})
+		})
+
+        var orderaddress;
+        function f(address) {
+            orderaddress=address
+        }
+
+        //修改地址状态
+		function z(addId) {
+			$.ajax({
+				url:"http://"+ip+":7081/updateAddState",
+				datatype:"json",
+				data:{addId:addId},
+				sussces:function (res) {
+					console.log(res)
+                }
+			})
+        }
+        var list1=new Array();
+        var zmoney=0;
         //接收多值
         function manyValues(){
-            var url=decodeURI(window.location.href);
-            if(url.indexOf("?")!=-1){
-                var str = url.substr(1);
-                strs = str.split("&");
-                var key=new Array(strs.length);
-                var value=new Array(strs.length);
-                var out_trade_no;
-                var trade_no;
-                var total_amount;
-                for(i=0;i<strs.length;i++){
-                    key[i]=strs[i].split("=")[0]
-                    value[i]=unescape(strs[i].split("=")[1]);
-                    if (key[i] == "out_trade_no") {
-                        out_trade_no=value[i]
-                      alert(value[i])
-                    }else if(key[i] == "trade_no"){
-                        trade_no=value[i]
-                        alert(value[i])
-                    }else if(key[i] == "total_amount"){
-                        total_amount=value[i]
-                        alert(value[i])
-                    }else if(key[i] == "address"){
-                        $("#address1").html(value[i]);
-                    }else if(key[i] == "createdate"){
-                        $("#createdate").html(value[i]);
-                    }else if(key[i] == "deliverydate"){
-                        $("#deliverydate").html(value[i]);
+			var time;
+			$.ajax({
+				url: "http://"+ip+":8080/wphshopcartsel",
+				dataType:"json",
+				data:{id:value},
+				success: function (resut) {
+                        for(var key in resut){
+                            var list=resut[key];
+                            var skunumber=list.shopingnumber;
+                            var shoping=new Array();
+                            shoping.push(skunumber)
+                            var skunum=list.shopingnum;
+                            shoping.push(skunum);
+                            var money=list.shopingmoney;
+                            shoping.push(money);
+                            var shopprice=list.shopingprice;
+                            shoping.push(shopprice)
+                            var picture=list.picture;
+                            shoping.push(picture)
+                            var skuname =list.shopingname;
+							shoping.push(skuname)
+							shoping.push(list.brand)
+							list1.push(shoping)
+                            var spuid=list.spuid;
+                            userid=list.userid;
+                            time=list.s;
+                            zmoney=zmoney+shopprice;
+
+                            var str='<tr> <th scope="row"><a href="http://192.168.50.204:8020/%E5%94%AF%E5%93%81%E4%BC%9A/item_show.html?spuId='+spuid+'"><div class="img">' +
+                                '<img src='+picture+' alt="" class="cover"></div></a></th> ' +
+                                '<td><div class="name ep3">'+skuname+'</div></td> <td>¥'+money+'</td> <td>'+skunum+'</td>' +
+                                ' <td>¥0.0</td> <td>¥'+shopprice+'</td> </tr>'
+                            $("tbody[name='wphshopcartpay']").append(str)
+                        }
+						if(zmoney<288){
+						    zmoney=zmoney+10
+                            $("p[id='zmoney']").html(zmoney);
+                            $("p[id='prices']").html(zmoney);
+                            $("#yf").html(10)
+						}
+						timer(time)
+                        //优惠券
+                        $.ajax({
+                            url:"http://"+ip+":7081/getAllCouponsById",
+                            data:{"cauuid":userid,"ctype":zmoney},
+                            datatype:"json",
+                            xhrFields: {
+                                withCredentials: true
+                            },
+                            crossDomain: true,
+                            success:function (result) {
+                                list=JSON.parse(result)
+								for (i=0;i<list.length;i++){
+									var cname=list[i].cname;
+									var money=list[i].money
+									var cid=list[i].cid
+
+									str='<option  value='+money+' sj='+cid+'>'+cname+'</option>'
+									$('#aaaa').after(str)
+								}
+							}
+                        })
+                        $('#coupon').bind('change',function() {
+                            var money1=$(this).val();
+                            $("span[id=hhh]").html(money1)
+                            var zzmoney=zmoney-money1
+                            $("span[id='zmoney']").html(zzmoney);
+                            $("span[id='prices']").html(zzmoney);
+                        })
+                        $("span[id='zmoney']").html(zmoney);
+                        $("span[id='prices']").html(zmoney);
+
                     }
-                }
-                $.ajax({
-                    url: "/update",
-                    type:"POST",
-                    data:{"orderno":out_trade_no,"orderstate":3,"orderpaynumber":trade_no},
-                    success: function (resut) {
-                        alert(resut)
-                    }
-				})
+                })
             }
+        }
+
+        function b(){
+            var orderno;
+			$.ajax({
+                url: "http://"+ip+":7080/add",
+				dataType:"json",
+                type:"POST",
+                data:{"id":userid,"ordershoping":JSON.stringify(list1),"money":zmoney,"orderadress":orderaddress},
+				success:function (result) {
+                    orderno=result
+                    $.ajax({
+                        url: "http://"+ip+":8080/shopcartdel",
+                        dataType:"json",
+                        type:"POST",
+                        data:{"userid":userid},
+                        success:function (result) {}
+                    })
+                    var cid1 = $("#coupon").find("option:selected").attr("sj");
+					if (cid1!=null){
+                        $.ajax({
+                            url: "http://"+ip+":7081/deleteCopAndUser",
+                            dataType:"json",
+                            type:"POST",
+                            data:{"caucid":cid1,"cauuid":userid},
+                            success:function (result) {
+                                location.replace("http://"+ip+":7081/pay?WIDout_trade_no="+orderno+"&WIDtotal_amount="+zmoney+"&WIDsubject="+1+"&WIDbody="+1)
+                            }
+                        })
+					}else {
+					    alert("没用优惠券")
+                        location.replace("http://"+ip+":7081/pay?WIDout_trade_no="+orderno+"&WIDtotal_amount="+zmoney+"&WIDsubject="+1+"&WIDbody="+1)
+					}
+                }
+            })
         }
 	</script>
 </head>
 <body>
-	<form action="http://localhost:7081/pay" method="post">
-		<input name="WIDout_trade_no" type="text" >
-		<input name="WIDtotal_amount" type="text" >
-		<input name="WIDsubject" type="text">
-		<input name="WIDbody" type="text">
-		<input type="submit" value="提交">
-	</form>
 	<!-- 顶部tab -->
 	<div class="tab-header">
 		<div class="inner">
 			<div class="pull-left">
 				<div class="pull-left">嗨，欢迎来到<span class="cr">U袋网</span></div>
 				<a href="agent_level.html">网店代销</a>
-				<a href="temp_article/udai_article4.html">帮助中心</a>
+				<a href="http://192.168.50.208/html/connectService.html">帮助中心</a>
 			</div>
 			<div class="pull-right">
-				<a href="login.html"><span class="cr">登录</span></a>
-				<a href="login.html?p=register">注册</a>
-				<a href="udai_welcome.html">我的U袋</a>
-				<a href="wphorder.html">我的订单</a>
+				<a href="http://192.168.50.238:8083/logins.html"><span class="cr">登录</span></a>
+				<a href="http://192.168.50.238:8083/logins.html?p=register">注册</a>
+				<a href="http://192.168.51.236:8080/wphshopcart.html">我的U袋</a>
+				<a href="http://192.168.51.236:7080/wphorder.html">我的订单</a>
 				<a href="udai_integral.html">积分平台</a>
 			</div>
 		</div>
@@ -91,7 +235,7 @@
 	<div class="bgf5 clearfix">
 		<div class="top-user">
 			<div class="inner">
-				<a class="logo" href="index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
+				<a class="logo" href="http://192.168.50.204:8020/%e5%94%af%e5%93%81%e4%bc%9a/index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
 				<div class="title">购物车</div>
 			</div>
 		</div>
@@ -99,52 +243,13 @@
 	<div class="content clearfix bgf5">
 		<section class="user-center inner clearfix">
 			<div class="user-content__box clearfix bgf">
-				<div class="title">购物车-确认支付 </div>
+				<div class="title">购物车-确认支付 &nbsp;&nbsp;&nbsp;<strong id="minute_show"></strong><strong id="second_show"></strong></div>
 				<div class="shop-title">收货地址</div>
 				<form action="" class="shopcart-form__box">
-					<div class="addr-radio">
-						<div class="radio-line radio-box active">
-							<label class="radio-label ep" title="福建省 福州市 鼓楼区 温泉街道 五四路159号世界金龙大厦20层B北 福州rpg.blue网络 （喵喵喵 收） 153****9999">
-								<input name="addr" checked="" value="0" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								福建省 福州市 鼓楼区 温泉街道
-								五四路159号世界金龙大厦20层B北 福州rpg.blue网络
-								（喵喵喵 收） 153****9999
-							</label>
-							<a href="javascript:;" class="default">默认地址</a>
-							<a href="udai_address_edit.html" class="edit">修改</a>
-						</div>
-						<div class="radio-line radio-box">
-							<label class="radio-label ep" title="福建省 福州市 鼓楼区 温泉街道 五四路159号世界金龙大厦20层B北 福州rpg.blue网络 （taroxd 收） 153****9999">
-								<input name="addr" value="1" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								福建省 福州市 鼓楼区 温泉街道
-								五四路159号世界金龙大厦20层B北 福州rpg.blue网络
-								（taroxd 收） 153****9999
-							</label>
-							<a href="" class="default">设为默认地址</a>
-							<a href="udai_address_edit.html" class="edit">修改</a>
-						</div>
-						<div class="radio-line radio-box">
-							<label class="radio-label ep" title="福建省 福州市 鼓楼区 温泉街道 五四路159号世界金龙大厦20层B北 福州rpg.blue网络 （喵污喵⑤ 收） 153****9999">
-								<input name="addr" value="2" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								福建省 福州市 鼓楼区 温泉街道
-								五四路159号世界金龙大厦20层B北 福州rpg.blue网络
-								（喵污喵⑤ 收） 153****9999
-							</label>
-							<a href="" class="default">设为默认地址</a>
-							<a href="udai_address_edit.html" class="edit">修改</a>
-						</div>
-						<div class="radio-line radio-box">
-							<label class="radio-label ep" title="福建省 福州市 鼓楼区 温泉街道 五四路159号世界金龙大厦20层B北 福州rpg.blue网络 （浴巾打码女 收） 153****9999">
-								<input name="addr" value="2" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								福建省 福州市 鼓楼区 温泉街道
-								五四路159号世界金龙大厦20层B北 福州rpg.blue网络
-								（浴巾打码女 收） 153****9999
-							</label>
-							<a href="" class="default">设为默认地址</a>
-							<a href="udai_address_edit.html" class="edit">修改</a>
-						</div>
+					<div class="addr-radio" >
+						<div id="qqq"></div>
 					</div>
-					<div class="add_addr"><a href="udai_address.html">添加新地址</a></div>
+					<div class="add_addr"><a href="http://192.168.50.238:8083/udai_address.html">添加新地址</a></div>
 					<div class="shop-title">确认订单</div>
 					<div class="shop-order__detail">
 						<table class="table">
@@ -158,40 +263,8 @@
 									<th width="80">总价</th>
 								</tr>
 							</thead>
-							<tbody>
-								<tr>
-									<th scope="row"><a href="item_show.html"><div class="img"><img src="images/temp/M-003.jpg" alt="" class="cover"></div></a></th>
-									<td>
-										<div class="name ep3">锦瑟 原创传统日常汉服男绣花交领衣裳cp情侣装春夏款</div>
-										<div class="type c9">颜色分类：深棕色  尺码：均码</div>
-									</td>
-									<td>¥20.0</td>
-									<td>1</td>
-									<td>¥0.0</td>
-									<td>¥20.0</td>
-								</tr>
-								<tr>
-									<th scope="row"><a href="item_show.html"><div class="img"><img src="images/temp/S-005.jpg" alt="" class="cover"></div></a></th>
-									<td>
-										<div class="name ep3">锦瑟 原创传统日常汉服男绣花交领衣裳cp情侣装春夏款</div>
-										<div class="type c9">颜色分类：深棕色  尺码：均码</div>
-									</td>
-									<td>¥20.0</td>
-									<td>2</td>
-									<td>¥0.0</td>
-									<td>¥40.0</td>
-								</tr>
-								<tr>
-									<th scope="row"><a href="item_show.html"><div class="img"><img src="images/temp/M-007.jpg" alt="" class="cover"></div></a></th>
-									<td>
-										<div class="name ep3">锦瑟 原创传统日常汉服男绣花交领衣裳cp情侣装春夏款</div>
-										<div class="type c9">颜色分类：深棕色  尺码：均码</div>
-									</td>
-									<td>¥20.0</td>
-									<td>1</td>
-									<td>¥0.0</td>
-									<td>¥20.0</td>
-								</tr>
+							<tbody name="wphshopcartpay">
+
 							</tbody>
 						</table>
 					</div>
@@ -205,38 +278,31 @@
 							<div class="form-group">
 								<label for="coupon" class="control-label">优惠券使用：</label>
 								<select id="coupon" >
-									<option value="-1" selected>- 请选择可使用的优惠券 -</option>
-									<option value="1">【满￥20.0元减￥2.0】</option>
-									<option value="2">【满￥30.0元减￥2.0】</option>
-									<option value="3">【满￥25.0元减￥1.0】</option>
-									<option value="4">【满￥10.0元减￥1.5】</option>
-									<option value="5">【满￥15.0元减￥1.5】</option>
-									<option value="6">【满￥20.0元减￥1.0】</option>
+									<option value="0" selected id="aaaa">- 请选择可使用的优惠券 -</option>
+
 								</select>
 							</div>
 							<script>
-								$('#coupon').bind('change',function() {
-									console.log($(this).val());
-								})
+
 							</script>
 							<div class="info-line">优惠活动：<span class="c6">无</span></div>
-							<div class="info-line">运费：<span class="c6">¥0.00</span></div>
-							<div class="info-line"><span class="favour-value">已优惠 ¥2.0</span>合计：<b class="fz18 cr">¥18.0</b></div>
+							<div class="info-line">运费：<span class="c6" id="ys">¥0.00</span></div>
+                            <div class="info-line"><span class="favour-value">已优惠 ¥<span id="hhh"></span></span>合计：<b class="fz18 cr" >¥<span id="zmoney">18.0</span></b></div>
 							<div class="info-line fz12 c9">（可获 <span class="c6">20</span> 积分）</div>
 						</div>
 					</div>
 					<div class="shop-title">确认订单</div>
-					<div class="pay-mode__box">
-						<div class="radio-line radio-box">
-							<label class="radio-label ep">
-								<input name="pay-mode" value="1" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
-								<img src="images/icons/paywechat.png" alt="微信支付">
-							</label>
-							<div class="pay-value">支付<b class="fz16 cr">18.00</b>元</div>
-						</div>
-					</div>
+                    <div class="pay-mode__box">
+                        <div class="radio-line radio-box">
+                            <label class="radio-label ep">
+                                <input name="pay-mode" value="2" autocomplete="off" type="radio"><i class="iconfont icon-radio"></i>
+                                <img src="images/icons/alipay.png" alt="支付宝支付">
+                            </label>
+                            <div class="pay-value">支付<b class="fz16 cr">18.00</b>元</div>
+                        </div>
+                    </div>
 					<div class="user-form-group shopcart-submit">
-						<button type="submit" class="btn">继续支付</button>
+						<button type="button" class="btn"  onclick="b()">继续支付</button>
 					</div>
 					<script>
 						$(document).ready(function(){
@@ -253,31 +319,31 @@
 	<div class="right-nav">
 		<ul class="r-with-gotop">
 			<li class="r-toolbar-item">
-				<a href="udai_welcome.html" class="r-item-hd">
+				<a href="http://192.168.50.238:8083/udai_welcome.html" class="r-item-hd">
 					<i class="iconfont icon-user" data-badge="0"></i>
 					<div class="r-tip__box"><span class="r-tip-text">用户中心</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="udai_shopcart.html" class="r-item-hd">
+				<a href="http://192.168.51.236:8080/wphshopcart.html" class="r-item-hd">
 					<i class="iconfont icon-cart"></i>
 					<div class="r-tip__box"><span class="r-tip-text">购物车</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="udai_collection.html" class="r-item-hd">
+				<a href="http://192.168.51.252:8084/udai_collection.html" class="r-item-hd">
 					<i class="iconfont icon-aixin"></i>
 					<div class="r-tip__box"><span class="r-tip-text">我的收藏</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="" class="r-item-hd">
+				<a href="http://192.168.50.208/html/connectService.html" class="r-item-hd">
 					<i class="iconfont icon-liaotian"></i>
 					<div class="r-tip__box"><span class="r-tip-text">联系客服</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="issues.html" class="r-item-hd">
+				<a href="http://192.168.50.208/html/connectService.html" class="r-item-hd">
 					<i class="iconfont icon-liuyan"></i>
 					<div class="r-tip__box"><span class="r-tip-text">留言反馈</span></div>
 				</a>
@@ -346,5 +412,7 @@
 			</p>
 		</div>
 	</div>
+
 </body>
+<script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
 </html>

@@ -1,6 +1,8 @@
 package com.example.wph_shopcar_provider.pojo;
 
-public class Kc {
+import java.io.Serializable;
+
+public class Kc implements Serializable {
     private String skunumber;
     private Integer skunum;
     private Integer brand;

@@ -8,16 +8,17 @@
         <result property="orderTime" column="order_time" jdbcType="TIMESTAMP"/>
         <result property="userId" column="userid" jdbcType="INTEGER"/>
         <result property="orderPayment" column="order_payment" jdbcType="VARCHAR"/>
-        <result property="orderMoney" column="order_money" jdbcType="INTEGER"/>
+        <result property="orderMoney" column="order_money" jdbcType="VARCHAR"/>
         <result property="orderpaynumber" column="order_paynumber" jdbcType="VARCHAR"/>
         <result property="orderwaybill" column="order_waybill" jdbcType="VARCHAR"/>
         <result property="orderadress" column="order_adress" jdbcType="VARCHAR"/>
+        <result property="ordertuihuoshibai" column="order_tuihuoshibai" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="WphOrderMap" parameterType="Integer">
         select
-          order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
+          order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress,order_tuihuoshibai
         from myone.wph_order
         where order_id = #{orderid}
     </select>
@@ -27,7 +28,61 @@
     <select id="queryAll" resultMap="WphOrderMap">
         select
           order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
-        from myone.wph_order where  userid = #{userid}
+        from myone.wph_order where  userid = #{userid} and(order_state = 0 or order_state = 1 or order_state = 2 or order_state = 3 or order_state = 4 or order_state = 7) ORDER BY order_time DESC
+    </select>
+    <!--通过实体作为筛选条件查询-->
+    <select id="query1" resultMap="WphOrderMap">
+        select
+          order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
+        from myone.wph_order where  userid = #{userid} and order_state = 0  ORDER BY order_time DESC
+    </select>
+    <!--通过实体作为筛选条件查询-->
+    <select id="query2" resultMap="WphOrderMap">
+        select
+          order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
+        from myone.wph_order where  userid = #{userid} and order_state = 3 ORDER BY order_time DESC
+    </select>
+    <!--通过实体作为筛选条件查询-->
+    <select id="query3" resultMap="WphOrderMap">
+        select
+          order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
+        from myone.wph_order where  userid = #{userid} and order_state = 2 ORDER BY order_time DESC
+    </select>
+    <!--通过实体作为筛选条件查询-->
+    <select id="query4" resultMap="WphOrderMap">
+        select
+          order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
+        from myone.wph_order where  userid = #{userid} and order_state = 4 ORDER BY order_time DESC
+    </select>
+
+    <select id="queryorder" resultType="Integer">
+        select
+          count(1)
+        from myone.wph_order where  userid = #{userid} and(order_state = 0 or order_state = 1 or order_state = 2 or order_state = 3 or order_state = 4 or order_state = 7) ORDER BY order_time DESC
+    </select>
+
+    <select id="queryorder1" resultType="Integer">
+        select
+          count(1)
+        from myone.wph_order where  userid = #{userid} and order_state = 0  ORDER BY order_time DESC
+    </select>
+
+    <select id="queryorder2" resultType="Integer">
+        select
+          count(1)
+        from myone.wph_order where  userid = #{userid} and order_state = 3 ORDER BY order_time DESC
+    </select>
+
+    <select id="queryorder3" resultType="Integer">
+        select
+          count(1)
+        from myone.wph_order where  userid = #{userid} and order_state = 2 ORDER BY order_time DESC
+    </select>
+
+    <select id="queryorder4" resultType="Integer">
+        select
+          count(1)
+        from myone.wph_order where  userid = #{userid} and order_state = 4 ORDER BY order_time DESC
     </select>
 
     <!--新增所有列-->
@@ -38,12 +93,17 @@
 
     <!--通过主键修改数据-->
     <update id="update">
-        update myone.wph_order set order_state = #{orderState}
+        update myone.wph_order set order_state = #{orderState},order_payment="支付宝"
          <if test="orderpaynumber != null">
              ,order_paynumber=#{orderpaynumber}
          </if>
          where order_no = #{orderno}
-          
+    </update>
+
+    <!--通过主键修改数据-->
+    <update id="update7">
+        update myone.wph_order set order_state =7
+        where order_id = #{orderid}
     </update>
 
     <!--通过主键删除-->
@@ -62,12 +122,72 @@
     <select id="selstate" resultMap="WphOrderMap">
         select
           order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
-          from wph_order where order_state=2 or order_state=3
+          from wph_order where order_state=2 or order_state=3 ORDER BY order_time DESC
+    </select>
+
+    <!--后台查看指定用户所下订单-->
+    <select id="seluserstate" resultMap="WphOrderMap">
+        select
+          order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
+          from wph_order where (order_state=2 or order_state=3)and userid=#{userid} ORDER BY order_time DESC
     </select>
 
     <!--后台发货-->
     <update id="updatestate">
-        update wph_order set order_state=2,order_waybill=#{orderwaybill} where order_state=3 and userid=#{userid} and order_id=#{orderid}
+        update wph_order set order_state=2,order_waybill=#{orderwaybill} where order_state=3  and order_id=#{orderid}
     </update>
+
+    <!--前台查看用户申请退货-->
+    <select id="seltuihuo" resultMap="WphOrderMap">
+        select
+          order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
+          from wph_order where (order_state=50 or order_state=51 or order_state=6) and userid=#{userid} ORDER BY order_time DESC
+    </select>
+    <!--前台查看用户申请退货-->
+    <select id="seltuihuo1" resultMap="WphOrderMap">
+        select
+          order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
+          from wph_order where (order_state=50 or order_state=51) and userid=#{userid} ORDER BY order_time DESC
+    </select>
+    <!--前台查看用户申请退货-->
+    <select id="seltuihuo2" resultMap="WphOrderMap">
+        select
+          order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
+          from wph_order where  order_state=6 and userid=#{userid} ORDER BY order_time DESC
+    </select>
+
+    <select id="querytuohuo" resultType="Integer">
+        select
+          count(1)
+        from wph_order where  order_state=6 and userid=#{userid} ORDER BY order_time DESC
+    </select>
+
+    <select id="querytuohuo1" resultType="Integer">
+        select
+          count(1)
+        from wph_order where  order_state=6 and userid=#{userid} ORDER BY order_time DESC
+    </select>
+
+    <select id="querytuohuo2" resultType="Integer">
+        select
+          count(1)
+        from wph_order where  order_state=6 and userid=#{userid} ORDER BY order_time DESC
+    </select>
+
+    <!--后台查看用户申请退货-->
+    <select id="hseltuihuo" resultMap="WphOrderMap">
+        select
+          order_id, order_no, order_state, order_time, userid, order_payment, order_money, order_paynumber,order_waybill,order_adress
+          from wph_order where (order_state=50 or order_state=51)  ORDER BY order_time DESC
+    </select>
+    <!--处理退货信息-->
+    <update id="updatetuihuo">
+        update wph_order set order_state=6 ,order_paynumber=#{paynumber} where (order_state=50 or order_state=51) and order_id=#{orderid}
+    </update>
+    <!--处理退货信息-->
+    <update id="updatetuihuoshibai">
+        update wph_order set order_state=#{state} ,order_tuihuoshibai=#{shibai} where (order_state=50 or order_state=51) and order_id=#{orderid}
+    </update>
+
 
 </mapper>

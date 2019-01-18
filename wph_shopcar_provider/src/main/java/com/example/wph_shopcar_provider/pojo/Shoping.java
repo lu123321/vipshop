@@ -1,6 +1,8 @@
 package com.example.wph_shopcar_provider.pojo;
 
-public class Shoping {
+import java.io.Serializable;
+
+public class Shoping implements Serializable {
     private String shopingname;
     private String shopingnumber;
     private double shopingmoney;
@@ -9,6 +11,16 @@ public class Shoping {
     private Integer brand;
     private Integer userid;
     private Integer spuid;
+    private double shopingprice;
+    private long s;
+
+    public long getS() {
+        return s;
+    }
+
+    public void setS(long s) {
+        this.s = s;
+    }
 
     public Shoping(){}
 
@@ -26,14 +38,6 @@ public class Shoping {
 
     public void setShopingnumber(String shopingnumber) {
         this.shopingnumber = shopingnumber;
-    }
-
-    public double getShopingmoney() {
-        return shopingmoney;
-    }
-
-    public void setShopingmoney(double shopingmoney) {
-        this.shopingmoney = shopingmoney;
     }
 
     public String getPicture() {
@@ -74,5 +78,21 @@ public class Shoping {
 
     public void setSpuid(Integer spuid) {
         this.spuid = spuid;
+    }
+
+    public double getShopingmoney() {
+        return shopingmoney;
+    }
+
+    public void setShopingmoney(double shopingmoney) {
+        this.shopingmoney = shopingmoney;
+    }
+
+    public double getShopingprice() {
+        return shopingprice;
+    }
+
+    public void setShopingprice(double shopingprice) {
+        this.shopingprice = shopingprice;
     }
 }

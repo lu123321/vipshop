@@ -9,6 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 public class PayServiceImpl implements PayService {
     @Override
     public String pay(String WIDout_trade_no, String WIDtotal_amount, String WIDsubject, String WIDbody) {
-        return "支付失败";
+        return "支付异常";
     }
+
+    @Override
+    public String refund(String WIDTRout_trade_no, String WIDTRtrade_no, String WIDTRrefund_amount, String WIDTRrefund_reason, String WIDTRout_request_no) {
+        return "退款异常";
+    }
+
+
 }

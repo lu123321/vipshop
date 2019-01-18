@@ -1,6 +1,6 @@
-package com.example.wph_shopcar_consumer.service;
+package com.example.wph_order_consumer.service;
 
-import com.example.wph_shopcar_consumer.service.Impl.CouponsServiceImpl;
+import com.example.wph_order_consumer.service.Impl.CouponsServiceImpl;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,8 +9,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface CouponsService {
     //根据金额查看用户所拥有的优惠券
     @RequestMapping("getAllCouponsById")
-    String getAllCouponsById(@RequestParam("cauuid") Integer cauuid, @RequestParam("ctype") Integer ctype);
+    String getAllCouponsById(@RequestParam("cauuid") Integer cauuid, @RequestParam("ctype") double ctype);
     //通过快递公司名和订单编号查询订单轨迹
     @RequestMapping("/selectTraces")
     public String selectTraces(@RequestParam("shippercode")String shippercode,@RequestParam("logisticcode") String logisticcode) throws Exception;
+    //新增物流单号
+    @RequestMapping("/insertLog")
+    public String insertLog( @RequestParam("shippercode") String shippercode,@RequestParam("logisticcode") String logisticcode);
+    //删除优惠券id和用户id
+    @RequestMapping("deleteCopAndUser")
+    public String deleteCopAndUser(@RequestParam("caucid") Integer caucid,@RequestParam("cauuid")Integer cauuid);
 }

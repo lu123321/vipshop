@@ -4,6 +4,9 @@ eureka:
   client:
     service-url:
       defaultZone: http://root:123456@123.206.255.244:7776/eureka/
+      instance:
+        hostname: localhost
+        instance-id: localhost:${server.port}
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/myone
@@ -16,9 +19,9 @@ spring:
       min-idle: 1
       initial-size: 1
       max-wait: 60000
+      timeBetweenEvictionRunsMillis: 60000
       minEvictableIdleTimeMillis: 300000
       validationQuery: select 'x'
-      timeBetweenEvictionRunsMillis: 60000
   application:
     name: wph-shopcar-provider
   profiles:
@@ -34,3 +37,7 @@ spring:
     listener:
       simple:
         prefetch: 1
+#  zipkin:
+#    base-url: http://192.168.51.252:7070
+logging:
+  level: info

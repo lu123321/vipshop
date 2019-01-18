@@ -1,4 +1,4 @@
-package com.example.wph_shopcar_consumer.pojo;
+package com.example.wph_order_consumer.pojo;
 
 import java.io.Serializable;
 

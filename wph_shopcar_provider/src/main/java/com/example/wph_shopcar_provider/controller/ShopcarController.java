@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,31 +26,52 @@ public class ShopcarController {
 
     @RequestMapping(value = "addshopcar",method = RequestMethod.POST,produces = "text/html;charset=utf-8")
     @ResponseBody
-    public String wph_shopcart_add(@RequestParam("listnumber") String listnumber,@RequestParam("userid") Integer userid){
-        return shopcarService.wph_shopcart_add(listnumber,userid);
+    public String wph_shopcart_add(@RequestParam("listnumber") String listnumber){
+        return shopcarService.wph_shopcart_add(listnumber);
     }
 
     @PostMapping("/del")
     @ResponseBody
-    public String wph_shopcart_del(@RequestParam("userid") String userid,@RequestParam("skuserialnumber") String skuserialnumber){
-        System.out.println("userid = [" + userid + "], skuserialnumber = [" + skuserialnumber + "]");
-        shopcarService.wph_shopcart_del(userid, skuserialnumber);
-        return "成功啦";
+    public void wph_shopcart_del(HttpServletRequest request,@RequestParam("skuserialnumber") String skuserialnumber) {
+        String userid = request.getHeader("userid");
+        shopcarService.wph_shopcart_del(Integer.parseInt(userid), skuserialnumber);
     }
 
-    @PostMapping("/update")
-    public void wph_shopcart_update(@RequestParam("userid") Integer userid, @RequestParam("shoping")String shoping){
-         shopcarService.wph_shopcart_update(userid,shoping);
-    }
-
-    @RequestMapping("/wphshopcart1")
+    @PostMapping("/shopcartupdate")
     @ResponseBody
-    public String wph_shopcart_sel(@RequestParam("id") String id){
-        return JSON.toJSONString(shopcarService.wph_shopcart_sel(id));
+    public void wph_shopcart_update(HttpServletRequest request, @RequestParam("shoping")String shoping){
+        String userid=request.getHeader("userid");
+        System.out.println("用户id为:"+userid);
+        shopcarService.wph_shopcart_update(Integer.parseInt(userid),shoping);
     }
 
-    @PostMapping(path = "/wph_shophistroy")
-    public String wph_shophistroy_sel(String id){
-        return JSON.toJSONString(shopcarService.wph_shophistroy_sel(id));
+    @PostMapping("/wphshopcartsel")
+    @ResponseBody
+    public String wph_shopcart_sel( HttpServletRequest request){
+        String userid=request.getHeader("userid");
+        return JSON.toJSONString(shopcarService.wph_shopcart_sel(Integer.parseInt(userid)));
+    }
+
+    @PostMapping(path = "/wphshophistroy")
+    @ResponseBody
+    public String wph_shophistroy_sel( HttpServletRequest request){
+        String userid=request.getHeader("userid");
+        return JSON.toJSONString(shopcarService.wph_shophistroy_sel(Integer.parseInt(userid)));
+    }
+
+    @PostMapping("/shopcartdel")
+    @ResponseBody
+    public void del(HttpServletRequest request){
+
+        String userid=request.getHeader("userid");
+        shopcarService.del(Integer.parseInt(userid));
+    }
+
+    @PostMapping("/selshopingnum")
+    @ResponseBody
+    public Integer selshopingnum(HttpServletRequest request){
+        String userid=request.getHeader("userid");
+        System.out.println(userid);
+        return shopcarService.selchopingnum(Integer.parseInt(userid));
     }
 }

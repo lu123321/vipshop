@@ -10,7 +10,6 @@ public class OrderShoping {
     //订单编号,时间戳+用户id
     private String orderNo;
 
-
     //订单状态 未支付0, 已取消1, 待收货2, 待发货3, 待评价4
     private Integer orderState;
 
@@ -24,7 +23,7 @@ public class OrderShoping {
     private String orderPayment;
 
     //支付金额
-    private Integer orderMoney;
+    private double orderMoney;
 
     //支付单号
     private String orderpaynumber;
@@ -36,6 +35,28 @@ public class OrderShoping {
     private String orderadress;
 
     private List<WphOrderShoping> wphOrderShoping;
+
+    private Long s;
+
+    private Integer pagenum;
+
+    private Integer lastpage;
+
+    public Integer getPagenum() {
+        return pagenum;
+    }
+
+    public void setPagenum(Integer pagenum) {
+        this.pagenum = pagenum;
+    }
+
+    public Integer getLastpage() {
+        return lastpage;
+    }
+
+    public void setLastpage(Integer lastpage) {
+        this.lastpage = lastpage;
+    }
 
     public Integer getOrderId() {
         return orderId;
@@ -85,11 +106,11 @@ public class OrderShoping {
         this.orderPayment = orderPayment;
     }
 
-    public Integer getOrderMoney() {
+    public double getOrderMoney() {
         return orderMoney;
     }
 
-    public void setOrderMoney(Integer orderMoney) {
+    public void setOrderMoney(double orderMoney) {
         this.orderMoney = orderMoney;
     }
 
@@ -123,5 +144,13 @@ public class OrderShoping {
 
     public void setWphOrderShoping(List<WphOrderShoping> wphOrderShoping) {
         this.wphOrderShoping = wphOrderShoping;
+    }
+
+    public Long getS() {
+        return s;
+    }
+
+    public void setS(Long s) {
+        this.s = s;
     }
 }

@@ -17,6 +17,5 @@ public interface UpdateKcService {
      * @return
      */
     @RequestMapping(value = "cutlistRepertory",method = RequestMethod.POST,produces = "text/html;charset=utf-8")
-    @ResponseBody
-    public String cutlistRepertory(@RequestParam("pinpaiId") String pinpaiId,@RequestParam("productId") String productId,@RequestParam("number") String number);
+    String cutlistRepertory(@RequestParam("pinpaiId") String pinpaiId,@RequestParam("productId") String productId,@RequestParam("number") String number);
 }

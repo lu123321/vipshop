@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * (WphOrderShoping)表控制层
@@ -24,15 +25,13 @@ public class WphOrderShopingController {
 
     /**
      * 通过主键查询单条数据
-     *
-     * @param id 主键
      * @return 单条数据
      */
     @PostMapping("/selectOne1")
     @ResponseBody
-    public String selectOne(@RequestParam("id") Integer id) {
-        System.out.println("id = [" + id + "]");
-        return JSON.toJSONString(wphOrderShopingService.queryAll(id));
+    public String selectOne(HttpServletRequest request){
+        String userid=request.getHeader("userid");
+        return JSON.toJSONString(wphOrderShopingService.queryAll(Integer.parseInt(userid)));
     }
 
 }

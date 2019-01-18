@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_order_provider.dao.WphUserCommentDao">
+
+    <resultMap type="com.example.wph_order_provider.entity.WphUserComment" id="WphUserCommentMap">
+        <result property="commentId" column="comment_id" jdbcType="INTEGER"/>
+        <result property="commentUserid" column="comment_userid" jdbcType="INTEGER"/>
+        <result property="commentSpuid" column="comment_spuid" jdbcType="INTEGER"/>
+        <result property="commentContent" column="comment_content" jdbcType="VARCHAR"/>
+        <result property="commentGradle" column="comment_gradle" jdbcType="INTEGER"/>
+        <result property="commentHuifu" column="comment_huifu" jdbcType="VARCHAR"/>
+        <result property="comment_nowtime" column="comment_nowtime" jdbcType="TIMESTAMP"/>
+        <result property="comment_orderid" column="comment_orderid" jdbcType="INTEGER"/>
+
+    </resultMap>
+
+
+    <!--查询指定行数据-->
+    <select id="queryAllByshoping" resultMap="WphUserCommentMap">
+        select
+          comment_id, comment_userid, comment_spuid, comment_content, comment_gradle, comment_huifu,comment_nowtime
+        from myone.wph_user_comment where comment_spuid=#{spuid} ORDER BY comment_nowtime desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByshoping1" resultMap="WphUserCommentMap">
+        select
+          comment_id, comment_userid, comment_spuid, comment_content, comment_gradle, comment_huifu,comment_nowtime
+        from myone.wph_user_comment where comment_spuid=#{spuid} and (comment_gradle=5 or comment_gradle=4) ORDER BY comment_nowtime desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByshoping2" resultMap="WphUserCommentMap">
+        select
+          comment_id, comment_userid, comment_spuid, comment_content, comment_gradle, comment_huifu,comment_nowtime
+        from myone.wph_user_comment where comment_spuid=#{spuid} and (comment_gradle=3) ORDER BY comment_nowtime desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByshoping3" resultMap="WphUserCommentMap">
+        select
+          comment_id, comment_userid, comment_spuid, comment_content, comment_gradle, comment_huifu,comment_nowtime
+        from myone.wph_user_comment where comment_spuid=#{spuid} and (comment_gradle=2 or comment_gradle=1) ORDER BY comment_nowtime desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="hqueryAllByshoping" resultMap="WphUserCommentMap">
+        select
+          comment_id, comment_userid, comment_spuid, comment_content, comment_gradle, comment_huifu,comment_nowtime ORDER BY comment_nowtime desc
+        from myone.wph_user_comment
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryid" resultType="Integer">
+        select
+          comment_id
+        from myone.wph_user_comment where comment_spuid=#{spuid} and comment_userid=#{userid} and comment_orderid=#{orderid} ORDER BY comment_nowtime desc
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="updatecomment">
+        update myone.wph_user_comment set comment_huifu = #{commentHuifu}
+        where comment_id = #{commentId}
+    </update>
+
+    <!--新增所有列-->
+    <insert id="insertcomment" keyProperty="commentId" useGeneratedKeys="true">
+        insert into myone.wph_user_comment(comment_userid, comment_spuid, comment_content, comment_gradle,comment_nowtime,comment_orderid)
+        values (#{commentUserid}, #{commentSpuid}, #{commentContent}, #{commentGradle},#{comment_nowtime},#{comment_orderid})
+    </insert>
+
+    <!--通过主键删除-->
+    <delete id="deleteBycommentId">
+        delete from myone.wph_user_comment where comment_id = #{commentId}
+    </delete>
+
+    <select id="querycount" resultType="Integer">
+        select
+          count(1)
+        from myone.wph_user_comment where comment_spuid=#{spuid}
+    </select>
+
+    <select id="querycount1" resultType="Integer">
+        select
+          count(1)
+        from myone.wph_user_comment where comment_spuid=#{spuid} and (comment_gradle=5 or comment_gradle=4)
+    </select>
+
+    <select id="querycount2" resultType="Integer">
+        select
+          count(1)
+        from myone.wph_user_comment where comment_spuid=#{spuid} and comment_gradle=3
+    </select>
+
+    <select id="querycount3" resultType="Integer">
+        select
+          count(1)
+        from myone.wph_user_comment where comment_spuid=#{spuid} and (comment_gradle=2 or comment_gradle=1)
+    </select>
+</mapper>

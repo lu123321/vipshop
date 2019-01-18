@@ -1,8 +1,7 @@
-package com.example.wph_shopcar_consumer.service;
+package com.example.wph_order_consumer.service;
 
-import com.example.wph_shopcar_consumer.pojo.WphUserAddress;
-import com.example.wph_shopcar_consumer.service.Impl.AdressServiceImpl;
-import com.example.wph_shopcar_consumer.service.Impl.CouponsServiceImpl;
+import com.example.wph_order_consumer.pojo.WphUserAddress;
+import com.example.wph_order_consumer.service.Impl.AdressServiceImpl;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,7 @@ public interface AdressService {
      */
     @RequestMapping(value = "selectAll" , method = RequestMethod.POST)
     @ResponseBody
-    public List<WphUserAddress> selectAll(@RequestParam("id") int id);
+    public String selectAll(@RequestParam("id") Integer id);
     /**
      * 新增数据
      *
@@ -37,4 +36,13 @@ public interface AdressService {
     @RequestMapping(value = "updateAdd" , method = RequestMethod.POST)
     @ResponseBody
     public String update(@RequestBody WphUserAddress wphUserAddress);
+    /**
+     * 修改地址状态
+     * @param addId 地址id
+     * @param userid 用户编号
+     * @return
+     */
+    @RequestMapping(value = "updateAddState" , method = RequestMethod.POST)
+    @ResponseBody
+    public String updateState(@RequestParam("addId") Integer addId , @RequestParam("userid") Integer userid);
 }

@@ -32,7 +32,7 @@ public interface WphOrderShopingDao {
      * @param num 商品数量
      * @return
      */
-    int insert(@Param("orderid") Integer orderid,@Param("skuSerialnumber")String skuSerialnumber,@Param("num")Integer num,@Param("money") Integer money);
+    int insert(@Param("orderid") Integer orderid,@Param("skuSerialnumber")String skuSerialnumber,@Param("num")Integer num,@Param("money") double money,@Param("skuname")String skuname,@Param("skumoney") double skumoney,@Param("picture") String picture,@Param("brand") Integer brand);
 
 
     /**

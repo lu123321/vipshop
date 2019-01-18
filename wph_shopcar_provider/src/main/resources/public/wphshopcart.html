@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
+<meta http-equiv="Access-Control-Allow-Origin" content="*" />
 <head>
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="favicon.ico">
@@ -14,37 +15,95 @@
 	<script src="js/swiper.min.js" charset="UTF-8"></script>
 	<script src="js/global.js" charset="UTF-8"></script>
 	<script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
-	<title>U袋网</title>
+	<title>唯品会</title>
     <script src="js/jquery.1.12.4.min.js"></script>
     <script>
+        var ip="192.168.51.236"
 		$(b())
-		function b() {
+        function timer(intDiff){
+            window.setInterval(function(){
+                var day=0,
+                    hour=0,
+                    minute=0,
+                    second=0;//时间默认值
+                if(intDiff > 0){
+                    day = Math.floor(intDiff / (60 * 60 * 24));
+                    hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                    minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                    second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                }
+                if (minute <= 9) minute = '0' + minute;
+                if (second <= 9) second = '0' + second;
+                $('#minute_show').html('<s></s>'+minute+':');
+                $('#second_show').html('<s></s>'+second+'');
+                intDiff--;
+            }, 1000);
+        }
+		function b(){
             $.ajax({
-                url: "/wphshopcart1",
+                url: "http://192.168.51.252:8082/shopcar/wphshophistroy",
+                datatype: "json",
+                data: {id: 66},
+                type: "post",
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+                success: function (res) {
+                    var li=JSON.parse(res)
+					console.log(li)
+					for (i in li){
+                        var picture=li[i].picture
+                        var shopingname=li[i].shopingname
+                        var shopingprice=li[i].shopingprice
+						str='<li><div class="img"><img src="'+picture+'" alt="" class="cover"></div><div class="intro"><i>'+shopingname+'</i>' +
+							'</div> <div class="money"><span>$'+shopingprice+'></span></div><div class="incar">' +
+							'<a href="#" class="sui-btn btn-bordered btn-xlarge btn-default"><i class="car">' +
+							'</i></a></div></a></li>'
+						$('#yyy').after(str)
+
+					}
+                }
+            })
+            var time;
+            $.ajax({
+                url: "http://192.168.51.252:8082/shopcar/wphshopcartsel",
                 dataType:"json",
-                data:{id:"1"},
+                data:{id:"66"},
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+				type:"post",
                 success: function (resut) {
-                    var zmoney;
+                    res=resut
+                    var zmoney=0;
                     for(var key in resut){
                         console.log("输出key值:"+key);
                         var list=resut[key];
+                        console.log(list)
                          	 skuname =list.shopingname;
                             console.log(skuname)
                             var skunumber=list.shopingnumber;
                             var money=list.shopingmoney;
                             var picture=list.picture;
                             var skunum=list.shopingnum;
-                            var shopmoney=money*skunum;
-                            zmoney+=shopmoney;
+                            var shopprice=list.shopingprice;
+                            time=list.s;
+                            id=list.userid;
+                            zmoney=zmoney+shopprice;
+                            console.log(zmoney)
+                        $("span[class='fz24']").html(zmoney);
                         var str='<tr class="a"><th scope="row"><label class="checked-label"><div class="img"><img src="'+picture+'" alt="" class="cover">'+ skuname +'</div></label>'
-                            +'</th><td><div class="name ep3">¥'+money+'</div></td><td><div class="cart-num__box"><input type="button" class="sub" value="-">'
-                            +'<input type="text" class="val" value="'+skunum+'" maxlength="2"><input type="button" class="add" value="+"></div></td><td>¥ '+shopmoney+'</td><td><a class="del'+skunumber+'" onclick=a("'+skunumber+'")>删除</a></td></tr>'
+                            +'</th><td><div class="name ep3" id="money">¥'+money+'</div></td><td><div class="cart-num__box"><input type="button" class="sub" value="-" onclick=c('+JSON.stringify(list)+',-1)>'
+                            +'<input type="text" class="val" value="'+skunum+'" maxlength="2"><input type="button" class="add" value="+" onclick=c('+JSON.stringify(list)+',1)></div></td><td class="price">¥ '+shopprice+'</td><td><a class="del" onclick=a("'+skunumber+'")>删除</a></td></tr>'
                             $("tbody[name='shopcartshoping']").append(str)
-						$('.fz24').text(money);
                     }
+                    timer(time)
                 }
             })
         }
+        console.log(id)
         $(document).ready(function(){
             // 加减个数
             $('body').delegate( '.sub,.add','click', function() {
@@ -58,15 +117,67 @@
         });
         function a(skunumber){
             $.ajax({
-                url: "/del",
+                url: "http://"+ip+":8080/del",
                 type:"POST",
-                data:{"skuserialnumber":skunumber,"userid":1},
+                data:{"skuserialnumber":skunumber,"userid":66},
                 success: function (resut) {
 					alert(resut)
 					location.reload()
                 }
             })
         }
+        function c(list,num){
+            console.log(list)
+            var skuname =list.shopingname;
+            var skunumber=list.shopingnumber;
+            var money=list.shopingmoney;
+            var picture=list.picture;
+            var skunum=list.shopingnum;
+
+            var shopprice=list.shopingprice;
+            var pinpaiId=list.brand;
+            var spuid=list.spuid;
+            console.log(skuname)
+            if(skunum==2&&num==-1||skunum==1&&num==1){
+                $.ajax({
+                    url: "http://"+ip+":8081/cutlistRepertory",
+                    type:"POST",
+                    data:{"pinpaiId":pinpaiId,"productId":skunumber,"number":num},
+                    dataType:"json",
+                    success: function (resut) {
+                        alert(resut)
+                        if (resut=="1") {
+                            var skunum1=skunum+num
+                            shoping=new Array();
+                            shoping.push(skunumber)
+                            shoping.push(skunum1)
+                            $.ajax({
+                                url: "http://"+ip+":8080/shopcartupdate",
+                                type:"POST",
+                                data:{"userid":id, "shoping":JSON.stringify(shoping)},
+                                datatype:"json",
+                                success: function (resut) {
+                                    location.reload()
+                                }
+                            })
+                        }
+                        location.reload()
+                    }
+                })
+            }else{
+                alert("数量有误")
+			}
+
+        }
+
+        function d() {
+            if (res=""){
+                alert("购物车中没有商品")
+                location.reload()
+            }
+            location.replace("http://"+ip+":7080/wphshopcartpay.html?userid="+id)
+        }
+
 	</script>
 </head>
 <body>
@@ -76,13 +187,13 @@
 			<div class="pull-left">
 				<div class="pull-left">嗨，欢迎来到<span class="cr">U袋网</span></div>
 				<a href="agent_level.html">网店代销</a>
-				<a href="temp_article/udai_article4.html">帮助中心</a>
+				<a href="http://192.168.50.208:8081/html/connectService.html">帮助中心</a>
 			</div>
 			<div class="pull-right">
-				<a href="login.html"><span class="cr">登录</span></a>
-				<a href="login.html?p=register">注册</a>
-				<a href="udai_welcome.html">我的U袋</a>
-				<a href="udai_order.html">我的订单</a>
+				<a href="http://192.168.50.238:8083/logins.html"><span class="cr">登录</span></a>
+				<a href="http://192.168.50.238:8083/logins.html?p=register">注册</a>
+				<a href="http://192.168.51.236:8080/wphshopcart.html">我的U袋</a>
+				<a href="http://192.168.51.236:7080/wphorder.html">我的订单</a>
 				<a href="udai_integral.html">积分平台</a>
 			</div>
 		</div>
@@ -91,7 +202,7 @@
 	<div class="bgf5 clearfix">
 		<div class="top-user">
 			<div class="inner">
-				<a class="logo" href="index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
+				<a class="logo" href="http://192.168.50.204:8020/%e5%94%af%e5%93%81%e4%bc%9a/index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
 				<div class="title">购物车</div>
 
 			</div>
@@ -101,11 +212,11 @@
 		<section class="user-center inner clearfix">
 			<div class="user-content__box clearfix bgf">
 				<div class="title">精选特卖</div>
-				<form action="udai_shopcart_pay.html" class="shopcart-form__box" method="post">
+				<form action="" class="shopcart-form__box" method="post">
 					<table class="table table-bordered">
 						<thead>
 							<tr>
-								<th width="300">精选特卖</th>
+								<th width="300" >精选特卖<strong class="minute_show"></strong><strong class="second_show"></strong></th>
 								<th width="150">单价</th>
 								<th width="200">数量</th>
 								<th width="200">小计</th>
@@ -114,12 +225,14 @@
 							</tr>
 						</thead>
 						<tbody name="shopcartshoping">
-
 						</tbody>
 					</table>
 					<div class="user-form-group tags-box shopcart-submit pull-right">
-						<button type="submit" class="btn">提交订单</button>
+						<button type="button" class="btn" onclick="d()">提交订单<strong id="minute_show"></strong><strong id="second_show"></strong></button>
 					</div>
+
+
+
 					<div class="checkbox shopcart-total">
 						<div class="pull-right">
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;合计（不含运费）
@@ -131,35 +244,67 @@
             </div>
 		</section>
 	</div>
+	<div class="liked">
+		<ul class="sui-nav nav-tabs">
+			<li class="active">
+				<a href="#index" data-toggle="tab">猜你喜欢</a>
+			</li>
+			<li>
+				<a href="#profile" data-toggle="tab">特惠换购</a>
+			</li>
+		</ul>
+		<div class="clearfix"></div>
+		<div class="tab-content">
+			<div id="index" class="tab-pane active">
+				<div id="myCarousel" data-ride="carousel" data-interval="4000" class="sui-carousel slide">
+					<div class="carousel-inner">
+						<div class="active item">
+							<ul>
+								<li id="yyy"></li>
+
+							</ul>
+						</div>
+						<div class="item">
+							<ul>
+
+							</ul>
+						</div>
+					</div>
+					<a href="#myCarousel" data-slide="prev" class="carousel-control left">‹</a>
+					<a href="#myCarousel" data-slide="next" class="carousel-control right">›</a>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- 右侧菜单 -->
 	<div class="right-nav">
 		<ul class="r-with-gotop">
 			<li class="r-toolbar-item">
-				<a href="udai_welcome.html" class="r-item-hd">
+				<a href="http://192.168.50.238:8083/udai_welcome.html" class="r-item-hd">
 					<i class="iconfont icon-user" data-badge="0"></i>
 					<div class="r-tip__box"><span class="r-tip-text">用户中心</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="wphshopcart.html" class="r-item-hd">
+				<a href="http://192.168.51.236:8080/wphshopcart.html" class="r-item-hd">
 					<i class="iconfont icon-cart"></i>
 					<div class="r-tip__box"><span class="r-tip-text">购物车</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="udai_collection.html" class="r-item-hd">
+				<a href="http://192.168.51.252:8084/udai_collection.html" class="r-item-hd">
 					<i class="iconfont icon-aixin"></i>
 					<div class="r-tip__box"><span class="r-tip-text">我的收藏</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="" class="r-item-hd">
+				<a href="http://192.168.50.208:8081/html/connectService.html" class="r-item-hd">
 					<i class="iconfont icon-liaotian"></i>
 					<div class="r-tip__box"><span class="r-tip-text">联系客服</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="issues.html" class="r-item-hd">
+				<a href="http://192.168.50.208:8081/html/connectService.html" class="r-item-hd">
 					<i class="iconfont icon-liuyan"></i>
 					<div class="r-tip__box"><span class="r-tip-text">留言反馈</span></div>
 				</a>

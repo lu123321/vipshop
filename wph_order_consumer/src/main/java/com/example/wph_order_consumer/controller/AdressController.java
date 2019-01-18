@@ -1,11 +1,12 @@
-package com.example.wph_shopcar_consumer.controller;
+package com.example.wph_order_consumer.controller;
 
-import com.example.wph_shopcar_consumer.pojo.WphUserAddress;
-import com.example.wph_shopcar_consumer.service.AdressService;
+import com.example.wph_order_consumer.pojo.WphUserAddress;
+import com.example.wph_order_consumer.service.AdressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -16,13 +17,14 @@ public class AdressController {
 
     /**
      * 通过用户编号查询用户对应的所有地址
-     * @param id 用户编号
+     *
      * @return 数据集合
      */
     @RequestMapping(value = "selectAll" , method = RequestMethod.POST)
     @ResponseBody
-    public List<WphUserAddress> selectAll(@RequestParam("id") int id){
-        return adressService.selectAll(id);
+    public String selectAll(HttpServletRequest request){
+        String userid = request.getHeader("userid");
+        return adressService.selectAll(Integer.parseInt(userid));
     }
 
     /**
@@ -47,5 +49,16 @@ public class AdressController {
     @ResponseBody
     public String update(WphUserAddress wphUserAddress){
         return adressService.update(wphUserAddress);
+    }
+    /**
+     * 修改地址状态
+     * @param addId 地址id
+     * @return
+     */
+    @RequestMapping(value = "updateAddState" , method = RequestMethod.POST)
+    @ResponseBody
+    public String updateState(@RequestParam("addId") Integer addId ,HttpServletRequest request) {
+        String userid=request.getHeader("userid");
+        return adressService.updateState(addId,Integer.parseInt(userid));
     }
 }

@@ -13,9 +13,23 @@
 	<script src="js/bootstrap.min.js" charset="UTF-8"></script>
 	<script src="js/swiper.min.js" charset="UTF-8"></script>
 	<script src="js/global.js" charset="UTF-8"></script>
-
-	<title>U袋网</title>
+    <link rel="stylesheet" href="js/layui/css/layui.css"  media="all">
+    <script type="text/javascript" src="js/layui/layui.js"></script>
+    <title>唯品会</title>
 	<script>
+        var ip="192.168.51.236"
+        var pagenum;
+		//读取url参数值
+        function GetQueryString(name)
+        {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) {
+                return unescape(r[2]);
+            }
+            return null;
+        };
+
         //首先初始化时间格式工具，可直接复制到js里面
         Date.prototype.Format = function (fmt){
             var o = {
@@ -41,62 +55,208 @@
             var d = new Date(timeSecond);//注意timeSecond是毫秒
             return d.Format("yyyy-MM-dd hh:mm:ss");
         }
-	</script>
-	<script type="text/javascript">
-		$(a())
-		function a() {
+
+		$(function a() {
+                var out_trade_no=GetQueryString("out_trade_no");
+                var trade_no=GetQueryString("trade_no");
+                var total_amount=GetQueryString("total_amount");
+                if (total_amount!=null||total_amount!=""){
+                    $.ajax({
+                        url: "http://"+ip+":7080/update",
+                        type:"POST",
+                        data:{"orderno":out_trade_no,"orderstate":3,"orderpaynumber":trade_no},
+                        success: function (resut) {
+                            console.log(resut)
+                            // alert(resut)
+                        }
+                    })
+                }
+                $.ajax({
+                    url:"http://192.168.51.252:8082/shopping/getname",
+                    dataType: "text",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    crossDomain: true,
+                    success : function(result){
+                        if(result != "400"){
+                            var a =""+result
+                            var tel1 = a.substr(0,3) + "****" + a.substr(7)
+                            $(".c1").text(tel1)
+                            $(".hh").removeAttr('href')
+                            $(".hh").removeAttr('onclick')
+                        }else{
+                            location.replace("logins.html")
+                        }
+                    }
+                });
+                sel(1)
+            }
+        )
+		function sel(pagenum) {
 			$.ajax({
-				url:"/selall",
+				url:"http://192.168.51.252:8082/orderpeo/selall",
 				type:"post",
-				data:{userid:47,pagenum:1},
+				data:{pagenum:pagenum},
 				datatype:"json",
+				xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
 				success:function (result) {
 					result=JSON.parse(result)
+					console.log(result)
+                    pageNum=list.pageNum
+                    pageSize =list.pageSize;
+                    total = list.total;
+                    pagehelp(total, pageNum, pageSize)
+					var lstr;
 					for (i=0;i<10;i++) {
 					    var orderId=result[i].orderId
 						var orderMoney=result[i].orderMoney
 						var orderNo=result[i].orderNo
 						var orderState=result[i].orderState
 						var orderTime= formatTime(result[i].orderTime)
-						if (orderState==0){
-						    orderState="未支付"
-						}else if (orderState==1){
-                            orderState="已取消"
-						}else if (orderState==2){
-                            orderState="待收货"
-                        }else if (orderState==3){
-                            orderState="待发货"
-                        }else{
-                            orderState="待评价"
-                        }
-                        var picture
-                        var skuname
-                        var skumoney
-						 var orderShopingNum
-                        var ordershopingmoney
                         var wphOrderShoping = result[i].wphOrderShoping
+						console.log(wphOrderShoping[0])
                         var picture =wphOrderShoping[0].picture
                         var skuname =wphOrderShoping[0].skuname
                         var skumoney =wphOrderShoping[0].skumoney
                         var orderShopingNum =wphOrderShoping[0].orderShopingNum
                         var ordershopingmoney =wphOrderShoping[0].ordershopingmoney
-                        //     str1 = '<div class="card"><div class="img"><img src="' + picture + '" alt="" class="cover"></div>' +
-                        //         '<div class="name ep2">' + skuname + '</div></label></td><td>￥' + skumoney + '</td><td>' + orderShopingNum + '</td>' +
-                        //         '<td>￥' + ordershopingmoney + '<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>'
-                        //     $("b[i]").append(str1)
-                        // }
-                        var str='<tr class="order-item" ><td><label><a href="wphorderdetail.html" class="num"> '+orderTime+'订单编号:' +orderNo+'</a>' +
-							'<div class="card"> <div class="img"><img  src="' + picture + '" alt="" class="cover"></div> <div class="name ep2">'+skuname+'</div> <div class="format">颜色分类：深棕色  尺码：均码</div><div class="favour">使用优惠券：优惠¥2.00</div> </div>' +
-							'</label> </td> <td>￥' + skumoney + '</td> <td>' + orderShopingNum + '</td> <td>￥' + ordershopingmoney + '<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td> ' +
-							'<td class="state"> <a class="but c6">'+orderState+'</a> <a href="wphorderdetail.html?orderId='+orderId+'" class="but c9">订单详情</a> </td> <td class="order"> ' +
-							'<div class="del"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></div> <a href="udai_shopcart_pay.html" class="but but-primary">立即付款</a> ' +
-							'<a href="" class="but c3">取消订单</a></td></tr>'
-						var b=document.getElementsByClassName("dd")
-                        $(".aaa").after(str)
+
+                        var str='<tr class="order-item" ><td><label><a href="wphorderdetail.html?orderId='+orderId+'" class="num"> '+orderTime+'订单编号:' +orderNo+'</a>' +
+                            '<div class="card"> <div class="img"><img  src="' + picture + '" alt="" class="cover"></div> <div class="name ep2">'+skuname+'</div> </div>' +
+                            '</label> </td> <td>￥' + ordershopingmoney + '</td> <td>' + orderShopingNum + '</td> <td>￥' + orderMoney + '<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>'
+						if (orderState==0){
+						    orderState="未支付"
+                            str1='<td class="state"> <a class="but c6">'+orderState+'</a> <a href="wphorderdetail.html?orderId='+orderId+'" class="but c9">订单详情</a> </td> <td class="order"> ' +
+                            '<div class="del"><span class="glyphicon glyphicon-trash" aria-hidden="false" onclick=del('+orderId+')></span></div>' +
+                            '<a href="http://'+ip+':7081/pay?WIDout_trade_no='+orderNo+'&WIDtotal_amount='+orderMoney+'&WIDsubject='+1+'&WIDbody='+1+' class="but but-primary">立即付款</a>' +
+							' <a onclick=qx('+orderNo+')>取消订单</a><a onclick=del('+orderId+') class="but c3">删除订单</a></td></tr>'
+							lstr=str+str1;
+                            $("#bbbb").before(lstr)
+						}else if (orderState==1){
+                            orderState="已取消"
+                            str='<td class="state"><a class="but c6">'+orderState+'</a><a href="logistics.html" class="but cr">查看物流</a>' +
+                                '<a href="wphorderdetail.html?orderId='+orderId+'" class="but c9">订单详情</a></td><td class="order">' +
+                                '<div class="del"><span class="glyphicon glyphicon-trash" aria-hidden="false" onclick=del('+orderId+')></span></div>' +
+                                '<a onclick=del('+orderId+') class="but c3">删除订单</a></td></tr>'
+                            lstr+=str+str1;
+                        }else if (orderState==2){
+                            orderState="待收货"
+                            str1='<td class="state"><a class="but c6">'+orderState+'</a><a href="logistics.html" class="but cr">查看物流</a>' +
+                                '<a href="wphorderdetail.html?orderId='+orderId+'" class="but c9">订单详情</a></td><td class="order">' +
+                                '<div class="del"><span class="glyphicon glyphicon-trash" aria-hidden="false" onclick=del('+orderId+')></span></div>' +
+                                '<a onclick=qrsh('+orderNo+') class="but but-primary">确认收货</a>' +
+                                '<a onclick=sqtk('+orderNo+') class="but c3">退款/退货</a></td></tr>'
+                            lstr=str+str1;
+                            $("#dddd").before(lstr)
+                        }else if (orderState==3){
+                            orderState="待发货"
+							str1='<td class="state"><a class="but c6">'+orderState+'</a>' +
+								'<a href="wphorderdetail.html?orderId='+orderId+'" class="but c9">订单详情</a></td><td class="order">' +
+								'<div class="del"><span class="glyphicon glyphicon-trash" aria-hidden="false" onclick=del('+orderId+')></span></div>' +
+								'<a onclick=qrsh('+orderNo+') class="but but-primary">确认收货</a>' +
+								'<a onclick=sqtk('+orderNo+') class="but c3">退款/退货</a></td></tr>'
+                            lstr=str+str1;
+                            $("#cccc").before(lstr)
+                        }else if (orderState==4) {
+                            orderState="待评价"
+                            str1='<td class="state"> <a class="but c6">'+orderState+'</a>'+
+                                '<a href="logistics.html" class="but cr">查看物流</a>' +
+                                '<a href="wphorderdetail.html?orderId='+orderId+'" class="but c9">订单详情</a></td><td class="order">' +
+                                '<div class="del"><span class="glyphicon glyphicon-trash" aria-hidden="false" onclick=del('+orderId+')></span></div>' +
+                                '<a href="" class="but but-link">评价</a><a onclick=sqtk('+orderNo+') class="but c3">退款/退货</a></td></tr>'
+                            lstr=str+str1;
+                            $("#eeee").before(lstr)
+						}else if (orderState==7) {
+                            orderState="交易成功"
+                            str1='<td class="state"> <a class="but c6">'+orderState+'</a>'+
+                                '<a href="logistics.html" class="but cr">查看物流</a>' +
+                                '<a href="wphorderdetail.html?orderId='+orderId+'" class="but c9">订单详情</a></td><td class="order">' +
+                                '<div class="del"><span class="glyphicon glyphicon-trash" aria-hidden="false" onclick=del('+orderId+')></span></div>' +
+                                '<a onclick=sqtk('+orderNo+') class="but c3">退款/退货</a></td></tr>'
+                            lstr=str+str1;
+						}
+                        $("#aaaa").before(lstr)
                     }
                 }
 			})
-        }		
+        }
+
+        // 取消订单
+		function qx(orderno) {
+			$.ajax({
+                url: "http://"+ip+":7080/update",
+                type:"POST",
+                data:{"orderno":orderno,"orderstate":1,"orderpaynumber":""},
+                success: function (resut) {
+                    console.log(resut)
+				}
+			})
+        }
+        //删除订单
+		function del(orderid){
+            $.ajax({
+                url: "http://"+ip+":7080/orderdel",
+                type:"POST",
+                data:{"orderid":orderid},
+                success: function (resut) {
+                    alert(resut)
+                    location.reload()
+				}
+			})
+		}
+		//申请退款
+		function sqtk(orderno){
+            $.ajax({
+                url: "http://"+ip+":7080/update",
+                type:"POST",
+                data:{"orderno":orderno,"orderstate":5,"orderpaynumber":""},
+                success: function (resut) {
+                	alert("退款申请成功")
+                }
+            })
+		}
+		//确认收货
+		function qrsh(orderno){
+            $.ajax({
+                url: "http://"+ip+":7080/update",
+                type:"POST",
+                data:{"orderno":orderno,"orderstate":4,"orderpaynumber":""},
+                success: function (resut) {
+                    console.log(resut)
+                }
+            })
+		}
+        function pagehelp(total, pageNum, pageSize) {
+            layui.use('laypage', function() {
+                var laypage = layui.laypage;
+                //分页完整功能
+                laypage.render({
+                    elem: 'demo7',
+                    count: total, //数据总数，从服务端得到
+                    limit: pageSize, //每页显示的条数。laypage将会借助 count 和 limit 计算出分页数。
+                    curr: pageNum, //当前页号
+                    limits:[10],
+                    layout: ['count', 'prev', 'page','limit','refresh', 'next', 'skip'],
+                    jump: function(obj, first) {
+                        var num = obj.curr;
+                        var size = obj.limit;
+                        console.log(obj)
+                        if(!first) { //首次不执行(点击的时候才执行)
+                            $("#aaa").html("");
+                            $("#bbb").html("");
+                            $("#ccc").html("");
+                            $("#ddd").html("");
+                            $("#eee").html("");
+                            sel(num); //执行查询分页函数(这个函数必须写在这里)
+                        }
+                    }
+                });
+            })
+        }
 	</script>
 
 </head>
@@ -105,14 +265,14 @@
 	<div class="tab-header">
 		<div class="inner">
 			<div class="pull-left">
-				<div class="pull-left">嗨，欢迎来到<span class="cr">U袋网</span></div>
+				<div class="pull-left">嗨，欢迎<span class="c1"></span><span class="cr">来到唯品会</span></div>
 				<a href="agent_level.html">网店代销</a>
-				<a href="temp_article/udai_article4.html">帮助中心</a>
+				<a href="connectService.html">帮助中心</a>
 			</div>
 			<div class="pull-right">
-				<a href="login.html"><span class="cr">登录</span></a>
-				<a href="login.html?p=register">注册</a>
-				<a href="udai_welcome.html">我的U袋</a>
+				<a href="logins.html" class="hh"><span class="cr">登录</span></a>
+				<a href="logins.html?p=register" class="hh">注册</a>
+				<a href="wphshopcart.html">我的购物车</a>
 				<a href="wphorder.html">我的订单</a>
 				<a href="udai_integral.html">积分平台</a>
 			</div>
@@ -122,7 +282,7 @@
 	<div class="bgf5 clearfix">
 		<div class="top-user">
 			<div class="inner">
-				<a class="logo" href="index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
+				<a class="logo" href="index.html"><img src="images/logo.png" alt="唯品会" class="cover"></a>
 				<div class="title">个人中心</div>
 			</div>
 		</div>
@@ -130,16 +290,16 @@
 	<div class="content clearfix bgf5">
 		<section class="user-center inner clearfix">
 			<div class="pull-left bgf">
-				<a href="udai_welcome.html" class="title">U袋欢迎页</a>
+				<a href="udai_welcome.html" class="title">唯品会欢迎页</a>
 				<dl class="user-center__nav">
 					<dt>帐户信息</dt>
-					<a href="udai_setting.html"><dd>个人资料</dd></a>
+					<a href="http://192.168.50.238:8083/udai_setting.html"><dd>个人资料</dd></a>
 					<a href="udai_treasurer.html"><dd>资金管理</dd></a>
 					<a href="udai_integral.html"><dd>积分平台</dd></a>
 					<a href="udai_address.html"><dd>收货地址</dd></a>
-					<a href="udai_coupon.html"><dd>我的优惠券</dd></a>
+					<a href="tickets.html"><dd>我的优惠券</dd></a>
 					<a href="udai_paypwd_modify.html"><dd>修改支付密码</dd></a>
-					<a href="udai_pwd_modify.html"><dd>修改登录密码</dd></a>
+					<a href="logins.html?p=resetpwd"><dd>修改登录密码</dd></a>
 				</dl>
 				<dl class="user-center__nav">
 					<dt>订单中心</dt>
@@ -149,7 +309,7 @@
 				</dl>
 				<dl class="user-center__nav">
 					<dt>服务中心</dt>
-					<a href="udai_mail_query.html"><dd>物流查询</dd></a>
+					<a href="logistics.html"><dd>物流查询</dd></a>
 					<a href=""><dd>数据自助下载</dd></a>
 					<a href="temp_article/udai_article1.html"><dd>售后服务</dd></a>
 					<a href="temp_article/udai_article2.html"><dd>配送服务</dd></a>
@@ -166,7 +326,7 @@
 				<dl class="user-center__nav">
 					<dt>U袋网</dt>
 					<a href="temp_article/udai_article10.html"><dd>企业简介</dd></a>
-					<a href="temp_article/udai_article11.html"><dd>加入U袋</dd></a>
+					<a href="temp_article/udai_article11.html"><dd>加入唯品会</dd></a>
 					<a href="temp_article/udai_article12.html"><dd>隐私说明</dd></a>
 				</dl>
 			</div>
@@ -177,10 +337,10 @@
 						<div class="order-panel">
 							<ul class="nav user-nav__title" role="tablist">
 								<li role="presentation" class="nav-item active"><a href="#all" aria-controls="all" role="tab" data-toggle="tab">所有订单</a></li>
-								<li role="presentation" class="nav-item "><a href="#pay" aria-controls="pay" role="tab" data-toggle="tab">待付款 <span class="cr">0</span></a></li>
-								<li role="presentation" class="nav-item "><a href="#emit" aria-controls="emit" role="tab" data-toggle="tab">待发货 <span class="cr">0</span></a></li>
-								<li role="presentation" class="nav-item "><a href="#take" aria-controls="take" role="tab" data-toggle="tab">待收货 <span class="cr">0</span></a></li>
-								<li role="presentation" class="nav-item "><a href="#eval" aria-controls="eval" role="tab" data-toggle="tab">待评价 <span class="cr">0</span></a></li>
+								<li role="presentation" class="nav-item "><a href="#pay" aria-controls="pay" role="tab" data-toggle="tab">待付款 <span class="cr"></span></a></li>
+								<li role="presentation" class="nav-item "><a href="#emit" aria-controls="emit" role="tab" data-toggle="tab">待发货 <span class="cr"></span></a></li>
+								<li role="presentation" class="nav-item "><a href="#take" aria-controls="take" role="tab" data-toggle="tab">待收货 <span class="cr"></span></a></li>
+								<li role="presentation" class="nav-item "><a href="#eval" aria-controls="eval" role="tab" data-toggle="tab">待评价 <span class="cr"></span></a></li>
 							</ul>
 
 							<div class="tab-content">
@@ -194,45 +354,11 @@
 											<th width="120">交易状态</th>
 											<th width="120">交易操作</th>
 										</tr>
-										<tr class="aaa">
-
-										</tr>
-										<tr class="order-item">
-											<td>
-												<label>
-													<a href="wphorderdetail.html" class="num">
-														2017-03-30 订单号: 2669901385864042
-													</a>
-													<div class="card">
-														<div class="img"><img src="images/temp/item-img_1.jpg" alt="" class="cover"></div>
-														<div class="name ep2">纯色圆领短袖T恤活动衫弹力柔软纯色圆领短袖T恤</div>
-														<div class="format">颜色分类：深棕色  尺码：均码</div>
-														<div class="favour">使用优惠券：优惠¥2.00</div>
-													</div>
-												</label>
-											</td>
-											<td>￥100</td>
-											<td>1</td>
-											<td>￥1000<br><span class="fz12 c6 text-nowrap">(含运费: ¥0.00)</span></td>
-											<td class="state">
-												<a class="but c6">交易成功</a>
-												<a href="udai_mail_query.html" class="but cr">查看物流</a>
-												<a href="wphorderdetail.html" class="but c9">订单详情</a>
-											</td>
-											<td class="order">
-												<div class="del"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></div>
-												<a href="" class="but but-link">评价</a>
-												<a href="" class="but c3">取消订单</a>
-											</td>
-										</tr>
+                                        <tbody id='aaa'>
+                                        <tr id="aaaa"></tr>
+                                        </tbody>
 									</table>
-									<div class="page text-right clearfix" style="margin-top: 40px">
-										<a class="disabled">上一页</a>
-										<a class="select">1</a>
-										<a href="">2</a>
-										<a href="">3</a>
-										<a class="" href="">下一页</a>
-									</div>
+                                    <div id="demo7"></div>
 								</div>
 								<div role="tabpanel" class="tab-pane fade" id="pay">
 									<table class="table text-center">
@@ -244,10 +370,12 @@
 											<th width="120">交易状态</th>
 											<th width="120">交易操作</th>
 										</tr>
-										<tr class="order-empty"><td colspan='6'>
-											<div class="empty-msg">最近没有任何订单，家里好像缺了点什么！<br><a href="item_category.html">要不瞧瞧去？</a></div>
-										</td></tr>
+                                        <tbody id='bbb'>
+                                        <tr id="bbbb"></tr>
+                                        </tbody>
+
 									</table>
+
 								</div>
 								<div role="tabpanel" class="tab-pane fade" id="emit">
 									<table class="table text-center">
@@ -259,12 +387,10 @@
 											<th width="120">交易状态</th>
 											<th width="120">交易操作</th>
 										</tr>
+                                        <tbody id='ccc'>
+                                        <tr id="cccc"></tr>
+                                        </tbody>
 									</table>
-									<div class="page text-right clearfix" style="margin-top: 40px">
-										<a class="disabled">上一页</a>
-										<a class="select">1</a>
-										<a class="disabled">下一页</a>
-									</div>
 								</div>
 								<div role="tabpanel" class="tab-pane fade" id="take">
 									<table class="table text-center">
@@ -276,9 +402,9 @@
 											<th width="120">交易状态</th>
 											<th width="120">交易操作</th>
 										</tr>
-										<tr class="order-empty"><td colspan='6'>
-											<div class="empty-msg">最近没有任何订单，家里好像缺了点什么！<br><a href="item_category.html">要不瞧瞧去？</a></div>
-										</td></tr>
+                                        <tbody id='ddd'>
+                                        <tr id="dddd"></tr>
+                                        </tbody>
 									</table>
 								</div>
 								<div role="tabpanel" class="tab-pane fade" id="eval">
@@ -291,12 +417,10 @@
 											<th width="120">交易状态</th>
 											<th width="120">交易操作</th>
 										</tr>
+                                        <tbody id='eee'>
+                                        <tr id="eeee"></tr>
+                                        </tbody>
 									</table>
-									<div class="page text-right clearfix" style="margin-top: 40px">
-										<a class="disabled">上一页</a>
-										<a class="select">1</a>
-										<a class="disabled">下一页</a>
-									</div>
 								</div>
 							</div>
 						</div>
@@ -316,7 +440,7 @@
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="udai_shopcart.html" class="r-item-hd">
+				<a href="wphshopcart.html" class="r-item-hd">
 					<i class="iconfont icon-cart"></i>
 					<div class="r-tip__box"><span class="r-tip-text">购物车</span></div>
 				</a>
@@ -328,13 +452,13 @@
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="" class="r-item-hd">
+				<a href="connectService.html" class="r-item-hd">
 					<i class="iconfont icon-liaotian"></i>
 					<div class="r-tip__box"><span class="r-tip-text">联系客服</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="issues.html" class="r-item-hd">
+				<a href="connectService.html" class="r-item-hd">
 					<i class="iconfont icon-liuyan"></i>
 					<div class="r-tip__box"><span class="r-tip-text">留言反馈</span></div>
 				</a>
@@ -404,5 +528,5 @@
 		</div>
 	</div>
 </body>
-<script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
+<!--<script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>-->
 </html>

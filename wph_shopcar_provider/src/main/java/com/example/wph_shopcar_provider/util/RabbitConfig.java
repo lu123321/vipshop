@@ -40,7 +40,7 @@ public class RabbitConfig {
         Map<String,Object> args = new HashMap<String, Object>();
         args.put("x-dead-letter-exchange",user_change);
         args.put("x-dead-letter-routing-key",DLE_Queue);
-        args.put("x-message-ttl",1000*55); //毫秒
+        args.put("x-message-ttl",1140055); //毫秒
         return new Queue(DLE_Queue,false,false,false,args);
     }
     //配置用户队列

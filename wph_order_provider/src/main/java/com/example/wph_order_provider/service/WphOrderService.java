@@ -2,6 +2,7 @@ package com.example.wph_order_provider.service;
 
 import com.example.wph_order_provider.entity.OrderShoping;
 import com.example.wph_order_provider.entity.WphOrder;
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public interface WphOrderService {
      * @param ordershoping 商品编号
      * @param money 总价
      */
-    void insert(Integer id,String ordershoping,Integer money,String orderadress);
+    String insert(Integer id,String ordershoping,double money,String orderadress);
 
 
     /**
@@ -41,6 +42,8 @@ public interface WphOrderService {
      */
     String update(String orderno,Integer orderState,String orderpaynumber);
 
+    int update7(Integer orderid);
+
 
     /**
      * 通过主键删除数据
@@ -48,22 +51,66 @@ public interface WphOrderService {
      * @param orderId 主键
      * @return 是否成功
      */
-    void deleteById(Integer orderId);
+    String deleteById(Integer orderId);
 
     /**
      * 查全部订单
      * @return
      */
-    List queryAll(Integer userid,Integer pagenum);
+    String queryAll(Integer userid,Integer pagenum,Integer state);
+
+    List querycountbyorder(Integer userid);
     /**
      * 后台查看订单状态
      * @return
      */
-    List<WphOrder> selstate();
+    String selstate(Integer pagenum);
+
+    /**
+     * 后台查看订单状态
+     * @return
+     */
+    String seluserstate(Integer userid,Integer pagenum);
 
     /**
      * 后台发货
      * @return
      */
-    int updatestate(Integer userid, Integer orderid);
+    int updatestate(String orderwaybill,Integer orderid);
+
+    /**
+     * 后台查询申请退货
+     * @return
+     */
+    PageInfo hseltuihuo(Integer pagenum);
+
+    /**
+     * 前台用户查看自己申请的退货
+     * @param userid
+     * @return
+     */
+    String seltuihuo(Integer userid,Integer pagenum,Integer state);
+
+    List querycountbytuihuo(Integer userid);
+    /**
+     * 后台允许退货
+     * @param orderid
+     * @return
+     */
+    int updatetuihuo(Integer orderid,String paynumber);
+
+
+    int updatetuihuoshibai(Integer state,String shibai,Integer orderid);
+
+    String queryAllByshoping(Integer pagenum,Integer spuid,Integer state);
+
+    List hqueryAllByshoping();
+
+    Integer updatecomment(String commentHuifu,Integer commentId);
+
+    String insertcomment(String userid,String spuid,String img,String commentContent,String commentGradle,Integer orderid);
+
+    Integer deleteBycommentId(Integer commentId);
+
+    List querycount(Integer spuid);
 }

@@ -14,7 +14,7 @@
 	<script src="js/swiper.min.js" charset="UTF-8"></script>
 	<script src="js/global.js" charset="UTF-8"></script>
 	<script src="js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
-	<title>U袋网</title>
+	<title>唯品会</title>
 </head>
 <body>
 	<!-- 顶部tab -->
@@ -23,13 +23,13 @@
 			<div class="pull-left">
 				<div class="pull-left">嗨，欢迎来到<span class="cr">U袋网</span></div>
 				<a href="agent_level.html">网店代销</a>
-				<a href="temp_article/udai_article4.html">帮助中心</a>
+				<a href="http://192.168.50.208/html/connectService.html">帮助中心</a>
 			</div>
 			<div class="pull-right">
-				<a href="login.html"><span class="cr">登录</span></a>
-				<a href="login.html?p=register">注册</a>
-				<a href="udai_welcome.html">我的U袋</a>
-				<a href="udai_order.html">我的订单</a>
+				<a href="http://192.168.50.238:8083/logins.html"><span class="cr">登录</span></a>
+				<a href="http://192.168.50.238:8083/logins.html?p=register">注册</a>
+				<a href="http://192.168.51.236:8080/wphshopcart.html">我的U袋</a>
+				<a href="http://192.168.51.236:7080/wphorder.html">我的订单</a>
 				<a href="udai_integral.html">积分平台</a>
 			</div>
 		</div>
@@ -38,7 +38,7 @@
 	<div class="bgf5 clearfix">
 		<div class="top-user">
 			<div class="inner">
-				<a class="logo" href="index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
+				<a class="logo" href="http://192.168.50.204:8020/%e5%94%af%e5%93%81%e4%bc%9a/index.html"><img src="images/icons/logo.jpg" alt="U袋网" class="cover"></a>
 				<div class="title">个人中心</div>
 			</div>
 		</div>
@@ -46,22 +46,22 @@
 	<div class="content clearfix bgf5">
 		<section class="user-center inner clearfix">
 			<div class="pull-left bgf">
-				<a href="udai_welcome.html" class="title">U袋欢迎页</a>
+				<a href="http://192.168.50.238:8083/udai_welcome.html" class="title">U袋欢迎页</a>
 				<dl class="user-center__nav">
 					<dt>帐户信息</dt>
-					<a href="udai_setting.html"><dd>个人资料</dd></a>
+					<a href="http://192.168.50.238:8083/udai_welcome.html"><dd>个人资料</dd></a>
 					<a href="udai_treasurer.html"><dd>资金管理</dd></a>
 					<a href="udai_integral.html"><dd>积分平台</dd></a>
-					<a href="udai_address.html"><dd>收货地址</dd></a>
-					<a href="udai_coupon.html"><dd>我的优惠券</dd></a>
+					<a href="http://192.168.50.238:8083/udai_address.html"><dd>收货地址</dd></a>
+					<a href="http://192.168.50.208:8083/html/tickets.html"><dd>我的优惠券</dd></a>
 					<a href="udai_paypwd_modify.html"><dd>修改支付密码</dd></a>
-					<a href="udai_pwd_modify.html"><dd>修改登录密码</dd></a>
+					<a href="http://192.168.50.238:8083/logins.html?p=resetpwd"><dd>修改登录密码</dd></a>
 				</dl>
 				<dl class="user-center__nav">
 					<dt>订单中心</dt>
-					<a href="udai_order.html"><dd class="active">我的订单</dd></a>
-					<a href="udai_collection.html"><dd>我的收藏</dd></a>
-					<a href="udai_refund.html"><dd>退款/退货</dd></a>
+					<a href="http://192.168.51.236:7080/wphorder.html"><dd class="active">我的订单</dd></a>
+					<a href="http://192.168.51.252:8084/udai_collection.html"><dd>我的收藏</dd></a>
+					<a href="http://192.168.51.236:7080/udai_refund.html"><dd>退款/退货</dd></a>
 				</dl>
 				<dl class="user-center__nav">
 					<dt>服务中心</dt>
@@ -87,16 +87,65 @@
 				</dl>
 			</div>
 			<script>
-				$(function () {
-                    var url=decodeURI(window.location.href);
-                    var value;
-                    if(url.indexOf("?")!=-1){
-                        var str = url.substr(1);
-                        strs = str.split("&");
-                        var key=strs[0].split("=")[0]
-                        value=unescape(strs[0].split("=")[1]);
+                var ip="192.168.51.236"
+                Date.prototype.Format = function (fmt){
+                    var o = {
+                        "M+": this.getMonth() + 1,  //月份
+                        "d+": this.getDate() ,  //日
+                        "h+": this.getHours() ,  //24小时制
+                        "m+": this.getMinutes(),  //分
+                        "s+": this.getSeconds(),  //秒
+                        "q+": Math.floor((this.getMonth()+3)/3),  //季度
+                        "S": this.getMilliseconds()  //毫秒
+                    };
+                    if(/(y+)/.test(fmt))
+                        fmt = fmt.replace(RegExp.$1,(this.getFullYear()+"").substr(4-RegExp.$1.length));
+                    for(var k in o)
+                        if(new RegExp("("+k+")").test(fmt))
+                            fmt = fmt.replace(RegExp.$1,(RegExp.$1.length ==1) ? (o[k]):(("00"+o[k]).substr((""+o[k]).length)));
+                    return fmt;
+
+                };
+
+                //其次，对方法进行封装
+                function formatTime(timeSecond){
+                    var d = new Date(timeSecond);//注意timeSecond是毫秒
+                    return d.Format("yyyy-MM-dd hh:mm:ss");
+                }
+                //倒计时方法
+                function timer(intDiff){
+                    window.setInterval(function(){
+                        var day=0,
+                            hour=0,
+                            minute=0,
+                            second=0;//时间默认值
+                        if(intDiff > 0){
+                            day = Math.floor(intDiff / (60 * 60 * 24));
+                            hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                            minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                            second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+                        }
+                        if (minute <= 9) minute = '0' + minute;
+                        if (second <= 9) second = '0' + second;
+                        if (minute!=null||second!=null){
+                            $('#minute_show').html('<s></s>'+minute+':');
+                            $('#second_show').html('<s></s>'+second+'');
+						}
+                        intDiff--;
+                    }, 1000);
+                }
+                //读取url参数值
+                function GetQueryString(name)
+                {
+                    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                    var r = window.location.search.substr(1).match(reg);
+                    if (r != null) {
+                        return unescape(r[2]);
                     }
-                    var orderId
+                    return null;
+                };
+				$(function () {
+                    var orderId=GetQueryString("orderId")
                     var orderMoney
                     var orderTime
                     var orderMoney
@@ -104,19 +153,46 @@
 					var orderNo
 					var orderpaynumber
                     $.ajax({
-                        url: "/selectOne",
+                        url: "http://"+ip+":7080/selectOne",
                         dataType:"json",
 						type:"post",
-                        data:{orderId:value},
+                        data:{orderId:orderId},
                         success: function (resut) {
+                            console.log(resut)
                             orderId=resut[0].orderId
                             orderMoney=resut[0].orderMoney
                             orderTime=resut[0].orderTime
-                            orderMoney=resut[0].orderMoney
+                            orderTime=formatTime(orderTime)
                             orderadress=resut[0].orderadress
                             orderNo=resut[0].orderNo
                             orderpaynumber=resut[0].orderpaynumber
+                            ordertuihuoshibai=resut[0].ordertuihuoshibai
+							var state=resut[0].orderState
+							if(state==0){
+							    state="未支付"
+							}else if(state==1){
+                                state="已取消"
+							}else if (state==2){
+                                state="待收货"
+                            }else if(state==3){
+                                state="待发货"
+                            }else if (state==4){
+                                state="待评价"
+                            }else if(state==50 ||state==51){
+                                state="申请退款中"
+                   	 		}else if (state==6){
+                                state="退款成功"
+							}
+                            s=resut[0].s
+							if(orderpaynumber==null){
+                                orderpaynumber="还未支付"
+							}
+                            orderwaybill=resut[0].orderwaybill
+							if(orderwaybill==null) {
+                                orderwaybill = "还未发货"
+                            }
 							list=resut[0].wphOrderShoping
+                            timer(s)
 							for (i=0;i<list.length;i++) {
                                 var orderShopingNum=list[i].orderShopingNum
                                 var ordershopingmoney=list[i].ordershopingmoney
@@ -125,24 +201,27 @@
                                 var skuname=list[i].skuname
 								str='<div class="item"><div class="tdf3"><a href="item_show.html"><div class="img">' +
 									'<img src="' + picture + '" alt="" class="cover"></div><div class="ep2 c6">'+ skuname +'</div></a></div>' +
-									'<div class=\"tdf1\"><a href=\"order_evaluate.html\">待评价</a><!-- 已确认收货 --></div>' +
+									'<div class=\"tdf1\"><a href=\"order_evaluate.html\">'+state+'</a><!-- 已确认收货 --></div>' +
 									'<div class=\"tdf1\">'+orderShopingNum+'</div><div class=\"tdf1\">¥'+ordershopingmoney+'</div><div class=\"tdf2\"><div class=\"ep2\">活动8折优惠<br>优惠：¥4.0</div></div>' +
 									'<div class=\"tdf1\">¥'+skumoney+'</div><div class=\"tdf1\"><div class=\"ep2\">快递<br>¥0.00</div></div> </div>'
 								$('.order-item__list').append(str)
 								$('.title').html(orderNo)
 								$('#aaa').html(orderadress)
-                                var str1='<table> <tr> <td>订单编号：'+orderNo+'</td> <td>支付宝交易号：'+orderpaynumber+'</td> <td>创建时间：2017-09-20 08:05:45</td> </tr> </table>'
-								$('.order-info').append(str1)
+
 								$('#bbb').html(orderMoney)
 							}
+                            var str1='<table> <tr> <td>订单编号：'+orderNo+'</td> <td>支付宝交易号：'+orderpaynumber+'</td> <td>创建时间：<span id="ccc">'+orderTime+'</span></td> </tr><tr><td>物流单号:'+orderwaybill+'</td></tr></table>'
+							if (ordertuihuoshibai!=null){
+                                str1='<table> <tr> <td>订单编号：'+orderNo+'</td> <td>支付宝交易号：'+orderpaynumber+'</td> <td>创建时间：<span id="ccc">'+orderTime+'</span></td> </tr><tr><td>物流单号:'+orderwaybill+'</td><td>不同意退款的理由:'+ordertuihuoshibai+'</td></td></tr></table>'
+							}
+                            $('.order-info').append(str1)
                         }
                     })
-
                 })
 			</script>
 			<div class="pull-right">
 				<div class="user-content__box clearfix bgf">
-					订单中心-订单:<div class="title"></div>
+					订单中心-订单:<div class="title"></div><strong id="minute_show"></strong><strong id="second_show"></strong>
 					<div class="order-info__box">
 						<div class="order-addr">收货地址：<span class="c6" id="aaa"></span></div>
 						<div class="order-info">
@@ -161,7 +240,7 @@
 						<div class="order-item__list">
 						</div>
 						<div class="price-total">
-							<div class="fz12 c9">使用优惠券【满￥20.0减￥2.0】优惠￥2.0元<br>快递运费 ￥0.0</div>
+							<!--<div class="fz12 c9">使用优惠券【满￥20.0减￥2.0】优惠￥2.0元<br>快递运费 ￥0.0</div>-->
 							<div class="fz18 c6">实付款：<b class="cr">¥<span id="bbb"></span></b></div>
 							<div class="fz12 c9">（本单可获 <span class="c6">380</span> 积分）</div>
 						</div>
@@ -174,31 +253,31 @@
 	<div class="right-nav">
 		<ul class="r-with-gotop">
 			<li class="r-toolbar-item">
-				<a href="udai_welcome.html" class="r-item-hd">
+				<a href="http://192.168.50.238:8083/udai_welcome.html" class="r-item-hd">
 					<i class="iconfont icon-user" data-badge="0"></i>
 					<div class="r-tip__box"><span class="r-tip-text">用户中心</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="udai_shopcart.html" class="r-item-hd">
+				<a href="http://192.168.51.236:8080/wphshopcart.html" class="r-item-hd">
 					<i class="iconfont icon-cart"></i>
 					<div class="r-tip__box"><span class="r-tip-text">购物车</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="udai_collection.html" class="r-item-hd">
+				<a href="http://192.168.51.252:8084/udai_collection.html" class="r-item-hd">
 					<i class="iconfont icon-aixin"></i>
 					<div class="r-tip__box"><span class="r-tip-text">我的收藏</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="" class="r-item-hd">
+				<a href="http://192.168.50.208/html/connectService.html" class="r-item-hd">
 					<i class="iconfont icon-liaotian"></i>
 					<div class="r-tip__box"><span class="r-tip-text">联系客服</span></div>
 				</a>
 			</li>
 			<li class="r-toolbar-item">
-				<a href="issues.html" class="r-item-hd">
+				<a href="http://192.168.50.208/html/connectService.html" class="r-item-hd">
 					<i class="iconfont icon-liuyan"></i>
 					<div class="r-tip__box"><span class="r-tip-text">留言反馈</span></div>
 				</a>

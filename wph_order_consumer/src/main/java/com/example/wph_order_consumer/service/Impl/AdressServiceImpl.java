@@ -1,7 +1,7 @@
-package com.example.wph_shopcar_consumer.service.Impl;
+package com.example.wph_order_consumer.service.Impl;
 
-import com.example.wph_shopcar_consumer.pojo.WphUserAddress;
-import com.example.wph_shopcar_consumer.service.AdressService;
+import com.example.wph_order_consumer.pojo.WphUserAddress;
+import com.example.wph_order_consumer.service.AdressService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,8 +11,8 @@ public class AdressServiceImpl implements AdressService {
 
 
     @Override
-    public List<WphUserAddress> selectAll(int id) {
-        return null;
+    public String selectAll(Integer id) {
+        return "查询失败";
     }
 
     @Override
@@ -23,5 +23,10 @@ public class AdressServiceImpl implements AdressService {
     @Override
     public String update(WphUserAddress wphUserAddress) {
         return "修改失败";
+    }
+
+    @Override
+    public String updateState(Integer addId,Integer addState) {
+        return "修改默认地址异常";
     }
 }

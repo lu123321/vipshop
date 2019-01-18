@@ -18,7 +18,7 @@ public interface WphOrderShopingService {
      * @param num 商品数量
      * @return
      */
-    int insert(Integer orderid,String skuSerialnumber,Integer num,Integer money);
+    int insert(Integer orderid,String skuSerialnumber,Integer num,double money,String skuname,double skumoney,String picture,Integer brand);
 
 
     /**

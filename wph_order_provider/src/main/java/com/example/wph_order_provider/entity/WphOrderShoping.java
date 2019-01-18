@@ -26,13 +26,23 @@ public class WphOrderShoping implements Serializable {
     private Integer orderShopingNum;
 
     //订单商品小计
-    private Integer ordershopingmoney;
+    private double ordershopingmoney;
 
     private String skuname;//
 
     private Integer skumoney;//
 
     private String picture;  //
+
+    private Integer orderbrand;
+
+    public Integer getOrderbrand() {
+        return orderbrand;
+    }
+
+    public void setOrderbrand(Integer orderbrand) {
+        this.orderbrand = orderbrand;
+    }
 
     public String getSkuname() {
         return skuname;
@@ -58,11 +68,11 @@ public class WphOrderShoping implements Serializable {
         this.picture = picture;
     }
 
-    public Integer getOrdershopingmoney() {
+    public double getOrdershopingmoney() {
         return ordershopingmoney;
     }
 
-    public void setOrdershopingmoney(Integer ordershopingmoney) {
+    public void setOrdershopingmoney(double ordershopingmoney) {
         this.ordershopingmoney = ordershopingmoney;
     }
 

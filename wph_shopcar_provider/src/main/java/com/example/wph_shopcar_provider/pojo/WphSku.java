@@ -17,7 +17,7 @@ public class WphSku implements Serializable {
     //商品数量
     private Integer skuNumber;
     //商品价格
-    private double skuMoney;
+    private Integer skuMoney;
     //商品编号
     private String skuSerialnumber;
     //商品具体名称
@@ -58,11 +58,11 @@ public class WphSku implements Serializable {
         this.skuNumber = skuNumber;
     }
 
-    public double getSkuMoney() {
+    public Integer getSkuMoney() {
         return skuMoney;
     }
 
-    public void setSkuMoney(double skuMoney) {
+    public void setSkuMoney(Integer skuMoney) {
         this.skuMoney = skuMoney;
     }
 

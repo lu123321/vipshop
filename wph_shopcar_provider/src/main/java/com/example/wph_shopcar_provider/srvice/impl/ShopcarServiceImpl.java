@@ -1,7 +1,8 @@
 package com.example.wph_shopcar_provider.srvice.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
+
+
 import com.example.wph_shopcar_provider.pojo.Kc;
 import com.example.wph_shopcar_provider.pojo.Shoping;
 import com.example.wph_shopcar_provider.pojo.WphSku;
@@ -37,6 +38,7 @@ public class ShopcarServiceImpl implements ShopcarService{
      */
     @RabbitListener(queues = RabbitConfig.YS_Queue)
     public void geta(String shoping1){
+        System.out.println("进来啦");
         Shoping shoping= JSON.parseObject(shoping1,Shoping.class);
         Integer id=shoping.getUserid();
         long s=redisUtil.getExpire("["+id+"]shopcart");
@@ -65,15 +67,18 @@ public class ShopcarServiceImpl implements ShopcarService{
      * @param listnumber json中包含
      */
     @Override
-    public String wph_shopcart_add(String listnumber,Integer userid) {
+    public String wph_shopcart_add(String listnumber) {
         boolean flag;
         Map<String,Object> wphSkuMap=new HashMap<String,Object>();
         List list=JSON.parseArray(listnumber);
+
+        System.out.println("listnumber = [" + listnumber + "]");
         String skuserialnumber=(String)list.get(1);
         String skuname=(String)list.get(0);
         Double skumoney=Double.parseDouble((String) list.get(2));
         String skupicture=(String)list.get(3);
         Integer skunum=Integer.parseInt((String) list.get(4));
+        Integer userid=(Integer)list.get(7);
         Shoping shoping=new Shoping();
         shoping.setShopingname(skuname);
         shoping.setShopingnumber(skuserialnumber);
@@ -83,6 +88,8 @@ public class ShopcarServiceImpl implements ShopcarService{
         shoping.setBrand(Integer.parseInt((String) list.get(5)));
         shoping.setSpuid(Integer.parseInt((String)list.get(6)));
         shoping.setUserid(userid);
+        shoping.setShopingprice(skunum*skumoney);
+
         if(skunum>2){
             kc.setSkunum(skunum);
             kc.setSkunumber(skuserialnumber);
@@ -108,11 +115,12 @@ public class ShopcarServiceImpl implements ShopcarService{
                 return "不能增加啦";
             }
             shoping1.setShopingnum(2);
+            shoping1.setShopingprice(2*shoping1.getShopingmoney());
             wphSkuMap.put(skuserialnumber,shoping1);
             flag=redisUtil.hmset("["+userid+"]shopcart",wphSkuMap);
         }else{
             wphSkuMap.put(skuserialnumber,shoping);
-            flag=redisUtil.hmset("["+userid+"]shopcart",wphSkuMap,60);//存放至redis中;设置20分钟过期时间;单位秒
+            flag=redisUtil.hmset("["+userid+"]shopcart",wphSkuMap,60*20);//存放至redis中;设置20分钟过期时间;单位秒
         }
 
         //将信息存至延时队列进行监听
@@ -132,22 +140,32 @@ public class ShopcarServiceImpl implements ShopcarService{
      * @param userid 测试参数,暂定为用户id或商品编号
      */
     @Override
-    public void wph_shopcart_del(String userid,String skuserialnumber) {
+    public void wph_shopcart_del(Integer userid,String skuserialnumber) {
         System.out.println(" skuserialnumber = [" + skuserialnumber + "]");
         Map<String,Object> wphSkuMap=new HashMap<String,Object>();
         Shoping shoping=(Shoping) redisUtil.hget("["+userid+"]shopcart",skuserialnumber);//获取其中商品列表
-        Integer skunum=(Integer)shoping.getShopingnum();
         Map map=new HashMap();
         map.put(skuserialnumber,shoping);
         redisUtil.hmset("["+userid+"]shophistroy", map);//将其存入购物历史
         redisUtil.hdel("["+userid+"]shopcart",skuserialnumber);
-        kc.setBrand( shoping.getBrand());
+        System.out.println("品牌是"+shoping.getBrand());
+        kc.setBrand(shoping.getBrand());
         kc.setSkunumber(shoping.getShopingnumber());
         kc.setSkunum(shoping.getShopingnum());
         List li=new ArrayList();
         li.add(kc);
         rabbitTemplate.convertAndSend(RabbitConfig.FKC_Queue, JSON.toJSONString(li));//返库存
     }
+
+    public void del(Integer userid){
+        redisUtil.del("["+userid+"]shopcart");
+    }
+
+    @Override
+    public Integer selchopingnum(Integer userid) {
+        return redisUtil.hmget("["+userid+"]shopcart").size();
+    }
+
 
     /**
      * 修改商品数量
@@ -158,15 +176,16 @@ public class ShopcarServiceImpl implements ShopcarService{
     public void wph_shopcart_update(Integer userid,String shoping){
         Map<String,Object> wphSkuMap=new HashMap<String,Object>();
         List list= JSON.parseArray(shoping);
-        for(int i=0;i<list.size();i++){
-            List a=JSON.parseArray((String) list.get(i));
-            String skunumber=(String) a.get(0);
-            Integer num=Integer.parseInt((String) list.get(1));
-            List b =(List) redisUtil.hget("["+userid+"]shopcart",skunumber);
-            b.set(4,num);
+
+            String skunumber=(String) list.get(0);
+            Integer num= (Integer) list.get(1);
+            Shoping b =(Shoping) redisUtil.hget("["+userid+"]shopcart",skunumber);
+            b.setShopingnum(num);
+            double money=num*b.getShopingmoney();
+            b.setShopingprice(money);
             wphSkuMap.put(skunumber,b);
             redisUtil.hmset("["+userid+"]shopcart",wphSkuMap);
-        }
+
     }
 
     /**
@@ -175,9 +194,17 @@ public class ShopcarServiceImpl implements ShopcarService{
      * @return
      */
     @Override
-    public Map wph_shopcart_sel(String id) {
+    public Map wph_shopcart_sel(Integer id) {
         Map map= redisUtil.hmget("["+id+"]shopcart");
-        return map;
+        Long s=redisUtil.getExpire("["+id+"]shopcart");
+        Set set=map.keySet();
+        Map map1=new HashMap();
+        for(Object a:set){
+            Shoping b=(Shoping) map.get(a);
+            b.setS(s);
+            map1.put(b.getShopingnumber(),b);
+        }
+        return map1;
     }
 
     /**
@@ -186,7 +213,7 @@ public class ShopcarServiceImpl implements ShopcarService{
      * @return
      */
     @Override
-    public Map wph_shophistroy_sel(String id) {
+    public Map wph_shophistroy_sel(Integer id) {
         Map map= redisUtil.hmget("["+id+"]shophistroy");
         return map;
     }

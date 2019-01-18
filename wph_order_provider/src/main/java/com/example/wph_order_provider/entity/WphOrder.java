@@ -23,7 +23,11 @@ public class WphOrder implements Serializable {
     private String orderNo;
 
 
-    //订单状态 未支付0, 已取消1, 待收货2, 待发货3, 待评价4
+    //订单状态 未支付0, 已取消1, 待收货2, 待发货3, 待评价4, 申请退款5,
+    // 50为未发货
+    // 51为已发货
+    // 退款成功6
+    // 交易成功7
     private Integer orderState;
 
     //下单时间
@@ -36,7 +40,7 @@ public class WphOrder implements Serializable {
     private String orderPayment;
 
     //支付金额
-    private Integer orderMoney;
+    private double orderMoney;
 
     //支付单号
     private String orderpaynumber;
@@ -47,6 +51,8 @@ public class WphOrder implements Serializable {
     //收货地址
     private String orderadress;
 
+    //退款失败理由
+    private String ordertuihuoshibai;
 
     public Integer getOrderId() {
         return orderId;
@@ -96,11 +102,11 @@ public class WphOrder implements Serializable {
         this.orderPayment = orderPayment;
     }
 
-    public Integer getOrderMoney() {
+    public double getOrderMoney() {
         return orderMoney;
     }
 
-    public void setOrderMoney(Integer orderMoney) {
+    public void setOrderMoney(double orderMoney) {
         this.orderMoney = orderMoney;
     }
 
@@ -130,5 +136,13 @@ public class WphOrder implements Serializable {
 
     public void setOrderadress(String orderadress) {
         this.orderadress = orderadress;
+    }
+
+    public String getOrdertuihuoshibai() {
+        return ordertuihuoshibai;
+    }
+
+    public void setOrdertuihuoshibai(String ordertuihuoshibai) {
+        this.ordertuihuoshibai = ordertuihuoshibai;
     }
 }

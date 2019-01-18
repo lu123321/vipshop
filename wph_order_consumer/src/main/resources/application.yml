@@ -6,10 +6,18 @@ spring:
   sleuth:
     sampler:
       percentage: 1.0
+    zipkin:
+      base-url: http://192.168.51.252:7070
+
 eureka:
   client:
     service-url:
       defaultZone: http://root:123456@123.206.255.244:7776/eureka/
+      instance:
+        hostname: localhost
+        instance-id: localhost:${server.port}
 feign:
   hystrix:
     enabled: true
+logging:
+  level: info

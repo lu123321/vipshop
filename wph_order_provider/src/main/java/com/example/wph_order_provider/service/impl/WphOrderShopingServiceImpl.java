@@ -16,8 +16,8 @@ public class WphOrderShopingServiceImpl implements WphOrderShopingService {
 
 
     @Override
-    public int insert(Integer orderid, String skuSerialnumber, Integer num,Integer money) {
-        return wphOrderShopingDao.insert(orderid,skuSerialnumber,num,money);
+    public int insert(Integer orderid, String skuSerialnumber, Integer num,double money,String skuname,double skumoney,String picture,Integer brand) {
+        return wphOrderShopingDao.insert(orderid,skuSerialnumber,num,money,skuname,skumoney,picture,brand);
     }
 
     @Override
