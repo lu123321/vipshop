@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_service_provider.dao.SuggestionsDao">
+
+    <!--这个里面包含了字段映射，也包含了返回值类型，所以一般是查的时候用-->
+    <resultMap type="com.example.wph_service_provider.entity.Suggestions" id="SuggestionsMap">
+        <result property="sugid" column="sugid" jdbcType="INTEGER"/>
+        <result property="sugtype" column="sugtype" jdbcType="VARCHAR"/>
+        <result property="sugtitle" column="sugtitle" jdbcType="VARCHAR"/>
+        <result property="sugcontent" column="sugcontent" jdbcType="VARCHAR"/>
+        <result property="sugemail" column="sugemail" jdbcType="VARCHAR"/>
+        <result property="uid" column="uid" javaType="INTEGER"/>
+        <result property="creatTime" column="creatTime" javaType="STRING"></result>
+        <result property="c1" column="c1" javaType="INTEGER"></result>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SuggestionsMap">
+        select
+          sugid, sugtype, sugtitle, sugcontent, sugemail , uid,creatTime,c1
+        from test2.suggestions
+        where sugid = #{sugid}
+    </select>
+
+
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SuggestionsMap">
+        select
+          sugid, sugtype, sugtitle, sugcontent, sugemail,uid,creatTime,c1
+        from test2.suggestions
+        limit #{offset}, #{limit}
+    </select>
+
+
+    <!--    //用户通过id查看自己提交的建议
+    //用户通过id和提交时间查看自己提交的建议
+    //商家通过时间查看用户提交的建议
+    //商家通过id查看特定用户提交的建议-->
+    <select id="queryAll" resultMap="SuggestionsMap">
+        select
+          sugid, sugtype, sugtitle, sugcontent, sugemail,uid,creatTime
+        from test2.suggestions
+        <where>
+            <if test="sugid != null">
+                and sugid = #{sugid}
+            </if>
+            <if test="sugtype != null and sugtype != ''">
+                and sugtype = #{sugtype}
+            </if>
+            <if test="sugtitle != null and sugtitle != ''">
+                and sugtitle = #{sugtitle}
+            </if>
+            <if test="sugcontent != null and sugcontent != ''">
+                and sugcontent = #{sugcontent}
+            </if>
+            <if test="sugemail != null and sugemail != ''">
+                and sugemail = #{sugemail}
+            </if>
+            <if test="uid != null and uid != ''">
+                and uid = #{uid}
+            </if>
+            <if test="creatTime != null and creatTime != ''">
+                and creatTime = #{creatTime}
+            </if>
+            <if test="c1 != null and c1 != ''">
+                and c1 = #{c1}
+            </if>
+        </where>
+        order by sugid  desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="sugid" useGeneratedKeys="true">
+        insert into test2.suggestions(sugtype, sugtitle, sugcontent, sugemail,uid,creatTime,c1)
+        values (#{sugtype}, #{sugtitle}, #{sugcontent}, #{sugemail},#{uid},#{creatTime},#{c1})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update test2.suggestions
+        <set>
+            <if test="sugtype != null and sugtype != ''">
+                sugtype = #{sugtype},
+            </if>
+            <if test="sugtitle != null and sugtitle != ''">
+                sugtitle = #{sugtitle},
+            </if>
+            <if test="sugcontent != null and sugcontent != ''">
+                sugcontent = #{sugcontent},
+            </if>
+            <if test="sugemail != null and sugemail != ''">
+                sugemail = #{sugemail},
+            </if>
+            <if test="creatTime != null and creatTime != ''">
+                creatTime = #{creatTime},
+            </if>
+            <if test="c1 != null and c1 != ''">
+                c1 = #{c1}
+            </if>
+        </set>
+        where sugid = #{sugid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from test2.suggestions where sugid = #{sugid}
+    </delete>
+
+
+    <!--查询两个时间点之间的数据-->
+    <select id="getBetween" parameterType="String" resultMap="SuggestionsMap" >
+        select sugid, sugtype, sugtitle, sugcontent, sugemail,uid,c1 from suggestions
+        WHERE  STR_TO_DATE(creatTime,'%Y-%m-%d') BETWEEN STR_TO_DATE(#{creatTime1},'%Y-%m-%d')
+        and STR_TO_DATE(#{creatTime2},'%Y-%m-%d');
+    </select>
+
+
+</mapper>

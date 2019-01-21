@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <!--<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,member-scalable=no" />-->
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="../js//html5.js"></script>
+    <script type="text/javascript" src="../js//respond.min.js"></script>
+    <script type="text/javascript" src="../js//PIE_IE678.js"></script>
+    <![endif]-->
+    <link href="../css/H-ui.min.css" rel="stylesheet" type="text/css" />
+    <!--<link href="../css/H-ui.admin.css" rel="stylesheet" type="text/css" />-->
+    <link href="../css/iconfont.css" rel="stylesheet" type="text/css" />
+    <!--[if IE 6]>
+    <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <![endif]-->
+    <title>意见反馈</title>
+    <script src="../js/jquery-1.9.1.min.js"></script>
+</head>
+<script>
+
+
+
+
+    $(function () {
+
+        var hmyIp = "192.168.43.144";
+
+
+
+        /*页面传值（页面B [接收]）*/
+        // 接收
+        var url = window.location.search;
+        var urlResult = [];
+        var arrUrl = url.substr(1).split("&");
+        //遍历
+        for (var j = 0; j < arrUrl.length; j++) {
+            urlResult[j] = decodeURI(arrUrl[j].split("=")[1]);
+        }
+
+        var id = urlResult[0];
+
+
+        if(id ==null||id ==""){
+            location.replace("http://"+hmyIp+":8083/login.html")
+        }
+
+        //定义全局变量
+        var index = 1;
+        var pageSize = 5;
+        var count;
+        //显示反馈总条数
+        $.getJSON(
+            "/titlePageCount",
+            function (result) {
+                $(".stron").html(result)
+                count = Math.ceil(result/pageSize)
+
+            }
+        )
+
+
+
+        //页面刚加载就执行这个
+        onload=function () {
+            show1(1)
+        }
+
+        //点击首页
+        $("#first").click(function () {
+            index = 1;
+            show1(index)
+        })
+
+        //点击上一页
+        $("#up").click(function () {
+            index --;
+            if (index <1)
+                index = 1;
+                show1(index)
+
+        })
+
+        //点击下一页
+        $("#down").click(function () {
+            index ++;
+            if (index > count )
+                index = count;
+            show1(index)
+        })
+
+        //点击最后一页
+        $("#last").click(function () {
+            index = count;
+            show1(index)
+        })
+
+        //点击跳到第几页
+        $("[name=tt]").blur(function () {
+            var a = $("[name=tt]").val();
+            index = a ;
+            if (index <1){
+                index = 1;
+                $("[name=tt]").val(index)
+            }else if (index > count){
+                index = count;
+                $("[name=tt]").val(index)
+            }
+            show1(index);
+        })
+
+
+
+
+        //删除反馈
+        $(document).on("click","#deleteById",function () {
+            var del = confirm("确定删除吗？");
+            if (del == true){
+                $.post(
+                    "/deleteById",
+                    "sugid="+$(this).val(),
+                    function (result) {
+                        alert(result)
+                        location.reload()
+                    }
+                )
+            }
+
+        })
+
+
+
+
+        //这是定义了一个方法，把index当做一个参数传递进来
+        //上面是不同时间对index进行处理,把index传到方法里面
+        function show1(index) {
+            //列出全部反馈信息
+            $.getJSON(
+                "/queryAll",
+                "index="+index+"&pageSize="+pageSize,
+                function (result) {
+                    console.log(result)
+                    var str ="";
+                    for (var i = 0 ;i < result.length; i++){
+                        count;
+                        // alert(JSON.stringify(result))
+                        str = str +
+                            "<tr class= 'text-c'>"+
+                            "<td><input type='checkbox' name='deletep' value=' "+result[i].sugid+" '></td>"+
+                            "<td>"+(i+1)+"</td>"+
+                            "<td>"+result[i].uid+"</td>"+
+                            "<td class='text-l'>"+"<div class='c-999 f-12'>" +
+                            "<u class='text-primary'>"+result[i].creatTime+"&nbsp;&nbsp;&nbsp;"+result[i].sugemail+"</u> "+
+                            "</div>"+
+                            "<u>"+result[i].sugcontent+"</u>"+
+                            "</td>"+
+                            "<td class='text-center'>"+
+                            // "<button type='button' class='btn bg-olive btn-xs'  " +
+                            // " value= ' "+ result[i].sugid +" '  id='updateCoupon'>回复</button>"+
+                            "<button type='button' class='btn bg-olive btn-xs'  value=' "+result[i].sugid+" ' " +
+                            "id='deleteById'>"+ "删除"+ "</button> " +
+                            "</td>"+
+                            "</tr>"
+
+                    }
+                    //html（)赋值没有value的，大部分用它，html也可以识别标签。text不识别标签。append是追加。
+                    $("#dt").html(str)
+                    //input 框中有value属性，所以用val()来赋值。好像只能赋值input的
+                    $("#in").val(index)
+                    $("#last").val(count)
+                    $("#in1").val(count)
+                }
+            )
+
+        }
+
+
+    })
+    
+
+
+
+
+
+</script>
+
+
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 评论管理 <span class="c-gray en">&gt;</span> 意见反馈 <a class="btn btn-success radius r mr-20" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="pd-20">
+    <!--<div class="text-c"> 日期范围：-->
+        <!--<input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})" id="datemin" class="input-text Wdate" style="width:120px;">-->
+         <!-- - -->
+        <!--<input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})" id="datemax" class="input-text Wdate" style="width:120px;">-->
+        <!--<input type="text" class="input-text" style="width:250px" placeholder="输入关键词"  >-->
+        <!--<button type="submit" class="btn btn-success radius"  name=""><i class="Hui-iconfont">&#xe665;</i> 搜意见</button>-->
+    <!--</div>-->
+    <div class="cl pd-5 bg-1 bk-gray mt-20">  <span class="l">共有数据：<strong class="stron"></strong> 条</span> </div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-hover table-bg table-sort">
+            <thead>
+            <tr class="text-c">
+                <th width="25"><input type="checkbox" name="" value=""></th>
+                <th width="60">ID</th>
+                <th width="60">用户名</th>
+                <th>留言内容</th>
+                <th width="100">操作</th>
+            </tr>
+            </thead>
+            <tbody id="dt"></tbody>
+
+        </table>
+        <button id="first">首页</button>
+        <button id="up">上一页</button>
+        <button id="down">下一页</button>
+        <button id="last">尾页</button>
+        当前第<input id="in">页/共<input id="in1">页,跳到第<input type="text" name="tt">页
+    </div>
+</div>
+
+
+</body>
+</html>

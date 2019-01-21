@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wphticketsprovider.dao.LogisticsDao">
+
+    <resultMap type="com.example.wphticketsprovider.entity.Logistics" id="LogisticsMap">
+        <result property="logid" column="logid" jdbcType="INTEGER"/>
+        <result property="logisticcode" column="logisticCode" jdbcType="VARCHAR"/>
+        <result property="shippercode" column="shipperCode" jdbcType="VARCHAR"/>
+        <result property="expno" column="expNo" jdbcType="VARCHAR"/>
+        <result property="traces" column="traces" jdbcType="VARCHAR"/>
+        <result property="success" column="success" jdbcType="VARCHAR"/>
+        <result property="acceptstation" column="acceptStation" jdbcType="VARCHAR"/>
+        <result property="accepttime" column="acceptTime" jdbcType="TIMESTAMP"/>
+        <result property="state" column="state" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LogisticsMap">
+        select
+          logid, logisticCode, shipperCode, expNo, traces, success, acceptStation, acceptTime, state
+        from test2.logistics
+        where logid = #{logid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="LogisticsMap">
+        select
+          logid, logisticCode, shipperCode, expNo, traces, success, acceptStation, acceptTime, state
+        from test2.logistics
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <!--<select id="queryAll" resultMap="LogisticsMap">-->
+        <!--select-->
+          <!--logid, logisticCode, shipperCode, expNo, traces, success, acceptStation, acceptTime, state-->
+        <!--from test2.logistics-->
+        <!--<where>-->
+            <!--<if test="logid != null">-->
+                <!--and logid = #{logid}-->
+            <!--</if>-->
+            <!--<if test="logisticcode != null and logisticcode != ''">-->
+                <!--and logisticCode = #{logisticcode}-->
+            <!--</if>-->
+            <!--<if test="shippercode != null and shippercode != ''">-->
+                <!--and shipperCode = #{shippercode}-->
+            <!--</if>-->
+            <!--<if test="expno != null and expno != ''">-->
+                <!--and expNo = #{expno}-->
+            <!--</if>-->
+            <!--<if test="traces != null and traces != ''">-->
+                <!--and traces = #{traces}-->
+            <!--</if>-->
+            <!--<if test="success != null and success != ''">-->
+                <!--and success = #{success}-->
+            <!--</if>-->
+            <!--<if test="acceptstation != null and acceptstation != ''">-->
+                <!--and acceptStation = #{acceptstation}-->
+            <!--</if>-->
+            <!--<if test="accepttime != null">-->
+                <!--and acceptTime = #{accepttime}-->
+            <!--</if>-->
+            <!--<if test="state != null and state != ''">-->
+                <!--and state = #{state}-->
+            <!--</if>-->
+        <!--</where>-->
+    <!--</select>-->
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="logid" useGeneratedKeys="true">
+        insert into test2.logistics(logisticCode, shipperCode, expNo, traces, success, acceptStation, acceptTime, state)
+        values (#{logisticcode}, #{shippercode}, #{expno}, #{traces}, #{success}, #{acceptstation}, #{accepttime}, #{state})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update test2.logistics
+        <set>
+            <if test="logisticcode != null and logisticcode != ''">
+                logisticCode = #{logisticcode},
+            </if>
+            <if test="shippercode != null and shippercode != ''">
+                shipperCode = #{shippercode},
+            </if>
+            <if test="expno != null and expno != ''">
+                expNo = #{expno},
+            </if>
+            <if test="traces != null and traces != ''">
+                traces = #{traces},
+            </if>
+            <if test="success != null and success != ''">
+                success = #{success},
+            </if>
+            <if test="acceptstation != null and acceptstation != ''">
+                acceptStation = #{acceptstation},
+            </if>
+            <if test="accepttime != null">
+                acceptTime = #{accepttime},
+            </if>
+            <if test="state != null and state != ''">
+                state = #{state},
+            </if>
+        </set>
+        where logid = #{logid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from test2.logistics where logid = #{logid}
+    </delete>
+
+</mapper>

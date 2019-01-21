@@ -1,0 +1,102 @@
+@charset "utf-8";
+/* reset css */
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, fieldset, legend, input, button, textarea, p, th, td { margin: 0; padding: 0; }
+body { font-size: 12px; font-family: arial, \5B8B\4F53, sans-serif; background: #f3f1f4; color: #333; min-width: 1000px; }
+h1, h2, h3, h4, h5, h6, input, select, textarea { font-size: 100%; }
+table { border-collapse: collapse; }
+ul, ol { list-style: none; }
+em, i, address { font-style: normal; }
+fieldset, img { border: 0; }
+img { vertical-align: bottom; }
+a { color: #333; text-decoration: none; }
+a:hover { color: #f10180; }
+.clearfix:after { content: '.'; height: 0; display: block; clear: both; visibility: hidden; }
+.clearfix { *zoom: 1; }
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block; }
+/* clear */
+.fl { float: left; display: inline; }
+.fr { float: right; display: inline; }
+.hidden { display: none !important; }
+
+.ui-btn-big, .ui-btn-large, .ui-btn-nor, .ui-btn-medium, .ui-btn-small, .ui-btn-mini { display: inline-block; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; text-decoration: none; text-align: center; vertical-align: top; -webkit-transition: 0.3s; -moz-transition: 0.3s; transition: 0.3s; *white-space: nowrap; _overflow-y: hidden; }
+button.ui-btn-big, button.ui-btn-large, button.ui-btn-nor, button.ui-btn-medium, button.ui-btn-small, button.ui-btn-mini { overflow: visible; cursor: pointer; outline: none; *line-height: 1; }
+.ui-btn-big:hover, .ui-btn-large:hover, .ui-btn-nor:hover, .ui-btn-medium:hover, .ui-btn-small:hover, .ui-btn-mini:hover { text-decoration: none; }
+.ui-btn-left-icon { margin-right: 6px; }
+.ui-btn-right-icon { margin-left: 6px; }
+.ui-btn-big, .ui-btn-large { min-width: 72px; _width: 72px; padding: 0 35px; font: 18px/44px tahoma, arial, Hiragino Sans GB, WenQuanYi Micro Hei, '\5FAE\8F6F\96C5\9ED1', '\5B8B\4F53', sans-serif; _line-height: 48px; height: 44px; }
+button.ui-btn-big, button.ui-btn-large { height: 46px; }
+button.ui-btn-big .ui-btn-loading-after, button.ui-btn-large .ui-btn-loading-after { *margin-top: -30px; }
+.ui-btn-big .ui-btn-loading-after, .ui-btn-large .ui-btn-loading-after { margin-top: -44px; line-height: 42px; height: 42px; }
+.ui-btn-big .if-shopping-bag, .ui-btn-large .if-shopping-bag { font-size: 22px; vertical-align: -2px; }
+.ui-btn-big .if-card, .ui-btn-large .if-card { font-size: 20px; vertical-align: -2px; }
+.ui-btn-big .ii-loading, .ui-btn-large .ii-loading, .ui-btn-big .ii-loading-gray-16x16, .ui-btn-large .ii-loading-gray-16x16, .ui-btn-big .ii-loading-gray-24x24, .ui-btn-large .ii-loading-gray-24x24 { margin-top: 14px; }
+.ui-btn-nor, .ui-btn-medium { min-width: 60px; _width: 60px; padding: 0 19px; font: 15px/30px tahoma, arial, Hiragino Sans GB, WenQuanYi Micro Hei, '\5FAE\8F6F\96C5\9ED1', '\5B8B\4F53', sans-serif; _line-height: 32px; height: 30px; }
+button.ui-btn-nor, button.ui-btn-medium { height: 32px; }
+button.ui-btn-nor .ui-btn-loading-after, button.ui-btn-medium .ui-btn-loading-after { *margin-top: -25px; }
+.ui-btn-nor .ui-btn-loading-after, .ui-btn-medium .ui-btn-loading-after { margin-top: -30px; line-height: 28px; height: 28px; }
+.ui-btn-nor .vipFont, .ui-btn-medium .vipFont { font-size: 15px; vertical-align: text-top; _vertical-align: baseline; }
+.ui-btn-nor .ii-loading, .ui-btn-medium .ii-loading, .ui-btn-nor .ii-loading-gray-16x16, .ui-btn-medium .ii-loading-gray-16x16, .ui-btn-nor .ii-loading-gray-24x24, .ui-btn-medium .ii-loading-gray-24x24 { margin-top: 6px; }
+.ui-btn-small { min-width: 48px; _width: 48px; padding: 0 11px; font: 12px/22px tahoma, arial, Hiragino Sans GB, WenQuanYi Micro Hei, '\5FAE\8F6F\96C5\9ED1', '\5B8B\4F53', sans-serif; _line-height: 24px; height: 22px; }
+button.ui-btn-small { height: 24px; }
+button.ui-btn-small .ui-btn-loading-after { *margin-top: -20px; }
+.ui-btn-small .ui-btn-loading-after { margin-top: -22px; line-height: 20px; height: 20px; }
+.ui-btn-small .ii-loading, .ui-btn-small .ii-loading-gray-16x16, .ui-btn-small .ii-loading-gray-24x24 { margin-top: 2px; }
+.ui-btn-mini { min-width: 24px; _width: 24px; padding: 0 5px; font: 12px/20px tahoma, arial, Hiragino Sans GB, WenQuanYi Micro Hei, '\5FAE\8F6F\96C5\9ED1', '\5B8B\4F53', sans-serif; _line-height: 22px; height: 20px; }
+button.ui-btn-mini { height: 22px; }
+.ui-btn-mini .ui-btn-loading-after { margin-top: -20px; line-height: 18px; height: 18px; }
+.ui-btn-mini .ii-loading, .ui-btn-mini .ii-loading-gray-16x16, .ui-btn-mini .ii-loading-gray-24x24 { margin-top: 1px; }
+.ui-btn1, .ui-btn-primary { background-color: #f10180; border: 1px solid #f10180; }
+.ui-btn1, .ui-btn-primary, .ui-btn1:hover, .ui-btn-primary:hover, .ui-btn1:active, .ui-btn-primary:active, .ui-btn-primary.z-hover, .ui-btn-primary.z-active { color: #fff; }
+.ui-btn1:hover, .ui-btn-primary:hover, .ui-btn-primary.z-hover { background-color: #f43499; border-color: #f43499; }
+.ui-btn1:active, .ui-btn-primary:active, .ui-btn-primary.z-active { background-color: #d80173; border-color: #d80173; }
+.ui-btn2, .ui-btn-secondary { background-color: #fcedf2; border: 1px solid #ffbee0; }
+.ui-btn2, .ui-btn-secondary, .ui-btn2:hover, .ui-btn-secondary:hover, .ui-btn2:active, .ui-btn-secondary:active, .ui-btn-secondary.z-hover, .ui-btn-secondary.z-active { color: #e00078; }
+.ui-btn2:hover, .ui-btn-secondary:hover, .ui-btn-secondary.z-hover { background-color: #fbf5f7; }
+.ui-btn2:active, .ui-btn-secondary:active, .ui-btn-secondary.z-active { background-color: #fcdee8; }
+.ui-btn3, .ui-btn-default { background-color: #fafafa; border: 1px solid #c2c2c2; }
+.ui-btn3, .ui-btn-default, .ui-btn3:hover, .ui-btn-default:hover, .ui-btn3:active, .ui-btn-default:active, .ui-btn-default.z-hover, .ui-btn-default.z-active { color: #333; }
+.ui-btn3:hover, .ui-btn-default:hover, .ui-btn-default.z-hover { background-color: #fff; }
+.ui-btn3:active, .ui-btn-default:active, .ui-btn-default.z-active { background-color: #f0f0f0; }
+.ui-btn-home { background-color: #e9ae46; border: 1px solid #e9ae46; }
+.ui-btn-home, .ui-btn-home:hover, .ui-btn-home:active, .ui-btn-home.z-hover, .ui-btn-home.z-active { color: #fff; }
+.ui-btn-home:hover, .ui-btn-home.z-hover { background-color: #f2ba55; border-color: #f2ba55; }
+.ui-btn-home:active, .ui-btn-home.z-active { background-color: #e0a63d; border-color: #e0a63d; }
+.ui-btn-beauty { background-color: #eb437a; border: 1px solid #eb437a; }
+.ui-btn-beauty, .ui-btn-beauty:hover, .ui-btn-beauty:active, .ui-btn-beauty.z-hover, .ui-btn-beauty.z-active { color: #fff; }
+.ui-btn-beauty:hover, .ui-btn-beauty.z-hover { background-color: #f45293; border-color: #f45293; }
+.ui-btn-beauty:active, .ui-btn-beauty.z-active { background-color: #d42d6d; border-color: #d42d6d; }
+.ui-btn-kid { background-color: #32c7c0; border: 1px solid #32c7c0; }
+.ui-btn-kid, .ui-btn-kid:hover, .ui-btn-kid:active, .ui-btn-kid.z-hover, .ui-btn-kid.z-active { color: #fff; }
+.ui-btn-kid:hover, .ui-btn-kid.z-hover { background-color: #42cdc7; border-color: #42cdc7; }
+.ui-btn-kid:active, .ui-btn-kid.z-active { background-color: #28bcb3; border-color: #28bcb3; }
+.ui-btn-float { background-color: #4c4c4c; background: rgba(0, 0, 0, 0.7); filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#b2000000, endcolorstr=#b2000000); }
+.ui-btn-float, .ui-btn-float:hover, .ui-btn-float:active { color: #fff; }
+.ui-btn-float:hover { background-color: #191919; background: rgba(0, 0, 0, 0.9); filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#e5000000, endcolorstr=#e5000000); }
+.ui-btn-float:active { background: #000; -webkit-filter: none; filter: none; }
+:root .ui-btn-float, :root .ui-btn-float:hover { -webkit-filter: none; filter: none; }
+.ui-btn-disable, .ui-btn-disable:hover, .ui-btn-disable:active { border: 1px solid #d0d0d0; color: #999; background: #d0d0d0; cursor: not-allowed; }
+.ui-btn-loading, button.ui-btn-loading { padding: 0; position: relative; overflow: hidden; }
+.z-ui-btn-loading { -webkit-transition: none; -moz-transition: none; transition: none; }
+.z-ui-btn-loading .ui-btn-loading-before { -webkit-animation: ani-ui-loading-hide 0.6s; -moz-animation: ani-ui-loading-hide 0.6s; animation: ani-ui-loading-hide 0.6s; }
+.z-ui-btn-loading .ui-btn-loading-after { position: relative; display: block; -webkit-animation: ani-ui-loading-show 0.8s; -moz-animation: ani-ui-loading-show 0.8s; animation: ani-ui-loading-show 0.8s; }
+.ui-btn-loading-before { display: inline-block; }
+.ui-btn-loading-after { display: none; background-color: #d0d0d0; }
+.ui-btn-txt { display: inline-block; vertical-align: top; margin-left: 6px; }
+.ui-btn-fav { display: inline-block; width: 66px; line-height: 22px; _line-height: 25px; height: 21px; -webkit-border-radius: 11px; -moz-border-radius: 11px; border-radius: 11px; font-size: 12px; background-color: #f2f2f2; text-align: center; overflow: hidden; -webkit-transform: translateZ(0); -moz-transform: translateZ(0); -ms-transform: translateZ(0); transform: translateZ(0); }
+.ui-btn-fav a { -webkit-transition: 0.3s; -moz-transition: 0.3s; transition: 0.3s; }
+.ui-btn-fav a .vipFont { font-size: 13px; margin-right: 4px; vertical-align: -1px; _vertical-align: 0; }
+.ui-btn-fav-like { display: block; color: #f32b80; }
+.ui-btn-fav-like:hover { background-color: #f32b80; color: #fff; }
+.ui-btn-fav-cancel { display: none; }
+.ui-btn-fav-cancel span { color: #f32b80; display: block; }
+.z-fav-liked-leave .ui-btn-fav-cancel:hover { _zoom: 1; }
+.z-fav-liked-leave .ui-btn-fav-cancel:hover .liked { display: none; }
+.z-fav-liked .ui-btn-fav-like { display: none; }
+.z-fav-liked .ui-btn-fav-cancel { display: block; }
+.ui-btn-fav-simple { display: inline-block; position: relative; width: 16px; height: 16px; _overflow: hidden; }
+.ui-btn-fav-simple .icon { display: none; font-size: 15px; cursor: pointer; }
+.ui-btn-fav-simple .ui-icon-like { display: inline-block; color: #f785c2; }
+.ui-btn-fav-simple .ui-icon-like:hover { color: #f10280; -webkit-animation: ani-ui-fav-simple-hover 1.5s infinite; -moz-animation: ani-ui-fav-simple-hover 1.5s infinite; animation: ani-ui-fav-simple-hover 1.5s infinite; }
+.ui-btn-fav-simple:hover { _overflow: visible; color: #333; }
+.ui-btn-fav-simple:hover .ui-fav-tips-wrap { display: block; }
+.ui-btn-fav-simple:hover .ui-fav-tips-wrap .like { display: block; }

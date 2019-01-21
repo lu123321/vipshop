@@ -38,15 +38,28 @@ repositories {
 ext['springCloudVersion'] = 'Dalston.SR4'
 
 dependencies {
-    implementation('org.springframework.boot:spring-boot-starter-data-redis')
-    implementation('org.springframework.boot:spring-cloud-starter-feign')
-    implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
-    implementation('org.springframework.cloud:spring-cloud-starter-eureka')
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+    compile('org.springframework.boot:spring-boot-starter-data-redis')
+
+    compile('org.springframework.cloud:spring-cloud-starter-feign')
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web
+
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compile('com.alibaba:fastjson:1.1.15')
+
+    // kaptcha  注意这个依赖一定是penggle的，不要错了
+    compile group: 'com.github.penggle', name: 'kaptcha', version: '2.3.2'
+    compile('org.springframework.boot:spring-boot-starter-test')
 }
 
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/libs/lib"
+    from configurations.runtime
 }

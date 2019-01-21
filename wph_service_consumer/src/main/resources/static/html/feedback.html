@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/jquery.1.12.4.min.js" charset="UTF-8"></script>
+    <script src="../js/bootstrap.min.js" charset="UTF-8"></script>
+    <script src="../js/swiper.min.js" charset="UTF-8"></script>
+    <script src="../js/global.js" charset="UTF-8"></script>
+    <script src="../js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
+    <title>唯品会</title>
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <script>
+
+        $(function () {
+            var flag = 0;
+            //判定标题字数长度
+            $("[name=sugtitle]").blur(function () {
+                $.getJSON(
+                    "/length",
+                    "sugtitle=" + $("[name=sugtitle]").val(),
+                    function (result) {
+
+                        $("#vp").html(result).css({"color": "red"})
+
+                    })
+            })
+
+            //判定输入内容长度
+            $("[name=sugcontent]").blur(function () {
+
+                $.getJSON(
+                    "/sugcontentLength",
+                    "sugcontent=" + $("[name=sugcontent]").val(),
+                    function (result) {
+
+                        $("#vo").html(result).css({"color": "red"})
+
+
+                    })
+            })
+
+            //判定手机号或者邮箱正确不正确
+            $("[name=sugemail]").blur(function () {
+                $.getJSON(
+                    "/verifyPhoneAndEmail",
+                    "sugemail=" + $("[name=sugemail]").val(),
+                    function (result) {
+
+                        $("#vc").html(result).css({"color": "red"})
+
+                    })
+            })
+
+            //判断图片验证码
+            $("[name=vrifyCode]").blur(function () {
+
+                $.getJSON(
+                    "/vertifytupian",
+                    "vrifyCode=" + $("[name=vrifyCode]").val(),
+                    function (result) {
+                        $("#yanzhengma").html(result).css({"color": "red"});
+                    })
+
+            })
+
+
+            //提交
+            $("#btn").click(function () {
+
+                $.getJSON(
+                    "/testRadio",
+                    "sugtype=" + $("[name=sugtype]:checked").val(),
+                    function (result) {
+                        $("#leixing").html(result).css({"color": "red"});
+                    })
+
+
+                $.ajax({
+                    "url": "/subbb",
+                    "type": "post",
+                    "data": "sugtype=" + $("[name=sugtype]:checked").val()
+                    + "&sugtitle=" + $("[name=sugtitle]").val()
+                    +"&vrifyCode=" + $("[name=vrifyCode]").val()
+                    + "&sugemail=" + $("[name=sugemail]").val()
+                    + "&sugcontent=" + $("[name=sugcontent]").val()
+                    +"&uid=1",
+                    "dataType": "json",
+                    "success": function (result) {
+                        if (result == "提交成功"){
+                            //成功以后跳页面
+                                window.location="connectService.html"
+                            $("#bnn").html(result).css({"color": "red"});
+                        }else {
+                            $("#bnn").html(result).css({"color": "red"});
+                        }
+
+                    }
+                })
+
+            })
+
+            //点击跳转到我的反馈页面
+            $("#feed").click(function () {
+                window.location="http://localhost:8081/html/myfeedbacks.html"
+            })
+
+            //点击跳转到帮助中心页面
+            $("#help").click(function () {
+                window.location = "http://localhost:8081/html/connectService.html"
+            })
+
+        })
+    </script>
+</head>
+
+<body>
+<!-- 顶部tab -->
+<!-- 搜索栏 -->
+<div class="top-search">
+    <div class="inner">
+        <a class="logo" href="http://192.168.50.204:8020/%e5%94%af%e5%93%81%e4%bc%9a/index.html"><img src="../images/wphlogo.jpg" alt="唯品会" class="cover"></a>
+        <div class="search-box">
+            <form class="input-group">
+                <input placeholder="Ta们都在搜唯品会" type="text">
+                <span class="input-group-btn">
+						<button type="button">
+							<span aria-hidden="true"></span>
+						</button>
+					</span>
+            </form>
+            <p class="help-block text-nowrap">
+                <a href="#">连衣裙</a>
+                <a href="#">裤</a>
+                <a href="#">衬衫</a>
+                <a href="#">T恤</a>
+                <a href="#">女包</a>
+                <a href="#">家居服</a>
+                <a href="#">2017新款</a>
+            </p>
+        </div>
+        <div class="cart-box">
+            <a href="#" class="cart-but">
+                <i class="iconfont icon-shopcart cr fz16"></i> 购物车 0 件
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="content inner">
+    <section class="panel__div clearfix">
+        <div class="filter-value">
+            <div class="filter-title">用户反馈调查</div>&nbsp;
+            <div class="filter-title" id="feed">我的反馈</div>
+            <div class="filter-title" id="help">帮助中心</div>
+        </div>
+
+        <p>尊敬的用户：</p>
+        <p>您好！为了给您提供更好的服务，我们希望收集您的看法或建议，对您的配合和支持表示衷心感谢！</p>
+        <span>&nbsp;&nbsp;&nbsp;&nbsp;反馈类型：</span><input type="radio" name="sugtype" value="与订单相关">与订单相关
+        <input type="radio" name="sugtype" value="购物问题">购物问题
+        <input type="radio" name="sugtype" value="账户问题/建议投诉">账户问题/建议投诉
+        <input type="radio" name="sugtype" value="其它">其它<span id="leixing"></span><br>
+        <span>&nbsp;&nbsp;&nbsp; 标    题：</span><input type="text" class="titl" name="sugtitle"
+                                                      placeholder="4到30个字"><span id="vp"></span><br>
+        <div class="form-group">
+            <div class="col-xs-12">
+                <span>反馈内容：</span><textarea class="form-control" rows="5" name="sugcontent" placeholder="您还可以输入 1000 字"></textarea>
+                <span id="vo"></span><br>
+            </div>
+        </div>
+        <div >
+            <div >
+                <span>&nbsp;&nbsp;电话/邮箱：</span> <input type="text"  name="sugemail" class="form-control" placeholder="电话/邮箱"><span id="vc"></span><br>
+            </div>
+        </div>
+
+        <div>
+            <span>&nbsp; 验 证 码：</span> <input type="text" name="vrifyCode">
+            <img src="/defaultKaptcha" onclick="this.src='/defaultKaptcha?d='+new Date()*1"><br>
+            <span id="yanzhengma"></span>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-xs-5">
+                <button id="btn" class=" btn-block btn-primary">提交</button>
+                <span id="bnn"></span>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+<!-- 底部信息 -->
+<div class="footer">
+    <div class="footer-tags">
+        <div class="tags-box inner">
+            <div class="tag-div">
+                <img src="../images/footer_1.gif" alt="厂家直供">
+            </div>
+            <div class="tag-div">
+                <img src="../images/footer_2.gif" alt="一件代发">
+            </div>
+            <div class="tag-div">
+                <img src="../images/footer_3.gif" alt="美工活动支持">
+            </div>
+            <div class="tag-div">
+                <img src="../images/footer_4.gif" alt="信誉认证">
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="../css/global.css">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="../css/swiper.min.css">
+	<link rel="stylesheet" href="../css/styles.css">
+	<script src="../js/jquery.1.12.4.min.js" charset="UTF-8"></script>
+	<script src="../js/bootstrap.min.js" charset="UTF-8"></script>
+	<script src="../js/swiper.min.js" charset="UTF-8"></script>
+	<script src="../js/global.js" charset="UTF-8"></script>
+	<script src="../js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
+	<title>唯品会</title>
+	<link rel="stylesheet" href="../css/iconfont.css">
+</head>
+<script>
+
+    $(function () {
+
+		var str='';
+        //点击我的优惠券查询用户拥有的优惠券
+        // $("#a2").click(function () {
+        //     //这个表示每次在进来之前先清空
+        //     $("#a3").html("")
+			//这底下是循环输出的另外一种写法
+            $.getJSON(
+                "/getClistById",
+                "cauuid="+"17",
+                function (result) {
+					for (var i = 0;i< result.length;i++){
+						str = "<div class='coupon'>"+
+							"<div class='coupon-hd'>"+
+							"<b>"+"<small class='fz16'>"+ "￥"+"</small>"+result[i].money+"</b>"+
+                            "<div class='fz12'>"+"【使用范围】"+"<br>"+"全场"+"</div>"+
+							"</div>"+
+							"<div class='coupon-bd'>"+
+							"<div class='fz12 c9'>" +"规则：消费需满"+result[i].ctype+"元"+"</div>"+"</div>"+
+							"<a href='http://192.168.50.204:8020/%e5%94%af%e5%93%81%e4%bc%9a/index.html' class='coupon-ft'>" +"立即使用"+"</a> "+
+							"</div>"
+                        $("#a3").append(str)
+					}
+
+                })
+        })
+
+
+    // })
+
+
+
+</script>
+<body>
+	<!-- 顶部tab -->
+	<div class="tab-header">
+		<div class="inner">
+			<div class="pull-left">
+				<div class="pull-left">嗨，欢迎来到<span class="cr">唯品会</span></div>
+				<a href="index.html">网店代销</a>
+				<a href="http://192.168.50.208/html/connectService.html ">帮助中心</a>
+			</div>
+			<div class="pull-right">
+				<a href="http://192.168.50.238:8083/logins.html"><span class="cr">登录</span></a>
+				<a href="http://192.168.50.238:8083/logins.html?p=register">注册</a>
+				<a href="http://192.168.51.236:8080/wphshopcart.html">我的购物袋</a>
+				<a href="http://192.168.51.236:7080/wphorder.html">我的订单</a>
+				<!--<a href="index.html">积分平台</a>-->
+			</div>
+		</div>
+	</div>
+	<!-- 顶部标题 -->
+	<div class="bgf5 clearfix">
+		<div class="top-user">
+			<div class="inner">
+				<a class="logo" href="http://192.168.50.204:8020/%e5%94%af%e5%93%81%e4%bc%9a/index.html "><img src="../images/wphlogo.jpg" alt="唯品会" class="cover"></a>
+				<div class="title">个人中心</div>
+			</div>
+		</div>
+	</div>
+	<div class="content clearfix bgf5">
+		<section class="user-center inner clearfix">
+			<div class="pull-left bgf">
+				<a href="http://127.0.0.1:8020/%e5%94%af%e5%93%81%e4%bc%9a/index.html" class="title">唯品会欢迎页</a>
+				<dl class="user-center__nav">
+					<dt>帐户信息</dt>
+					<a href="http://192.168.50.238:8083/udai_setting.html "><dd>个人资料</dd></a>
+					<a href="index.html"><dd>资金管理</dd></a>
+					<a href="index.html"><dd>积分平台</dd></a>
+					<a href="http://192.168.50.238/udai_address.html"><dd>收货地址</dd></a>
+					<a href="http://192.168.50.208:8083/html/tickets.html "><dd class="active">我的优惠券</dd></a>
+					<!--<a href="index.html"><dd>修改支付密码</dd></a>-->
+					<a href="http://192.168.50.238:8083/udai_address_edit.html	"><dd>修改登录密码</dd></a>
+				</dl>
+				<dl class="user-center__nav">
+					<dt>订单中心</dt>
+					<a href="http://192.168.51.236:7080/wphorder.html "><dd>我的订单</dd></a>
+					<a href="index.html"><dd>我的收藏</dd></a>
+					<!--<a href="index.html"><dd>退款/退货</dd></a>-->
+				</dl>
+				<dl class="user-center__nav">
+					<dt>服务中心</dt>
+					<a href="http://192.168.50.208:8083/html/logistics.html "><dd>物流查询</dd></a>
+					<a href=""><dd>数据自助下载</dd></a>
+					<!--<a href="index.html"><dd>售后服务</dd></a>-->
+					<!--<a href="index.html"><dd>配送服务</dd></a>-->
+					<!--<a href="index.html"><dd>用户协议</dd></a>-->
+					<!--<a href="index.html"><dd>常见问题</dd></a>-->
+				</dl>
+				<dl class="user-center__nav">
+					<dt>新手上路</dt>
+					<!--<a href="index.html"><dd>如何成为代理商</dd></a>-->
+					<!--<a href="index.html"><dd>代销商上架教程</dd></a>-->
+					<!--<a href="index.html"><dd>分销商常见问题</dd></a>-->
+					<!--<a href="index.html"><dd>付款账户</dd></a>-->
+				</dl>
+				<dl class="user-center__nav">
+					<dt>唯品会</dt>
+					<!--<a href="index.html"><dd>企业简介</dd></a>-->
+					<!--<a href="index.html"><dd>隐私说明</dd></a>-->
+				</dl>
+			</div>
+			<div class="pull-right">
+				<div class="user-content__box clearfix bgf">
+					<div class="title">账户信息-积分平台</div>
+					<ul class="nav user-nav__title" role="tablist">
+						<li role="presentation" class="nav-item active"><a href="#useful" aria-controls="useful" id="a2" role="tab" data-toggle="tab">可用优惠券</a></li>
+					</ul>
+
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane fade in active" id="useful">
+							<div class="coupon-list" id="a3">
+
+							</div>
+							<div class="page text-right clearfix">
+								<a class="disabled">上一页</a>
+								<a class="select">1</a>
+								<a href="">2</a>
+								<a href="">3</a>
+								<a class="" href="">下一页</a>
+							</div>
+						</div>
+						<div role="tabpanel" class="tab-pane fade" id="used">
+							<div class="coupon-list">
+								<div class="empty-msg">哇，居然没有优惠券了？</div>
+							</div>
+							<div class="page text-right clearfix">
+								<a class="disabled">上一页</a>
+								<a class="select">1</a>
+								<a href="">2</a>
+								<a href="">3</a>
+								<a class="" href="">下一页</a>
+							</div>
+						</div>
+						<div role="tabpanel" class="tab-pane fade" id="overdue">
+							<div class="coupon-list">
+								<div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>2.00</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249136</div><div class="fz12 c9">规则： 消费需满50元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div><div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>5.00</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249137</div><div class="fz12 c9">规则： 消费需满60元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div><div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>1.50</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249137</div><div class="fz12 c9">规则： 消费需满30元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div><div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>1.00</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249136</div><div class="fz12 c9">规则： 消费需满20元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div><div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>1.50</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249136</div><div class="fz12 c9">规则： 消费需满25元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div><div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>100.00</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249136</div><div class="fz12 c9">规则： 消费需满2000元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div><div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>150.00</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249136</div><div class="fz12 c9">规则： 消费需满2500元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div><div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>100.00</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249136</div><div class="fz12 c9">规则： 消费需满2000元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div><div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>88.00</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249136</div><div class="fz12 c9">规则： 消费需满890元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div><div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>2.00</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249136</div><div class="fz12 c9">规则： 消费需满5元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div><div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>1.00</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249136</div><div class="fz12 c9">规则： 消费需满2元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div><div class="coupon"><div class="coupon-hd"><b><small class="fz16">¥</small>99999.00</b><div class="fz12">【使用期限】<br>2017.09.20至2017.12.5</div></div><div class="coupon-bd"><div class="fz12 c9">券号：70000503249136</div><div class="fz12 c9">规则： 消费需满100000元</div></div><a href="javascript:;" class="coupon-ft">已经过期</a></div>
+							</div>
+							<div class="page text-right clearfix">
+								<a class="disabled">上一页</a>
+								<a class="select">1</a>
+								<a href="">2</a>
+								<a href="">3</a>
+								<a class="" href="">下一页</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- 右侧菜单 -->
+	<div class="right-nav">
+		<ul class="r-with-gotop">
+			<li class="r-toolbar-item">
+				<a href="http://192.168.50.238:8083/udai_welcome.html " class="r-item-hd">
+					<i class="iconfont icon-user" data-badge="0"></i>
+					<div class="r-tip__box"><span class="r-tip-text">用户中心</span></div>
+				</a>
+			</li>
+			<li class="r-toolbar-item">
+				<a href="http://192.168.51.236:8080/wphshopcart.html" class="r-item-hd">
+					<i class="iconfont icon-cart"></i>
+					<div class="r-tip__box"><span class="r-tip-text">购物车</span></div>
+				</a>
+			</li>
+			<li class="r-toolbar-item">
+				<a href="index.html" class="r-item-hd">
+					<i class="iconfont icon-aixin"></i>
+					<div class="r-tip__box"><span class="r-tip-text">我的收藏</span></div>
+				</a>
+			</li>
+			<li class="r-toolbar-item">
+				<a href="" class="r-item-hd">
+					<i class="iconfont icon-liaotian"></i>
+					<div class="r-tip__box"><span class="r-tip-text">联系客服</span></div>
+				</a>
+			</li>
+			<li class="r-toolbar-item">
+				<a href="http://192.168.50.208:8081/html/feedback.html" class="r-item-hd">
+					<i class="iconfont icon-liuyan"></i>
+					<div class="r-tip__box"><span class="r-tip-text">留言反馈</span></div>
+				</a>
+			</li>
+			<li class="r-toolbar-item to-top">
+				<i class="iconfont icon-top"></i>
+				<div class="r-tip__box"><span class="r-tip-text">返回顶部</span></div>
+			</li>
+		</ul>
+		<script>
+			$(document).ready(function(){ $('.to-top').toTop({position:false}) });
+		</script>
+	</div>
+	<!-- 底部信息 -->
+	<div class="footer">
+		<div class="footer-tags">
+			<div class="tags-box inner">
+				<div class="tag-div">
+					<img src="../images/footer_1.gif" alt="厂家直供">
+				</div>
+				<div class="tag-div">
+					<img src="../images/footer_2.gif" alt="一件代发">
+				</div>
+				<div class="tag-div">
+					<img src="../images/footer_3.gif" alt="美工活动支持">
+				</div>
+				<div class="tag-div">
+					<img src="../images/footer_4.gif" alt="信誉认证">
+				</div>
+			</div>
+		</div>
+		<div class="footer-links inner">
+			<!--<dl>-->
+				<!--<dt>唯品会</dt>-->
+				<!--<a href="index.html"><dd>企业简介</dd></a>-->
+				<!--<a href="index.html"><dd>加入购物袋</dd></a>-->
+				<!--<a href="index.html"><dd>隐私说明</dd></a>-->
+			<!--</dl>-->
+			<!--<dl>-->
+				<!--<dt>服务中心</dt>-->
+				<!--<a href="index.html"><dd>售后服务</dd></a>-->
+				<!--<a href="index.html"><dd>配送服务</dd></a>-->
+				<!--<a href="index.html"><dd>用户协议</dd></a>-->
+				<!--<a href="index.html"><dd>常见问题</dd></a>-->
+			<!--</dl>-->
+			<!--<dl>-->
+				<!--<dt>新手上路</dt>-->
+				<!--<a href="index.html"><dd>如何成为代理商</dd></a>-->
+				<!--<a href="index.html"><dd>代销商上架教程</dd></a>-->
+				<!--<a href="index.html"><dd>分销商常见问题</dd></a>-->
+				<!--<a href="index.html"><dd>付款账户</dd></a>-->
+			<!--</dl>-->
+		</div>
+		<div class="copy-box clearfix">
+			<!--<ul class="copy-links">-->
+				<!--<a href="index.html"><li>网店代销</li></a>-->
+				<!--<a href="index.html"><li>唯品学堂</li></a>-->
+				<!--<a href="index.html"><li>联系我们</li></a>-->
+				<!--<a href="index.html"><li>企业简介</li></a>-->
+				<!--<a href="index.html"><li>新手上路</li></a>-->
+			<!--</ul>-->
+			<!-- 版权 -->
+			<p class="copyright">
+				© 2008-2020 唯品会 版权所有，并保留所有权利<br>
+				ICP备案证书号：闽ICP备16015528号-2&nbsp;&nbsp;&nbsp;&nbsp;福建省宁德市福鼎市南下村小区（锦昌阁）1栋1梯602室&nbsp;&nbsp;&nbsp;&nbsp;
+			</p>
+		</div>
+	</div>
+</body>
+</html>

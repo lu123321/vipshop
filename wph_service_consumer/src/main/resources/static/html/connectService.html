@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/jquery.1.12.4.min.js" charset="UTF-8"></script>
+    <script src="../js/bootstrap.min.js" charset="UTF-8"></script>
+    <script src="../js/swiper.min.js" charset="UTF-8"></script>
+    <script src="../js/global.js" charset="UTF-8"></script>
+    <script src="../js/jquery.DJMask.2.1.1.js" charset="UTF-8"></script>
+    <title>唯品会</title>
+    <link rel="stylesheet" href="../css/iconfont.css">
+</head>
+<script type="text/javascript">
+
+
+    $(function () {
+        $("[name=cstype]").click(function () {
+            $.getJSON(
+                "/findQuestionByType",
+                "cstype=" + $("[name=cstype]:checked").val(),
+                function (result) {
+                    //这里获得了一个集合，用遍历的方式把集合输出。注意这种遍历的写法
+                    var str = "";        //定义参数的时候赋默认值
+                    var ser = "";          //定义参数的时候赋默认值
+                    for (var i = 0;i <result.length;i++){
+                        var info = "\"" + result[i].csquestion + "\"";
+                        str =str +
+                            "<tr>"+
+                            "<th>"+
+                            "<div onclick='aa("+ info +")'>"+result[i].csquestion+"</div>" +
+                            "</th>"+
+                            "</tr>";
+                    }
+                    $("#tb").html(str)
+                })
+        })
+
+    })
+
+    //自己定义的方法不能写到工厂方法里面
+    function aa(info){
+
+        $.getJSON(
+            "/findSolutionByQuestion",
+            "csquestion=" + info,
+            function (result) {
+                $("#dd").html(result.cssolution)
+            }
+        )
+
+    }
+
+</script>
+<body>
+<!-- 顶部tab -->
+<div class="tab-header">
+    <div class="inner">
+        <div class="pull-left">
+            <div class="pull-left">嗨，欢迎来到<span class="cr">唯品会</span></div>
+            <a href="#">网店代销</a>
+            <a href="http://192.168.137.16:/html/connectService.html ">帮助中心</a>
+        </div>
+        <div class="pull-right">
+            <a href="http://192.168.50.238:8083/logins.html	"><span class="cr">登录</span></a>
+            <a href="http://192.168.50.238:8083/logins.html?p=register 	">注册</a>
+            <a href="http://192.168.51.236:8080/wphshopcart.html">我的购物袋</a>
+            <a href="http://192.168.51.236:7080/wphorder.html ">我的订单</a>
+            <a href="#">积分平台</a>
+        </div>
+    </div>
+</div>
+<!-- 搜索栏 -->
+<div class="top-search">
+    <div class="inner">
+        <a class="logo" href="http://192.168.50.204:8020/%e5%94%af%e5%93%81%e4%bc%9a/index.html"><img src="../images/wphlogo.jpg" alt="唯品会" class="cover">唯品会</a>
+        <div class="search-box">
+            <form class="input-group">
+                <input placeholder="Ta们都在搜唯品会" type="text">
+                <span class="input-group-btn">
+						<button type="button">
+							<span aria-hidden="true"></span>
+						</button>
+					</span>
+            </form>
+            <p class="help-block text-nowrap">
+                <a href="#">连衣裙</a>
+                <a href="#">裤</a>
+                <a href="#">衬衫</a>
+                <a href="#">T恤</a>
+                <a href="#">女包</a>
+                <a href="#">家居服</a>
+                <a href="#">2017新款</a>
+            </p>
+        </div>
+        <div class="cart-box">
+            <a href="#" class="cart-but">
+                <i class="iconfont icon-shopcart cr fz16"></i> 购物车 0 件
+            </a>
+        </div>
+    </div>
+</div>
+<!-- 内页导航栏 -->
+<div class="top-nav bg3">
+    <div class="nav-box inner">
+        <div class="all-cat">
+            <div class="title"><i class="iconfont icon-menu"></i> 全部分类</div>
+        </div>
+        <ul class="nva-list">
+            <a href="http://192.168.50.204:8020/%e5%94%af%e5%93%81%e4%bc%9a/index.html ">
+                <li>首页</li>
+            </a>
+            <!--<a href="#">-->
+                <!--<li>企业简介</li>-->
+            <!--</a>-->
+            <!--<a href="#">-->
+                <!--<li>新手上路</li>-->
+            <!--</a>-->
+            <!--<a href="#">-->
+                <!--<li>企业账号</li>-->
+            <!--</a>-->
+            <!--<a href="#">-->
+                <!--<li>诚信合约</li>-->
+            <!--</a>-->
+            <!--<a href="#">-->
+                <!--<li>实时下架</li>-->
+            <!--</a>-->
+        </ul>
+    </div>
+</div>
+
+
+<div class="main_container_bg">
+    <div id="main" class="container clearfix">
+        <div class="tips_index_bar" id="J_tips_bar" style="display:none">
+            <i class="tips_bar_ico"></i>
+            <strong id="J_tips_bar_text"></strong>
+            <a href="javascript:;" rol="button" class="J_tip_bar_notice2">将处理情况通知我</a>
+            <span class="tips_close J_tips_close">
+                    <a href="#"></a>
+                </span>
+        </div>
+        <!-- <div class="del_item">
+            <p class="del_single">订单 <span class="del_order">15032366907818 </span> 在配送途中，预计于 <span class="del_time">2015-03-28</span> 送达，最新物流信息： <span class="del_info"></span></p>
+        </div>
+        <div class="del_item">
+            <p class="del_single">订单 <span class="del_order">15032366907818 </span> 在配送途中，最新物流信息： <span class="del_info"></span></p>
+            <p>该订单原预计在 <span class="del_time">2015-03-28</span> 送达，现已出现延误，给您带来不便请见谅。如需催促配送，请 <a class="del_link" href="service_urge14.html?f=acs_sevice_delivery_link">点击此处</a></p>
+        </div>
+        <div class="del_item">
+            <p>订单 <span class="del_order">15032366907818 </span>需要异地调拨发货（1-2天），请耐心等候。<a class="del_link" href="//order.vip.com/detail/index?ordersn=">查看订单详细</a></p>
+        </div> -->
+        <div style="float:left; width:767px;">
+            <div class="delivery_info" style="display: none">
+                <p class="del_title">订单配送提示：</p>
+                <div class="cont"></div>
+                <div class="del_btn"><span class="abt_btn">我知道了</span></div>
+                <span class="del_close"></span>
+            </div>
+            <div class="container_left" id="J_container_left">
+                <h3 class="b_tit">帮助中心</h3>
+                <p class="title">1.选择您咨询的问题类型<span class="arrow"></span></p>
+                <div id="J_service_content" class="service_content_wrapper">
+                    <ul class="questions clearfix">
+                        <li>
+                            <p class="J_Anchor pli_title">与订单相关</p>
+                            <p class="pli_line">
+                                    <span class="J_type_btn" data-type="A01">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_dd_ico1"  value="订单配送" ></i>-->
+                                            <!--&lt;!&ndash;<input  type="text" id="cc"  >&ndash;&gt;-->
+                                            <!--订单配送-->
+                                           <input type="radio" name="cstype" value="订单配送">订单配送
+                                        </a>
+
+                                        <span class="btn_loading"></span>
+                                    </span>
+                                <span class="J_type_btn" data-type="A02">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_dd_ico2" name="cstype"></i>-->
+                                            <!--退货退款-->
+                                            <input type="radio" name="cstype" value="退货退款">退货退款
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                                <span class="J_type_btn" data-type="A03">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_dd_ico3"></i>-->
+                                            <!--订单操作-->
+                                            <input type="radio" name="cstype" value="订单操作">订单操作
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                                <span class="J_type_btn" data-type="A04">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_dd_ico4"></i>-->
+                                            <!--发票服务-->
+                                            <input type="radio" name="cstype" value="发票服务">发票服务
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                                <span class="J_type_btn" data-type="A05">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_dd_ico5"></i>-->
+                                            <!--包裹异常-->
+                                            <input type="radio" name="cstype" value="包裹异常">包裹异常
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                            </p>
+                        </li>
+                        <li>
+                            <p class="J_Anchor pli_title">购物问题</p>
+                            <p class="pli_line">
+                                    <span class="J_type_btn" data-type="B01">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_gw_ico1"></i>-->
+                                            <!--支付问题-->
+                                            <input type="radio" name="cstype" value="支付问题">支付问题
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                                <span class="J_type_btn" data-type="B02">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_gw_ico2"></i>-->
+                                            <!--商品咨询-->
+                                            <input type="radio" name="cstype" value="商品咨询">商品咨询
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                                <span class="J_type_btn" data-type="B03">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_gw_ico3"></i>-->
+                                            <!--售后咨询-->
+                                            <input type="radio" name="cstype" value="售后咨询">售后咨询
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                                <span class="J_type_btn" data-type="B04">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_gw_ico4"></i>-->
+                                            <!--配送方式-->
+                                            <input type="radio" name="cstype" value="配送方式">配送方式
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                                <span class="J_type_btn" data-type="B05">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_gw_ico5"></i>-->
+                                            <!--活动咨询-->
+                                            <input type="radio" name="cstype" value="活动咨询">活动咨询
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                            </p>
+                        </li>
+                        <li>
+                            <p class="J_Anchor pli_title">账户问题/投诉</p>
+                            <p class="pli_line pli_line_last">
+                                    <span class="J_type_btn" data-type="C01">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_ts_ico1"></i>-->
+                                            <!--零钱提现-->
+                                            <input type="radio" name="cstype" value="零钱提现">零钱提现
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                                <span class="J_type_btn" data-type="C02">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_ts_ico2"></i>-->
+                                            <!--账户问题-->
+                                            <input type="radio" name="cstype" value="账户问题">账户问题
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                                <span class="J_type_btn" data-type="C03">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_ts_ico3"></i>-->
+                                            <!--唯品金融-->
+                                            <input type="radio" name="cstype" value="唯品金融">唯品金融
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                                <span class="J_type_btn" data-type="C04">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_ts_ico4"></i>-->
+                                            <!--优惠券/积分-->
+                                            <input type="radio" name="cstype" value="优惠券积分">优惠券/积分
+                                        </a>
+                                    </span>
+                                <span class="J_type_btn" data-type="C05">
+                                        <a href="javascript:;">
+                                            <!--<i class="qa_ts_ico5"></i>-->
+                                            <!--建议投诉-->
+                                            <input type="radio" name="cstype" value="建议投诉">建议投诉
+                                        </a>
+                                        <span class="btn_loading"></span>
+                                    </span>
+                            </p>
+                        </li>
+                    </ul>
+
+                   2.请选择具体的问题
+                <table id="tab" >
+                    <tbody id="tb" ></tbody>
+                </table>
+                    3.我们给您的解决方案
+                <div id="dd"></div>
+
+                    <div class="service_content clearfix" id="J_content_wrap">
+                        <div class="orders J_service_list list_swich">
+                            <div id="J_orders_swiches" class="list_swich_order hidden">
+                                <h3 class="list_order_title fwr">请选择相应的订单<span id="threeMonthTips">(最近三个月以内有效订单)</span>
+                                </h3>
+                                <div class="list_order_content list_order_index" id="J_userOrderList">
+                                    <div class="J_slide_y" style="margin-top: 0px;">
+                                        <table id="J_orders">
+                                            <tbody id="J_orderList_frame"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="orders_control_bar hidden" id="J_orderSwitchTri">
+                                    <div class="orders_control">
+                                        <span class="orders_control_pre" id="J_order_pre"></span>
+                                        <span class="orders_control_next" id="J_order_next"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 账号信息 -->
+                            <div class="account_detail hidden" id="J_account_wrap">
+                                <div class="accd_info">
+                                    <h4>个人账户信息</h4>
+                                    <p>
+                                        <span>会员等级：<font style="font-family:'微软雅黑'; " id="J_userClass"></font></span>
+                                        <!--<span><a href="https://myvpal.vip.com/pc/wallet" class="accd_detail" style="padding-left: 0px;" target="_blank">查看零钱明细&gt;&gt;</a> </span>-->
+                                        <!--<span><a href="//myi.vip.com/coupons.html" class="accd_detail" target="_blank">查看优惠券明细&gt;&gt;</a></span>-->
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="step_02 step_02_bg" id="J_queList_wrap"></div>
+
+                            <div class="service_loading hidden">
+                                <p>
+                                    <!--<img src="./views/static/release/img/acs/loading.gif" width="32" height="32">-->
+                                </p>
+                            </div>
+                            <!-- 一3解决方案 -->
+                            <div class="step_03 hidden" id="J_showAnswer">
+                                <p class="sep-title">3.我们给您的解决方案<span class="arrow"></span></p>
+                                <div class="solution">
+                                    <div class="cnt">
+                                        <div class="cnt_icon fl"></div>
+                                        <div class="cnt_txt fl" id="J_answerWrap"></div>
+                                    </div>
+                                    <div class="answer">
+                                        <div class="answer_list">
+                                            <p id="J_solution_done" onclick="jjclick('A')">已解决</p>
+                                            <p id="J_solution_none" onclick="wjjclick('A')">未解决</p>
+                                        </div>
+                                        <div class="clearfix hidden" id="J_solution_submit_txt">
+                                            <input name="content" id="textareaA" value="您可以在此写下您的意见或建议">
+                                            <button type="button" id="J_solution_submit"
+                                                    onclick="textareaClick('A')"></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="Acontact"></div>
+
+                                <div class="contact">
+                                    <p class="am_top">如未解决问题，请通过以下方式联系我们:</p>
+                                    <div class="am_link hidden" id="J_apmEntrance">
+                                        <a href="#" target="_blank" title="皇冠会员电话预约专线 无须等待，专享客服">
+                                            <!--<img src="./views/static/release/img/acs/apimt_link.jpg" alt="皇冠会员电话预约专线 无须等待，专享客服">-->
+                                        </a>
+                                    </div>
+                                    <div id="Azx" class="am_box hidden">
+                                        <h4>咨询在线客服</h4>
+                                        <p>在线客服人工服务时间：每天9:00-24:00</p>
+                                        <div class="am_box_tool">
+                                            <span class="abt_btn" id="J_openChat">开启聊天窗口</span>
+                                            <span class="am_icon hidden" id="J_online_recoIco"></span>
+                                        </div>
+                                    </div>
+                                    <div id="J_400_part1" class="am_box hidden">
+                                        <h4>咨询电话客服</h4>
+                                        <p>电话客服人工服务时间：每天9:00-24:00</p>
+                                        <div class="am_box_tool">
+                                            <span class="abt_btn" id="J_check400Number">查看400热线</span>
+                                        </div>
+                                        <span class="am_icon hidden J_phone_recoIco"></span>
+                                    </div>
+                                    <div id="J_400_part2" class="am_box hidden">
+                                        <p class="am_top_s">400-6789-888</p>
+                                        <p class="am_txt_s"><a href="//help.vip.com/themelist.php?type=detail&id=404"
+                                                               target="_blank"><span id="Bivr_message"></span></a></p>
+                                        <span class="am_icon hidden J_phone_recoIco"></span>
+                                    </div>
+                                    <div id="Aly" class="am_box hidden">
+                                        <h4>反馈建议</h4>
+                                        <p>9:00-21:00留言三小时内回复21:00后留言次日11:00前回复</p>
+                                        <div class="am_box_tool">
+                                            <a class="abt_btn"
+                                               id="J_needFb" target="_blank"
+                                               href="//feedback.vip.com/feedback/writefeedback.html">我要反馈</a>
+                                            <span class="am_icon hidden" id="J_fb_recoIco"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="J_service_list list_swich hidden">
+                            <div class="step_02 step_02_bg"><!-- 二2具体问题 -->
+                                <p class="sep-title">2.选择您遇到的具体问题<span class="arrow"></span></p>
+                                <ul class="step_02_list">
+                                    <li>
+                                        <!--<a href="#">查询正常发货与配送时效？</a>-->
+                                        <tr th:each="a : ${questionByType}">
+                                            <th th:text ="{a.csquestion}">;
+                                        </tr>
+                                    </li>
+                                    <li>
+                                        <a href="#">查看订单包裹到哪了？</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">刚刚下的订单，货还没有收到，商品就降价了，应该怎么做，能退货吗？</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">查询正常发货与配送时效？</a>
+                                    </li>
+                                </ul>
+                                <div class="cq_vipbao" id="Bvipbao_show">
+                                    <a href="javascript:;" onclick="zaixian();" class="cq_vipbao_link" target="_blank">智能客服唯小宝</a>
+                                </div>
+                            </div>
+                            <div class="service_loading hidden">
+                                <p>
+                                    <img src="#" width="32" height="32">
+                                </p>
+                            </div>
+                            <!-- 二3解决方案 -->
+                            <div class="step_03" id="Bstep_03" style="display: none">
+                                <p class="sep-title">3.我们给您的解决方案<span class="arrow"></span></p>
+                                <div class="solution">
+                                    <div class="cnt">
+                                        <div class="cnt_icon fl"></div>
+                                        <div class="cnt_txt fl" id="Banswer"></div>
+                                    </div>
+                                    <div class="answer">
+                                        <div class="answer_list">
+                                            <p id="J_solution_done2" onclick="jjclick('B')">已解决</p>
+                                            <p id="J_solution_none2" onclick="wjjclick('B')">未解决</p>
+                                        </div>
+                                        <div class="clearfix hidden" id="J_solution_submit_txt2">
+                                            <form class="J_submit_form">
+                                                <input name="content" id="textareaB" value="您可以在此写下您的意见或建议">
+                                                <button type="button"
+                                                        onclick="textareaClick('B')"></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="Bcontact"></div>
+
+                                <div class="contact and_more">
+                                    <p class="am_top">如未解决问题，请通过以下方式联系我们:</p>
+                                    <div id="Bzx" class="am_box">
+                                        <h4>咨询在线客服</h4>
+                                        <p>在线客服人工服务时间：每天9:00-24:00</p>
+                                        <div class="am_box_tool">
+                                            <a onclick="zxclick('B');zaixian(); " class="abt_btn" href="javascript:;">开启聊天窗口</a>
+                                            <span id="Bt1" class="am_icon" style="display: none"></span>
+                                        </div>
+                                    </div>
+                                    <div id="Bdh" class="am_box J_400_part1">
+                                        <h4>咨询电话客服</h4>
+                                        <p>电话客服人工服务时间：每天9:00-24:00</p>
+                                        <div class="am_box_tool">
+                                            <span class="abt_btn J_abt_btn" onclick="dhclick('B');">查看400热线</span>
+                                        </div>
+                                        <span class="am_icon" style="display: none"></span>
+                                    </div>
+                                    <div class="am_box hidden J_400_part2">
+                                        <p class="am_top_s">400-6789-888</p>
+                                        <p class="am_txt_s"><a href="//help.vip.com/themelist.php?type=detail&id=404"
+                                                               target="_blank"><span id=""></span></a></p>
+                                        <span id="Bt2" class="am_icon" style="display: none"></span>
+                                    </div>
+                                    <div id="Bly" class="am_box">
+                                        <h4>反馈建议</h4>
+                                        <p>9:00-21:00留言三小时内回复21:00后留言次日11:00前回复</p>
+                                        <div class="am_box_tool">
+                                            <a class="abt_btn" target="_blank"
+                                               href="//feedback.vip.com/feedback/writefeedback.html"
+                                               onclick="lyclick('B');">我要反馈</a>
+                                            <span id="Bt0" class="am_icon" style="display: none"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 三 其他问题(账户信息,投诉) -->
+                        <div class="list_swich hidden">
+                            <div class="step_02 step_02_bg"><!-- 三2具体问题 -->
+                                <p class="sep-title">2.选择您遇到的具体问题<span class="arrow"></span></p>
+                                <ul class="step_02_list">
+                                    <li>
+                                        <a href="#">查询正常发货与配送时效？</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">查看订单包裹到哪了？</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">刚刚下的订单，货还没有收到，商品就降价了，应该怎么做，能退货吗？</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">查询正常发货与配送时效？</a>
+                                    </li>
+                                </ul>
+                                <div class="cq_vipbao" id="Cvipbao_show">
+                                    <a href="javascript:;" onclick="zaixian();" class="cq_vipbao_link" target="_blank">智能客服唯小宝</a>
+                                </div>
+                            </div>
+                            <div class="service_loading hidden">
+                                <p>
+                                    <img src="#" width="32" height="32">
+                                </p>
+                            </div>
+                            <!-- 三3解决方案 -->
+                            <div class="step_03" id="Cstep_03" style="display: none">
+                                <p class="sep-title">3.我们给您的解决方案<span class="arrow"></span></p>
+                                <div class="solution">
+                                    <div class="cnt">
+                                        <div class="cnt_icon fl"></div>
+                                        <div class="cnt_txt fl" id="Canswer"></div>
+                                    </div>
+                                    <div class="answer">
+                                        <div class="answer_list">
+                                            <p id="J_solution_done3" onclick="jjclick('C')">已解决</p>
+                                            <p id="J_solution_none3" onclick="wjjclick('C')">未解决</p>
+                                        </div>
+                                        <div class="clearfix hidden" id="J_solution_submit_txt3">
+                                            <input name="content" id="textareaC" value="您可以在此写下您的意见或建议">
+                                            <button type="button"
+                                                    onclick="textareaClick('C')"></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="Ccontact"></div>
+
+                                <div class="contact and_more">
+                                    <p class="am_top">如未解决问题，请通过以下方式联系我们:</p>
+                                    <div id="Czx" class="am_box">
+                                        <h4>咨询在线客服</h4>
+                                        <p>在线客服人工服务时间：每天9:00-24:00</p>
+                                        <div class="am_box_tool">
+                                            <a onclick="zxclick('C');zaixian(); " class="abt_btn" href="javascript:;">开启聊天窗口</a>
+                                            <span id="Ct1" class="am_icon" style="display: none"></span>
+                                        </div>
+                                    </div>
+                                    <div id="Cdh" class="am_box J_400_part1">
+                                        <h4>咨询电话客服</h4>
+                                        <p>电话客服人工服务时间：每天9:00-24:00</p>
+                                        <div class="am_box_tool">
+                                            <span class="abt_btn J_abt_btn" onclick="dhclick('C');">查看400热线</span>
+                                        </div>
+                                        <span class="am_icon" style="display: none"></span>
+                                    </div>
+                                    <div class="am_box hidden J_400_part2">
+                                        <p class="am_top_s">400-6789-888</p>
+                                        <p class="am_txt_s"><a href="//help.vip.com/themelist.php?type=detail&id=404"
+                                                               target="_blank"><span id="Civr_message"></span></a></p>
+                                        <span class="am_icon" style="display: none"></span>
+                                    </div>
+                                    <div id="Cly" class="am_box">
+                                        <h4>反馈建议</h4>
+                                        <p>9:00-21:00留言三小时内回复21:00后留言次日11:00前回复</p>
+                                        <div class="am_box_tool">
+                                            <a class="abt_btn" target="_blank"
+                                               href="feedback.html" onclick="lyclick('C');">我要反馈</a>
+                                            <span id="Ct0" class="am_icon" style="display: none"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 右边框  -->
+        <div class="container_right" id="J_container_right">
+            <div class="src_ad J_right_ad">
+                <div class="J_ahead" style="filter: alpha(opacity=0); ZOOM: 1; display: inline;opacity: 0"></div>
+                <div class="J_next" style="filter: alpha(opacity=0); ZOOM: 1; display: inline;opacity: 0"></div>
+                <ul class="src_ad_list J_right_ad_panel">
+                </ul>
+                <ul class="src_ad_btn J_right_ad_trigger">
+                </ul>
+            </div>
+            <div class="src_ad am_right hidden" id="J_apmEntrance_imme">
+                <!--<a href="/service_apm.html" target="_blank" title="电话预约—皇冠会员专享 立即使用">-->
+                <!--<img src="./views/static/release/img/acs/apimt_right.jpg" width="221" height="131" alt="电话预约—皇冠会员专享 无须拨打 按时回电 专享客服">-->
+                </a>
+            </div>
+            <div class="src_nav">
+                <h3 class="b_tit">反馈建议</h3>
+                <a href="feedback.html" >填写反馈</a>
+                <a href="http://localhost:8081/html/myfeedbacks.html">我的反馈</a>
+
+                <ul class="src_nav_list">
+                    <li class="src_nav_item_tit">以下反馈可能对您有帮助</li>
+                    <li class="src_nav_item">
+                        <a href="#" target="_blank" mars_sead="acs_edit orders_btn">
+                            <span class="sni_item type4">1.  里面有刷单的</span>
+                        </a>
+                    </li>
+                    <li class="src_nav_item">
+                        <a href="#" target="_blank">
+                            <span class="sni_item type4">2.   唯品币</span>
+                        </a>
+                    </li>
+                    <li class="src_nav_item">
+                        <a mars_sead="acs_sevice_view orders_btn" href="javascript:;">
+                            <span class="J_ckddwl sni_item type4" mars_sead="acs_service_view orders_btn">3.  我怎样才可以对购买后的商品进行评价？</span>
+                        </a>
+                    </li>
+                    <li class="src_nav_item">
+                        <a class="J_ccps14Onclick" href="#" target="_blank" mars_sead="acs_sevice_delivery_btn">
+                            <span class="sni_item type4">4.  赠品</span>
+                        </a>
+                    </li>
+                    <li class="src_nav_item">
+                        <a class="J_qxpsOnclick" href="#" target="_blank" mars_sead="">
+                            <span class="sni_item type8" target="_blank">5.  唯品花免邮券发放</span>
+                        </a>
+                    </li>
+                    <!--&lt;!&ndash; <li class="src_nav_item">-->
+                        <!--<a class="J_changeAdClick" href="service_changeAD.html?f=acs_sevice_changeAD" target="_blank" mars_sead="">-->
+                            <!--<span class="sni_item type8" target="_blank">修改配送地址</span>-->
+                        <!--</a>-->
+                    <!--</li> &ndash;&gt;-->
+                    <li class="src_nav_item">
+                        <a href="#" target="_blank" mars_sead="acs_sevice_refund_btn">
+                            <span class="sni_item">6.  尺码偏小</span>
+                        </a>
+                    </li>
+                    <li class="src_nav_item">
+                        <a class="J_cctkOnclick" href="#" target="_blank" mars_sead="acs_sevice_refund_btn">
+                            <span class="sni_item type6">7.  方便购物</span>
+                        </a>
+                    </li>
+                    <!--<li class="src_nav_item">-->
+                        <!--<a class="J_bjfpOnclick" href="#" target="_blank" mars_sead="acs_sevice_receipt_btn">-->
+                            <!--<span class="sni_item type7">发票服务</span>-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <!--<li class="src_nav_item">-->
+                        <!--<a class="J_txcxOnclick_temp" href="#" target="_blank" mars_sead="">-->
+                            <!--<span class="sni_item type9" target="_blank">提现查询</span>-->
+                        <!--</a>-->
+                    <!--</li>-->
+                </ul>
+            </div>
+            <div class="src_nav src_nav_bt J_schedule_hover">
+                <a href="javascript:;" id="J_check_schedule" mars_sead="acs_view feedback_btn">更多相关反馈> <span
+                        class="acs_view_num J_view_num1 hidden">5</span></a>
+                <span class="acs_view_tips J_view_tips hidden"><i class="tips_bar_ico"></i><i class="acs_view_ang"></i>您当前没有需要客服处理的问题</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--<div class="content inner">-->
+<!--<section class="panel__div clearfix">-->
+<!--<div class="filter-value">-->
+<!--<div class="filter-title">用户反馈调查</div>-->
+<!--</div>-->
+<!--<form action="" class="issues-box form-horizontal">-->
+<!--<p>尊敬的用户：</p>-->
+<!--<p>您好！为了给您提供更好的服务，我们希望收集您使用U袋网的看法或建议，对您的配合和支持表示衷心感谢！</p>-->
+<!--<div class="form-group">-->
+<!--<div class="col-xs-6">-->
+<!--<input type="password" class="form-control" id="inputPassword" placeholder="姓名">-->
+<!--</div>-->
+<!--<div class="col-xs-6">-->
+<!--&lt;!&ndash;<input type="password" class="form-control" id="inputPassword" placeholder="电话号码">&ndash;&gt;-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--<div class="col-xs-12">-->
+<!--<textarea class="form-control" rows="5" placeholder="请输入您的看法或建议"></textarea>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="form-group">-->
+<!--<div class="col-xs-5">-->
+<!--<button type="submit" class="btn btn-block btn-primary">提交</button>-->
+<!--</div>-->
+<!--</div>-->
+<!--</form>-->
+<!--</section>-->
+<!--</div>-->
+<!-- 右侧菜单 -->
+<div class="right-nav">
+    <ul class="r-with-gotop">
+        <li class="r-toolbar-item">
+            <a href="#" class="r-item-hd">
+                <i class="iconfont icon-user" data-badge="0"></i>
+                <div class="r-tip__box"><span class="r-tip-text">用户中心</span></div>
+            </a>
+        </li>
+        <li class="r-toolbar-item">
+            <a href="#" class="r-item-hd">
+                <i class="iconfont icon-cart"></i>
+                <div class="r-tip__box"><span class="r-tip-text">购物车</span></div>
+            </a>
+        </li>
+        <li class="r-toolbar-item">
+            <a href="#" class="r-item-hd">
+                <i class="iconfont icon-aixin"></i>
+                <div class="r-tip__box"><span class="r-tip-text">我的收藏</span></div>
+            </a>
+        </li>
+        <li class="r-toolbar-item">
+            <a href="#" class="r-item-hd">
+                <i class="iconfont icon-liaotian"></i>
+                <div class="r-tip__box"><span class="r-tip-text">帮助中心</span></div>
+            </a>
+        </li>
+        <li class="r-toolbar-item">
+            <a href="#" class="r-item-hd">
+                <i class="iconfont icon-liuyan"></i>
+                <div class="r-tip__box"><span class="r-tip-text">留言反馈</span></div>
+            </a>
+        </li>
+        <li class="r-toolbar-item to-top">
+            <i class="iconfont icon-top"></i>
+            <div class="r-tip__box"><span class="r-tip-text">返回顶部</span></div>
+        </li>
+    </ul>
+
+</div>
+
+
+</body>
+</html>

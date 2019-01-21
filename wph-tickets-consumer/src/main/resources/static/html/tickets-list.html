@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商家优惠券管理</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/AdminLTE.css">
+    <link rel="stylesheet" href="../css/_all-skins.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/jquery-2.2.3.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../css/select2.css" />
+    <link rel="stylesheet" href="../css/select2-bootstrap.css" />
+    <script src="../js/select2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../layui/layui.js"></script>
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
+</head>
+<script>
+
+    var pagenum=1
+    function sel(pagenum){
+        var str = "";
+        $.getJSON(
+            "/getAllCou",
+            {index:pagenum,pageSize:5},
+            function (result) {
+                pageNum=result.pageNum
+                pageSize =result.pageSize;
+                total = result.total;
+                pagehelp(total, pageNum, pageSize)
+                result=result.list
+                if (result.length == 0){
+                    str = '<div >'+
+                        '<div>'+
+                        '<div >'+'没有优惠券'+'</div>'+
+                        '</div>'+
+                        '</div>'
+                }else {
+                     for (var i =0 ;i < result.length; i++){
+                        str = str +
+                            "<tr>"+
+                            "<td><input  type=\"checkbox\" name='dele' value='"+result[i].cid+"'></td>"+
+                            "<td >"+(i+1)+"</td>"+
+                            "<td >"+result[i].cname+"</td>"+
+                            "<td >"+result[i].ctype+"</td>"+
+                            "<td >"+result[i].money+"</td>"+
+                            "<td >"+result[i].c1+"</td>"+
+                            "<td  class='text-center'>"+
+                            "<button type='button' class='btn bg-olive btn-xs' data-toggle='modal' data-target='#sellerModal'  " +
+                            "    value= ' "+ result[i].cid +" '  id='updateCoupon'>修改</button>&nbsp;&nbsp;&nbsp;"+
+                            "<button type='button' class='btn bg-olive btn-xs'  value=' "+result[i].cid+" ' " +
+                            "id='deleteCoupons'>"+ "删除"+ "</button> "
+                        "</td>"
+                        "</tr>"
+
+                    }
+                    $("#dt").html(str)
+
+                }
+
+            }
+        )
+    }
+
+
+    function pagehelp(total, pageNum, pageSize) {
+        layui.use('laypage', function() {
+            var laypage = layui.laypage;
+            //分页完整功能
+            laypage.render({
+                elem: 'demo7',
+                count: total, //数据总数，从服务端得到
+                limit: pageSize, //每页显示的条数。laypage将会借助 count 和 limit 计算出分页数。
+                curr: pageNum, //当前页号
+                limits:[5],
+                layout: ['count', 'prev', 'page','limit','refresh', 'next', 'skip'],
+                jump: function(obj, first) {
+                    var num = obj.curr;
+                    var size = obj.limit;
+                    console.log(obj)
+                    if(!first) { //首次不执行(点击的时候才执行)
+                        $(".aaa").html("");
+                        sel(num); //执行查询分页函数(这个函数必须写在这里)
+                    }
+                }
+            });
+        })
+    }
+
+
+    $(function () {
+
+        var hmyIp = "192.168.43.144";
+
+        /*页面传值（页面B [接收]）*/
+        // 接收
+        var url = window.location.search;
+        var urlResult = [];
+        var arrUrl = url.substr(1).split("&");
+        //遍历
+        for (var j = 0; j < arrUrl.length; j++) {
+            urlResult[j] = decodeURI(arrUrl[j].split("=")[1]);
+        }
+        var id = urlResult[0];
+        if(id==null||id==""){
+            location.replace("http://"+hmyIp+":8083/login.html")
+        }
+
+
+
+
+        //刚上来加载东西
+        sel(pagenum);
+
+
+
+        var storeId = 1;
+        //点击一条优惠券信息信息填充input框
+        $(document).on("click","#updateCoupon",function () {
+            var cid = $(this).val();
+            $("#confirmUpdate").val(cid);
+            var aaa = "";
+            $.post(
+                "/getOne",
+                "cid="+$(this).val(),
+                function (result) {
+                    //JSON.parse()用于从字符串中解析出json对象
+                    var result = JSON.parse(result);
+                    aaa = aaa +
+                        "<tr>"+
+                        "<td>优惠券名称</td>"+
+                        "<td><input type='text' name='cname' value=' "+result.cname+" '></td>"+
+                        "</tr>"+
+                        "<tr>"+
+                        "<td>消费等级</td>"+
+                        "<td><input type='text' name='ctype' value=' "+result.ctype+" '></td>"+
+                        "</tr>"+
+                        "<tr>"+
+                        "<td>优惠金额</td>"+
+                        "<td><input type='text' name='money' value=' "+result.money+" '></td>"+
+                        "</tr>"+
+                        "<tr>"+
+                        "<td>库存数量</td>"+
+                        "<td><input type='text' name='c1' value=' "+result.c1+" '></td>"+
+                        "</tr>"
+
+
+                    $("#tb1").html(aaa)
+                }
+
+            )
+        })
+
+        //这个是动态加载出来的，写法和平时的写法有点区别
+        // 修改优惠券的信息
+        $(document).on("click","#confirmUpdate",function () {
+            $.ajax({
+                type:"post",
+                dataType:"text",
+                async:false,
+                contentType:"application/json",
+                //JSON.stringify()用于从对象中解析出json
+                data:JSON.stringify({
+                        cid:$(this).val(),
+                        cname:$("[name=cname]").val(),
+                        ctype:$("[name=ctype]").val(),
+                        money:$("[name=money]").val(),
+                        c1:$("[name=c1]").val(),
+
+                }),
+                url:"/updateCoupons",
+                success:function (result) {
+                    alert(result)
+                    //这个是页面刷新的功能
+                    location.reload()
+                }
+            })
+
+        })
+
+
+        //删除优惠券
+        $(document).on("click","#deleteCoupons",function () {
+            var del = confirm("确定删除吗？");
+            if (del == true){
+                $.post(
+                    "/deleteCoupons",
+                    "cid="+$(this).val(),
+                    function (result) {
+                        alert(result)
+                        location.reload()
+                    }
+                )
+            }
+        })
+
+
+        //添加优惠券信息
+        $(document).on("click","#confirmInsert",function () {
+            // alert($(".cname").val())
+            $.ajax({
+                type:"post",
+                dataType:"text",
+                async:false,
+                contentType:"application/json",
+                data:JSON.stringify({
+                    cname:$(".cname").val(),
+                    ctype:$(".ctype").val(),
+                    money:$(".money").val(),
+                    c1:$(".c1").val(),
+                    storeId:1,
+
+                }),
+                url:"/insertCoupons",
+                success:function (result) {
+                    alert(result)
+                    location.reload()
+                }
+            })
+        })
+
+
+        //批量删除
+        //批量删除用checked,
+        $(document).on("click","#deleMany",function () {
+            var list = document.getElementsByName("dele");
+            var listLength = list.length;
+            var lists = [];
+            for (var i = 0;i < list.length; i ++){
+                if (list[i].checked){
+                    lists.push(list[i].value)
+                }
+            }
+            
+            if (lists.length == 0){
+                alert("请选择要删除的选项");
+            }else {
+                var groupList = lists.join(",");
+                // alert(groupList+"groupList");
+                $.ajax({
+                    type:"POST",
+                    dataType:"text",
+                    async:false,
+                    data:{str:groupList},
+                    url:"/deleteByCids",
+                    success:function (result) {
+                        alert(result)
+                        location.reload()
+                    }
+                })
+
+            }
+        })
+
+    })
+
+
+
+</script>
+<body class="hold-transition skin-red sidebar-mini" >
+<!-- .box-body -->
+
+<div class="box-header with-border">
+    <h3 class="box-title">商家优惠券管理</h3>
+</div>
+
+<div class="box-body">
+
+    <!-- 数据表格 -->
+    <div class="table-box">
+
+        <!--工具栏-->
+        <div class="pull-left">
+            <div class="form-group form-inline">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default a" title="添加新优惠券" data-toggle="modal" data-target="#insertModal" ><i class="fa fa-file-o"></i> 新建</button>
+                    <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i class="fa fa-refresh"></i> 刷新</button>
+                    <button class="btn btn-default" style="margin-right: 20px" id="deleMany">批量删除</button>
+                </div>
+            </div>
+        </div>
+        <div class="box-tools pull-right">
+            <!--<div class="has-feedback">-->
+                <!--<input  >-->
+                <!--<button class="btn btn-default" >查询</button>-->
+            <!--</div>-->
+
+
+
+        </div>
+
+
+        <!--数据列表-->
+        <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+            <thead>
+            <tr>
+                <th class="" style="padding-right:0px">
+                    <input id="selall" type="checkbox" class="icheckbox_square-blue">
+                </th>
+                <th class="sorting_asc">优惠券编号</th>
+                <th class="sorting">优惠名称</th>
+                <th class="sorting">消费等级</th>
+                <th class="sorting">优惠金额</th>
+                <th class="sorting">库存数量</th>
+                <th class="text-center">操作</th>
+            </tr>
+            </thead>
+            <!--//展示优惠券的地方-->
+            <tbody  id="dt"></tbody>
+        </table>
+        <!--数据列表/-->
+
+
+    </div>
+    <!-- 数据表格 /-->
+
+
+
+
+</div>
+<!-- /.box-body -->
+
+<div id="demo7"></div>
+
+
+<!-- 编辑窗口 -->
+<div class="modal fade" id="sellerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">优惠券详情</h3>
+            </div>
+            <div class="modal-body">
+
+                <!--<table class="table table-bordered table-striped"  width="800px">-->
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#home" data-toggle="tab">基本信息</a>
+                    </li>
+                </ul>
+
+                <!-- 选项卡开始 -->
+                <div id="myTabContent" class="tab-content">
+                    <div class=" tab-pane active in" id="home">
+                        <table class="table table-bordered table-striped" width="800px" id="tb1">
+
+                        </table>
+                    </div>
+                </div>
+
+
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success"  data-dismiss="modal" aria-hidden="true" id="confirmUpdate">保存</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 >新增优惠券</h3>
+            </div>
+            <div class="modal-body">
+                <!-- 选项卡开始 -->
+                <div  class="tab-content">
+                    <div class="tab-pane active in" id="home1">
+                        <br/>
+                        <table class="table table-bordered table-striped"  width="800px" id="tb2">
+                            <tr>
+                                <td>优惠券名称</td>
+                                <td><input  class="cname"/></td>
+                            </tr>
+                            <tr>
+                                <td>消费等级</td>
+                                <td><input  class="ctype"/></td>
+                            </tr>
+                            <tr>
+                                <td>优惠金额</td>
+                                <td><input class="money"/></td>
+                            </tr>
+                            <tr>
+                                <td>库存数量</td>
+                                <td><input  class="c1"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- 选项卡结束 -->
+
+
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" id="confirmInsert">确定</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+</body>
+
+</html>

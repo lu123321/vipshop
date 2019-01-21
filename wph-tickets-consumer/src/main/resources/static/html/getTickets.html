@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html class="root61">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>
+        领券中心    </title>
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+    <META HTTP-EQUIV="Expires" CONTENT="0">
+    <meta name="Keywords" content="优惠券,领券">
+    <meta name="description" content="唯品会领券中心">
+    <!-- <link rel="icon" href="//www.jd.com/favicon.ico" mce_href="" type="image/x-icon"> -->
+    <!--,user/myjd/lib/1.0.0/widget/global/global.css-->
+    <link source="widget" type="text/css" rel="stylesheet" href="../css/hehe.css">
+    <link type="text/css" rel="stylesheet" href="../css/haha.css">
+    <link type="text/css" rel="stylesheet" href="../css/heihei.css">
+    <!--  <script type="text/javascript" src="../js/base.js"></script> -->
+    <!--<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>-->
+    <script type="text/javascript" src="../js/jquery-1.8.3.min.js"></script>
+      <!--<script source="widget" type="text/javascript" src="../js/quan-index.js"></script>-->
+     <!--<script type="text/javascript" src="../js/es5-sham.min.js"></script>-->
+       <!--<script type="text/javascript" src="../js/wl.js"></script>-->
+    <script type="text/javascript">
+        window.pageConfig = {
+            compatible: true,
+            gridWideClass: 'root61',
+            jdfVersion: '2.0.0'
+        };
+    </script>
+
+    <script type="text/javascript">
+
+        var category = {
+            id: '0',
+            nextId: '81',
+            name: '精选'
+        };
+    </script>
+<style>
+    #fudong{
+        float: left;
+        margin-left: 30px;
+    }
+</style>
+</head>
+<script>
+    $(function () {
+        var str = "";
+
+        $.getJSON(
+            "/getAll",
+            function (result) {
+               for (var i = 0; i <result.length; i++){
+                   var info =result[i].cid ;
+                   str = str +
+                           '<div id="fudong" class="quan-item quan-item02 quan-type01 item-172880450 quan-item-unload"\n' +
+                       '     data-key="8a16f3c22f9e40caaf8dbc0369998465" >\n' +
+                       '    <div class="q-img"><img data-lazy-img="done" width="100" height="100" alt="" class="err-product"\n' +
+                       '                            src="../images/225f2838e439b346%20(1).jpg">\n' +
+                       '    </div>\n' +
+                       '    <div class="q-type" tabindex="0">\n' +
+                       '        <div class="q-price "><em>¥</em><strong>'+result[i].money+
+                       '</strong><span class="q-limit" data-tips="">'+result[i].cname+
+                           '</span></div>\n' +
+                       '        <div class="q-range"><span class="superimposed" data-tips="不可叠加使用">不可叠加</span><span title="全场券">全场券</span>\n' +
+                       '        </div></div>\n' +
+                           '<button onclick="aa('+info+')">立即领取</button>'+
+                           "</div>"
+
+               }
+                $("#aaa").html(str)
+            }
+        )
+
+
+    })
+
+    function aa(info) {
+        $.getJSON(
+            "/insertCopAndUser",
+            "cauuid=22" +
+            "&caucid="+ info,
+            function (result) {
+                alert(result)
+            }
+        )
+
+
+    }
+
+</script>
+
+
+
+
+
+<body>
+
+
+<!--shortcut start-->
+<div id="shortcut-2014">
+    <div class="w">
+        <ul class="fl">
+            <li id="ttbar-home"><i class="iconfont">&#xe608;</i><a href="index.html" target="_blank">首页</a></li>
+            <li class="dorpdown" id="ttbar-mycity"></li>
+        </ul>
+        <ul class="fr">
+            <li class="fore1" id="ttbar-login">
+                <a href="javascript:login();" class="link-login">你好，请登录</a>&nbsp;&nbsp;<a href="javascript:regist();" class="link-regist style-red">免费注册</a>
+            </li>
+            <li class="spacer"></li>
+            <li class="fore2">
+                <div class="dt">
+                    <a target="_blank" href="wphorder.html">我的订单</a>
+                </div>
+            </li>
+            <li class="spacer"></li>
+            <!--<li class="fore3 dorpdown" id="ttbar-myjd">-->
+                <!--<div class="dt cw-icon">-->
+                    <!--&lt;!&ndash; <i class="ci-right"><s>◇</s></i> &ndash;&gt;-->
+                    <!--<a target="_blank" href="">我的唯品</a><i class="iconfont">&#xe605;</i>-->
+                <!--</div>-->
+                <!--<div class="dd dorpdown-layer"></div>-->
+            <!--</li>-->
+            <li class="spacer"></li>
+            <!--<li class="fore4" id="ttbar-member">-->
+                <!--<div class="dt">-->
+                    <!--<a target="_blank" href="">唯品会员</a>-->
+                <!--</div>-->
+            <!--</li>-->
+            <li class="spacer"></li>
+            <!--<li class="fore5"   id="ttbar-ent">-->
+                <!--<div class="dt">-->
+                    <!--<a target="_blank" href="">企业采购</a>-->
+                <!--</div>-->
+            <!--</li>-->
+            <li class="spacer"></li>
+            <!--<li class="fore6 dorpdown" id="ttbar-serv">-->
+                <!--<div class="dt cw-icon">-->
+                    <!--&lt;!&ndash; <i class="ci-right"><s>◇</s></i> &ndash;&gt;-->
+                    <!--客户服务<i class="iconfont">&#xe605;</i>-->
+                <!--</div>-->
+                <!--<div class="dd dorpdown-layer"></div>-->
+            <!--</li>-->
+            <!--<li class="spacer"></li>-->
+            <!--<li class="fore7 dorpdown" id="ttbar-navs">-->
+                <!--<div class="dt cw-icon">-->
+                    <!--&lt;!&ndash; <i class="ci-right"><s>◇</s></i> &ndash;&gt;-->
+                    <!--网站导航<i class="iconfont">&#xe605;</i>-->
+                <!--</div>-->
+                <!--<div class="dd dorpdown-layer"></div>-->
+            <!--</li>-->
+            <!--<li class="spacer"></li>-->
+            <!--<li class="fore8 dorpdown" id="ttbar-apps">-->
+                <!--<div class="dt cw-icon">-->
+
+                <!--</div>-->
+            <!--</li>-->
+        </ul>
+        <span class="clr"></span>
+    </div>
+</div>
+
+<div class="w">
+    <div >
+        <!--<h1><img src="../images/wphlogo.jpg"></h1>-->
+        <div class="extra">
+            <h2 id="channel">领券中心</h2>
+        </div>
+    </div>
+    <div id="search-2014">
+        <ul id="shelper" class="hide"></ul>
+        <div class="form">
+            <input type="text" onkeydown="javascript:if(event.keyCode==13) searchCoupon('key');" autocomplete="on" id="quan-key" accesskey="s" class="text" aria-label="搜索框" />
+            <button onclick="searchCoupon('key');return false;" class="button cw-icon" clstag="pageclick|keycount|aladdin_201605165|35"><i></i>搜索</button>
+            <div id="quan-search" class="quan-search quan-dropdown">
+                <div  class="quan-tit">
+                    优惠券
+                    <i class="ci-right"></i>
+                </div>
+
+                <div class="i-quan">
+                    <ul>
+                        <li class="select" data-value="1" onclick="selectSearchItem(this)">
+                            <a href="javascript:void(0);" clstag="pageclick|keycount|aladdin_201605165|36"><b></b>优惠券</a>
+                        </li>
+                        <li data-value="2" onclick="selectSearchItem(this)">
+                            <a href="javascript:void(0);" clstag="pageclick|keycount|aladdin_201605165|37"><b></b>商　品</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="settleup-2014-quan" class="dorpdown ">
+        <div id="myquan">
+            <div class="quan-dropdown">
+                <div class="dt">
+                    <s></s>
+                    <!--<span class="txt">我的优惠券</span>-->
+                    <a href="tickets.html">我的优惠券</a>
+                    <b></b>
+                </div>
+
+                <!--<div class="dd">-->
+                    <!--<div class="spacer"></div>-->
+                    <!--<ul class="quantarget">-->
+
+                        <!--<li class="">-->
+                            <!--<a target="_blank" href="tickets.html" clstag="pageclick|keycount|aladdin_201605165|22">-->
+                                <!--<span class="txt">我的优惠券</span>-->
+                                <!--<span class="num"><span class="uc-num">0</span>张可用</span>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+    <div id="hotwords-2014"></div>
+    <span class="clr"></span>
+</div>
+<div id="nav-2014">
+    <div class="w">
+        <div id="ceilinglamp">
+            <div id="navitems-2014">
+            </div>
+            <div id="treasure">
+            </div>
+            <span class="clr"></span>
+        </div>
+    </div>
+</div>
+<!-- <script type="text/javascript">(function () {
+    if (pageConfig.navId) {
+        var object = document.getElementById('nav-' + pageConfig.navId);
+        if (object)
+            object.className += ' curr';
+    }
+}());</script> -->
+
+<div class="main">
+    <!-- widget quan-index begin -->
+    <div class="quan-h-wrap">
+
+        <div class="w">
+            <div class="quan-h-cate">
+                <div class="cate-heading">
+                    <span class="i1"></span>
+                    <h3>精选好券</h3>
+                    <span class="i1"></span>
+                </div>
+                <!--    展示优惠券的地方 -->
+
+                <div id="aaa">sdfasd</div>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="ui-slidebar-new">
+        <ul>
+            <li class="ui-slidebar-handler quan-slidebar">
+                <a href="//quan.jd.com/" class="q-txt" target="_blank"><i class="q-ico"></i></a>
+                <a href="//quan.jd.com/" class="q-num" target="_blank"><span class="num"><span id="mycoupon"> +99</span><s></s></span></a>
+            </li>
+
+            <!--<li class="ui-slidebar-handler top-slidebar">-->
+                <!--<a href="#" class="top" aria-label="返回顶部" role="presentation"><i class="top-ico"></i></a>-->
+            <!--</li>-->
+            <!--<li class="ui-slidebar-handler mobile-slidebar">-->
+                <!--<a href="javascript:;" aria-label="手机领券扫一扫" role="presentation"><i class="mobile-ico"></i></a>-->
+                <!--<div class="er-qc">-->
+                    <!--<div class="er-qc-panel">-->
+                        <!--<img src="" alt="">-->
+                    <!--</div>-->
+                    <!--<a class="sk_mod_er_mobile_close" href="javascript:;" clstag="channel|keycount|1418|ELR_MBC"-->
+                       <!--aria-label="关闭">-->
+                    <!--</a>-->
+                    <!--<s></s>-->
+                <!--</div>-->
+            <!--</li>-->
+        </ul>
+
+    </div>
+    <!-- widget quan-index end -->
+</div>
+
+<!--service start-->
+<div id="service-2017">
+    <div class="w">
+        <ol >
+            <li class="item fore1">
+                <i>多</i>品类齐全，轻松购物
+            </li>
+            <li class="item fore2">
+                <i>快</i>多仓直发，极速配送
+            </li>
+            <li class="item fore3">
+                <i>好</i>正品行货，精致服务
+            </li>
+            <li class="item fore4">
+                <i>省</i>天天低价，畅选无忧
+            </li>
+        </ol>
+    </div>
+
+    <!--service end-->
+    <!--footer start-->
+     <div id="footer-2017" Includefile_Footer_id="1002">
+    <!--&lt;!&ndash; <div class="w">-->
+        <div class="copyright_links">
+            <p>
+                <a href="//about.jd.com" target="_blank">关于我们</a><span class="copyright_split">|</span>
+                <a href="//about.jd.com/contact/" target="_blank">联系我们</a><span class="copyright_split">|</span>
+                <a href="//help.jd.com/user/custom.html" target="_blank">联系客服</a><span class="copyright_split">|</span>
+                <a href="//vc.jd.com/cooperation.html" target="_blank">合作招商</a><span class="copyright_split">|</span>
+                <a href="//helpcenter.jd.com/venderportal/index.html" target="_blank">商家帮助</a><span class="copyright_split">|</span>
+                <a href="//jzt.jd.com" target="_blank">营销中心</a><span class="copyright_split">|</span>
+                <!--<&#45;&#45; <a href="//app.jd.com/" target="_blank">手机京东</a><span class="copyright_split">|</span> &ndash;&gt;-->
+     <a href="//club.jd.com/links.aspx" target="_blank">友情链接</a><span class="copyright_split">|</span>
+    <a href="//media.jd.com/" target="_blank">销售联盟</a><span class="copyright_split">|</span>
+
+    <!--&lt;!&ndash; <a href="//sale.jd.com/act/FTrWPesiDhXt5M6.html" target="_blank">风险监测</a><span class="copyright_split">|</span>-->
+    <a href="//about.jd.com/privacy/" target="_blank">隐私政策</a><span class="copyright_split">|</span>
+     -->
+    <!--&lt;!&ndash; <a href="//en.jd.com/" target="_blank">English Site</a><span class="copyright_split">|</span>-->
+    <a href="//corporate.jd.com/" target="_blank">Media & IR</a>
+</p>
+</div> -->
+    <!--&lt;!&ndash; <div class="copyright_info">-->
+         <p>
+             <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11000002000088" target="_blank">京公网安备 11000002000088号</a><span class="copyright_split">|</span><span>京ICP证070359号</span><span class="copyright_split">|</span>
+             <a href="//img14.360buyimg.com/da/jfs/t256/349/769670066/270505/3b03e0bb/53f16c24N7c04d9e9.jpg" target="_blank">互联网药品信息服务资格证编号(京)-经营性-2014-0008</a><span class="copyright_split">|</span><span>新出发京零 字第大120007号</span></p>
+         <p><span>互联网出版许可证编号新出网证(京)字150号</span><span class="copyright_split">|</span>
+             <a href="//sale.jd.com/act/pQua7zovWdJfcIn.html" target="_blank">出版物经营许可证</a><span class="copyright_split">|</span>
+             <a href="//misc.360buyimg.com/wz/wlwhjyxkz.jpg" target="_blank">网络文化经营许可证京网文[2014]2148-348号</a><span class="copyright_split">|</span><span>违法和不良信息举报电话：4006561155</span></p>
+         <p><span class="copyright_text">Copyright &copy; 2004 - <em id="copyright_year">2019</em> 版权所有</span><span class="copyright_split">|</span><span>消费者维权热线：4006067733</span>
+             <a href="//sale.jd.com/act/7Y0Rp81MwQqc.html" target="_blank" class="copyright_license">经营证照</a>
+             <span class="copyright_split">|</span>
+             <span>(京)网械平台备字(2018)第00003号</span>
+             <span class="copyright_split">|</span>
+             <a href="//storage.jd.com/imgtools/cbdaa22553-dccaf290-d1af-11e8-a840-89f99f5f0056.jpeg" target="_blank" class="mod_business_license">营业执照</a>
+         </p>
+         <!--<p class="mod_copyright_inter">-->
+             <!--<a class="mod_copyright_inter_lk" href="//www.joybuy.com/?source=1&visitor_from=3" target="_blank" clstag="h|keycount|btm|btmnavi_null0501"><i class="mod_copyright_inter_ico mod_copyright_inter_ico_global"></i><span class="languagefont">&#xe901;</span></a>-->
+             <!--<span class="copyright_split">|</span>-->
+             <!--<a class="mod_copyright_inter_lk" href="//www.jd.ru/?source=1&visitor_from=3" target="_blank" clstag="h|keycount|btm|btmnavi_null0502"><i class="mod_copyright_inter_ico mod_copyright_inter_ico_rissia"></i><span class="languagefont">&#xe904;</span></a>-->
+             <!--<span class="copyright_split">|</span>-->
+             <!--<a class="mod_copyright_inter_lk" href="//www.jd.id/?source=1&visitor_from=3" target="_blank" clstag="h|keycount|btm|btmnavi_null0503"><i class="mod_copyright_inter_ico mod_copyright_inter_ico_indonesia"></i><span class="languagefont">&#xe902;</span></a>-->
+             <!--<span class="copyright_split">|</span>-->
+             <!--<a class="mod_copyright_inter_lk" href="//www.joybuy.es/?source=1&visitor_from=3" target="_blank" clstag="h|keycount|btm|btmnavi_null0504"><i class="mod_copyright_inter_ico mod_copyright_inter_ico_spain"></i><span class="languagefont">&#xe903;</span></a>-->
+             <!--<span class="copyright_split">|</span>-->
+             <!--<a class="mod_copyright_inter_lk" href="//www.jd.co.th/?source=1&visitor_from=3" target="_blank" clstag="h|keycount|btm|btmnavi_null0505"><i class="mod_copyright_inter_ico mod_copyright_inter_ico_thailand"></i><span class="languagefont">&#xe900;</span></a>-->
+         <!--</p>-->
+
+     </div>
+         <!--&lt;!&ndash; <p class="copyright_auth">-->
+             <script type="text/JavaScript">function CNNIC_change(eleId){var str= document.getElementById(eleId).href;var str1 =str.substring(0,(str.length-6));str1+=CNNIC_RndNum(6);
+                 document.getElementById(eleId).href=str1;}function CNNIC_RndNum(k){var rnd=""; for (var i=0;i
+                 < k;i++) rnd+=Math.floor(Math.random()*10); return rnd;};(function(){var d=new Date;document.getElementById(
+                  "copyright_year").innerHTML=d.getFullYear()})();</script>
+                     <!--<a id="urlknet" class="copyright_auth_ico copyright_auth_ico_2" onclick="CNNIC_change('urlknet')" oncontextmenu="return false;"-->
+                      <!--name="CNNIC_seal" href="https://ss.knet.cn/verifyseal.dll?sn=2008070300100000031&ct=df&pa=294005" target="_blank">可信网站信用评估</a>-->
+                     <!--<a class="copyright_auth_ico copyright_auth_ico_3" href="http://www.cyberpolice.cn/" target="_blank">网络警察提醒你</a>-->
+                     <!--<a class="copyright_auth_ico copyright_auth_ico_4" href="https://search.szfw.org/cert/l/CX20120111001803001836" target="_blank">诚信网站</a>-->
+                     <!--<a class="copyright_auth_ico copyright_auth_ico_5" href="http://www.12377.cn" target="_blank">中国互联网举报中心</a>-->
+                     <!--<a class="copyright_auth_ico copyright_auth_ico_6" href="http://www.12377.cn/node_548446.htm" target="_blank">网络举报APP下载</a>-->
+         </p> -->
+     	</div>
+</div>
+<!--footer end-->
+
+
+
+</body>
+</html>

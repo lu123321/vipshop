@@ -1,0 +1,247 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8" />-->
+    <!--<title>index</title>-->
+    <!--<script src="../js/jquery-1.8.3.js"></script>-->
+<!--</head>-->
+
+<!--<script>-->
+    <!--$(function () {-->
+        <!--//点击订单配送-->
+        <!--$(".J_type_btn1").click(function () {-->
+            <!--$.getJSON(-->
+                <!--"/orderdistribution/findAllType",-->
+                <!--function (result) {-->
+					<!--for (var i = 0;i < result.length;i++){-->
+					    <!--// alert(result[i].type)-->
+						<!--$("#a").html(result[0].type);-->
+                        <!--$("#b").html(result[1].type);-->
+                        <!--$("#c").html(result[2].type);-->
+                        <!--$("#d").html(result[3].type);-->
+                        <!--$("#e").html(result[4].type);-->
+					<!--}-->
+                <!--})-->
+        <!--})-->
+        <!--//点击订单操作-->
+        <!--$(".J_type_btn2").click(function () {-->
+            <!--$.getJSON(-->
+                <!--"/orderoperation/findAllType",-->
+                <!--function (result) {-->
+                    <!--for (var i = 0;i < result.length;i++){-->
+                        <!--// alert(result[i].type)-->
+                        <!--$("#a").html(result[0].operationtype);-->
+                        <!--$("#b").html(result[1].operationtype);-->
+                        <!--$("#c").html(result[2].operationtype);-->
+                        <!--$("#d").html(result[3].operationtype);-->
+                        <!--$("#e").html(result[4].operationtype);-->
+                    <!--}-->
+                <!--})-->
+        <!--})-->
+
+		<!--//点击具体问题提供解决方案-->
+		<!--$("#a").click(function () {-->
+            <!--$.getJSON(-->
+                <!--"/orderdistribution/findAllType",-->
+                <!--function (result) {-->
+                    <!--for (var i = 0;i < result.length;i++){-->
+                        <!--// alert(result[0].solution)-->
+                        <!--$("#aa").html(result[0].solution);-->
+
+                    <!--}-->
+                <!--})-->
+
+        <!--})-->
+
+        <!--$("#b").click(function () {-->
+            <!--$.getJSON(-->
+                <!--"/orderdistribution/findAllType",-->
+                <!--function (result) {-->
+                    <!--for (var i = 0;i < result.length;i++){-->
+                        <!--// alert(result[0].solution)-->
+                        <!--$("#bb").html(result[1].solution);-->
+
+                    <!--}-->
+                <!--})-->
+
+        <!--})-->
+
+        <!--$("#c").click(function () {-->
+            <!--$.getJSON(-->
+                <!--"/orderdistribution/findAllType",-->
+                <!--function (result) {-->
+                    <!--for (var i = 0;i < result.length;i++){-->
+                        <!--// alert(result[0].solution)-->
+                        <!--$("#cc").html(result[2].solution);-->
+
+                    <!--}-->
+                <!--})-->
+
+        <!--})-->
+
+        <!--$("#d").click(function () {-->
+            <!--$.getJSON(-->
+                <!--"/orderdistribution/findAllType",-->
+                <!--function (result) {-->
+                    <!--for (var i = 0;i < result.length;i++){-->
+                        <!--// alert(result[0].solution)-->
+                        <!--$("#dd").html(result[3].solution);-->
+
+                    <!--}-->
+                <!--})-->
+
+        <!--})-->
+
+
+
+    <!--})-->
+<!--</script>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<h3>客服服务</h3>-->
+<!--<p class="title">1.选择您咨询的问题类型<span class="arrow"></span></p>-->
+<!--<ul class="questions clearfix">-->
+    <!--<li>-->
+        <!--<p class="J_Anchor pli_title">与订单相关</p>-->
+        <!--<p class="pli_line">-->
+									<!--<span class="J_type_btn1" data-type="A01">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_dd_ico1"></i>-->
+											<!--订单配送-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+			<!--&lt;!&ndash;<button class="J_type_btn">订单配送</button>&ndash;&gt;-->
+            <!--<span class="J_type_btn2" data-type="A02">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_dd_ico2"></i>-->
+											<!--退货退款-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+            <!--<span class="J_type_btn3" data-type="A03">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_dd_ico3"></i>-->
+											<!--订单操作-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+            <!--<span class="J_type_btn4" data-type="A04">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_dd_ico4"></i>-->
+											<!--发票服务-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+            <!--<span class="J_type_btn5" data-type="A05">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_dd_ico5"></i>-->
+											<!--包裹异常-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+        <!--</p>-->
+    <!--</li>-->
+    <!--<li>-->
+        <!--<p class="J_Anchor pli_title">购物问题</p>-->
+        <!--<p class="pli_line">-->
+									<!--<span class="J_type_btn" data-type="B01">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_gw_ico1"></i>-->
+											<!--支付问题-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+            <!--<span class="J_type_btn" data-type="B02">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_gw_ico2"></i>-->
+											<!--商品咨询-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+            <!--<span class="J_type_btn" data-type="B03">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_gw_ico3"></i>-->
+											<!--售后咨询-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+            <!--<span class="J_type_btn" data-type="B04">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_gw_ico4"></i>-->
+											<!--配送方式-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+            <!--<span class="J_type_btn" data-type="B05">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_gw_ico5"></i>-->
+											<!--活动咨询-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+        <!--</p>-->
+    <!--</li>-->
+    <!--<li>-->
+        <!--<p class="J_Anchor pli_title">账户问题/投诉</p>-->
+        <!--<p class="pli_line pli_line_last">-->
+									<!--<span class="J_type_btn" data-type="C01">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_ts_ico1"></i>-->
+											<!--零钱提现-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+            <!--<span class="J_type_btn" data-type="C02">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_ts_ico2"></i>-->
+											<!--账户问题-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+            <!--<span class="J_type_btn" data-type="C03">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_ts_ico3"></i>-->
+											<!--唯品金融-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+            <!--<span class="J_type_btn" data-type="C04">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_ts_ico4"></i>-->
+											<!--优惠券/积分-->
+										<!--</a>-->
+									<!--</span>-->
+            <!--<span class="J_type_btn" data-type="C05">-->
+										<!--<a href="javascript:;">-->
+											<!--<i class="qa_ts_ico5"></i>-->
+											<!--建议投诉-->
+										<!--</a>-->
+										<!--<span class="btn_loading"></span>-->
+									<!--</span>-->
+        <!--</p>-->
+    <!--</li>-->
+<!--</ul>-->
+<!--<p class="sep-title">2.选择您遇到的具体问题<span class="arrow"></span></p>-->
+<!--<ul>-->
+	<!--<button  id="a"></button><br>-->
+	<!--<button  id="b"></button><br>-->
+	<!--<button id="c"></button><br>-->
+	<!--<button  id="d"></button><br>-->
+	<!--<button   id="e"></button>-->
+<!--</ul>-->
+<!--<p class="sep-title">3.我们给您的解决方案<span class="arrow"></span></p>-->
+
+<!--<span id="aa"></span>-->
+<!--<span id="bb"></span>-->
+<!--<span id="cc"></span>-->
+<!--<span id="dd"></span>-->
+<!--<span id="ee"></span>-->
+
+<!--<a href="feedback.html">反馈建议</a>-->
+
+<!--<h3>自助服务</h3>-->
+
+<!--</body>-->
+<!--</html>-->

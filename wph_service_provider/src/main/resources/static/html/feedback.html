@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html data-php=''>
+<head>
+    <meta charset="UTF-8" />
+    <title>index</title>
+
+    <script src="../js/jquery-1.8.3.js"></script>
+</head>
+<script>
+
+    $(function () {
+
+        var flag = 0;
+        //判定标题字数长度
+        $("[name=sugtitle]").blur(function () {
+            $.getJSON(
+                "length",
+                "sugtitle=" + $("[name=sugtitle]").val(),
+                function (result) {
+
+                    $("#vp").html(result).css({"color": "red"})
+
+                })
+        })
+
+        //判定输入内容长度
+        $("[name=sugcontent]").blur(function () {
+
+            $.getJSON(
+
+                "sugcontentLength",
+                "sugcontent=" + $("[name=sugcontent]").val(),
+                function (result) {
+
+                    $("#vo").html(result).css({"color": "red"})
+
+
+                })
+        })
+
+        //判定手机号或者邮箱正确不正确
+        $("[name=sugemail]").blur(function () {
+            $.getJSON(
+                "verifyPhoneAndEmail",
+                "sugemail=" + $("[name=sugemail]").val(),
+                function (result) {
+
+                    $("#vc").html(result).css({"color": "red"})
+
+                })
+        })
+
+        //判断图片验证码
+        $("[name=vrifyCode]").blur(function () {
+
+            $.getJSON(
+                "vertifytupian",
+                "vrifyCode=" + $("[name=vrifyCode]").val(),
+                function (result) {
+                    $("#yanzhengma").html(result).css({"color": "red"});
+                })
+
+        })
+
+
+
+
+
+            //提交
+            $("#btn").click(function () {
+
+                    $.getJSON(
+                        "testRadio",
+                        "sugtype=" + $("[name=sugtype]:checked").val(),
+                        function (result) {
+                            $("#yanzhengma").html(result).css({"color": "red"});
+                        })
+
+
+
+                $.ajax({
+                    "url":"subbb",
+                    "type":"post",
+                    "data":"sugtype=" + $("[name=sugtype]:checked").val()
+                                +"&sugtitle="+ $("[name=sugtitle]").val()
+                                +"&sugemail="+$("[name=sugemail]").val()
+                            +"&sugcontent=" + $("[name=sugcontent]").val(),
+                    "dataType":"json",
+                    "success":function (result) {
+                        $("#bnn").html(result).css({"color": "red"});
+                    }
+                })
+
+            })
+
+            $("#btn").click(function () {
+
+            $.getJSON(
+                "subbb",
+                "sugtype=" + $("[name=sugtype]:checked").val()
+                + "&sugtitle=" + $("[name=sugtitle]").val()
+                + "&sugemail=" + $("[name=sugemail]").val()
+                + "&sugcontent=" + $("[name=sugcontent]").val(),
+                function (result) {
+                    $("#bnn").html(result).css({"color": "red"});
+                })
+
+
+
+
+
+    })
+</script>
+</head>
+<body>
+    反馈类型：<input type="radio" name="sugtype" value="与订单相关">与订单相关
+              <input type="radio" name="sugtype" value="购物问题">购物问题
+              <input type="radio" name="sugtype" value="账户问题/建议投诉">账户问题/建议投诉
+              <input type="radio" name="sugtype" value="其它" >其它<br>
+    <span>&nbsp;&nbsp;标    题：</span><input type="text" class="titl" name="sugtitle" placeholder="4到30个字"><span id="vp"></span><br>
+    反馈内容：<textarea  name="sugcontent" placeholder="10到1000个字"></textarea><span id="vo"></span><br>
+    电话/邮箱：<input type="text" name="sugemail"><span id="vc"></span><br>
+    验 证 码：<input type="text" name="vrifyCode">
+    <img src="defaultKaptcha" onclick="this.src='defaultKaptcha?d='+new Date()*1"><br>
+    <span id="yanzhengma"></span>
+    <button id="btn">提交</button><span id="bnn"></span>
+
+</body>
+</html>

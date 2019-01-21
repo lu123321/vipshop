@@ -38,15 +38,22 @@ repositories {
 ext['springCloudVersion'] = 'Dalston.SR4'
 
 dependencies {
-    implementation('org.springframework.boot:spring-boot-starter-data-redis')
-    implementation('org.springframework.boot:spring-cloud-starter-feign')
-    implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
-    implementation('org.springframework.cloud:spring-cloud-starter-eureka')
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
+
+    compile('org.springframework.boot:spring-boot-starter-data-redis')
+    compile('org.springframework.cloud:spring-cloud-starter-feign')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compile('com.alibaba:fastjson:1.1.15')
+    compile('org.springframework.boot:spring-boot-starter-test')
 }
 
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
+}
+
+task copyToLib(type: Copy) {
+    into "$buildDir/libs/lib"
+    from configurations.runtime
 }

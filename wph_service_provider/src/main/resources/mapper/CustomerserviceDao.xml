@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.wph_service_provider.dao.CustomerserviceDao">
+
+    <resultMap type="com.example.wph_service_provider.entity.Customerservice" id="CustomerserviceMap">
+        <result property="csid" column="csid" jdbcType="INTEGER"/>
+        <result property="cstype" column="cstype" jdbcType="VARCHAR"/>
+        <result property="csquestion" column="csquestion" jdbcType="VARCHAR"/>
+        <result property="cssolution" column="cssolution" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CustomerserviceMap">
+        select
+          csid, cstype, csquestion, cssolution
+        from test2.customerservice
+        where csid = #{csid}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CustomerserviceMap">
+        select
+          csid, cstype, csquestion, cssolution
+        from test2.customerservice
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CustomerserviceMap">
+        select
+          csid, cstype, csquestion, cssolution
+        from test2.customerservice
+        <where>
+            <if test="csid != null">
+                and csid = #{csid}
+            </if>
+            <if test="cstype != null and cstype != ''">
+                and cstype = #{cstype}
+            </if>
+            <if test="csquestion != null and csquestion != ''">
+                and csquestion = #{csquestion}
+            </if>
+            <if test="cssolution != null and cssolution != ''">
+                and cssolution = #{cssolution}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="csid" useGeneratedKeys="true">
+        insert into test2.customerservice(cstype, csquestion, cssolution)
+        values (#{cstype}, #{csquestion}, #{cssolution})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update test2.customerservice
+        <set>
+            <if test="cstype != null and cstype != ''">
+                cstype = #{cstype},
+            </if>
+            <if test="csquestion != null and csquestion != ''">
+                csquestion = #{csquestion},
+            </if>
+            <if test="cssolution != null and cssolution != ''">
+                cssolution = #{cssolution},
+            </if>
+        </set>
+        where csid = #{csid}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from test2.customerservice where csid = #{csid}
+    </delete>
+
+</mapper>
