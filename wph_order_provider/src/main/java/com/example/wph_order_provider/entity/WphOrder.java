@@ -26,6 +26,8 @@ public class WphOrder implements Serializable {
     //订单状态 未支付0, 已取消1, 待收货2, 待发货3, 待评价4, 申请退款5,
     // 50为未发货
     // 51为已发货
+    // 52为交易成功
+    // 53为待评价
     // 退款成功6
     // 交易成功7
     private Integer orderState;

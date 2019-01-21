@@ -2,6 +2,7 @@ package com.example.wph_order_consumer.controller;
 
 import com.example.wph_order_consumer.pojo.WphUserAddress;
 import com.example.wph_order_consumer.service.AdressService;
+import javafx.application.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +56,7 @@ public class AdressController {
      * @param addId 地址id
      * @return
      */
-    @RequestMapping(value = "updateAddState" , method = RequestMethod.POST)
+    @RequestMapping(value = "updateAddState",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public String updateState(@RequestParam("addId") Integer addId ,HttpServletRequest request) {
         String userid=request.getHeader("userid");

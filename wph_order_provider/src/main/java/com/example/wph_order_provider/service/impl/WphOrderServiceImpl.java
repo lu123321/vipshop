@@ -123,19 +123,18 @@ public class WphOrderServiceImpl implements WphOrderService {
         WphOrder a=JSON.parseObject(wphOrder,WphOrder.class);
         String orderno=a.getOrderNo();
         Integer userid=a.getUserId();
-        if (redisUtil.getExpire("["+userid+"]order")<=5){
-            wphOrderDao.update(orderno,1,"");
-            List<WphOrderShoping> li=wphOrderShopingDao.queryAll(a.getUserId());
-            List<Kc> list=new ArrayList<Kc>();
-            for (WphOrderShoping wphOrderShoping : li){
-                Kc kc=new Kc();
-                kc.setBrand(wphOrderShoping.getOrderbrand());
-                kc.setSkunum(wphOrderShoping.getOrderShopingNum());
-                kc.setSkunumber(wphOrderShoping.getSkuSerialnumber());
-                list.add(kc);
-            }
-            rabbitTemplate.convertAndSend(RabbitConfig.KC2_Queue, JSON.toJSONString(list));
+        wphOrderDao.update(orderno,1,"");
+        List<WphOrderShoping> li=wphOrderShopingDao.queryAll(a.getUserId());
+        List<Kc> list=new ArrayList<Kc>();
+        for (WphOrderShoping wphOrderShoping : li){
+            Kc kc=new Kc();
+            kc.setBrand(wphOrderShoping.getOrderbrand());
+            kc.setSkunum(wphOrderShoping.getOrderShopingNum());
+            kc.setSkunumber(wphOrderShoping.getSkuSerialnumber());
+            list.add(kc);
         }
+        rabbitTemplate.convertAndSend(RabbitConfig.KC2_Queue, JSON.toJSONString(list));
+
     }
 
 
@@ -315,7 +314,6 @@ public class WphOrderServiceImpl implements WphOrderService {
                 orderShoping.setOrderState(wphOrder.getOrderState());
                 orderShoping.setOrderTime(wphOrder.getOrderTime());
                 orderShoping.setOrderwaybill(wphOrder.getOrderwaybill());
-
                 orderShoping.setS(redisUtil.getExpire("["+userid+"]order"));
                 List<WphOrderShoping> list2=wphOrderShopingDao.queryAll(wphOrder.getOrderId());
                 orderShoping.setWphOrderShoping(list2);

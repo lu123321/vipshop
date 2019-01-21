@@ -31,7 +31,8 @@ public class CouponsController {
     //新增物流单号
     @RequestMapping("/insertLog")
     @ResponseBody
-    public String insertLog( String shippercode, String logisticcode){
+    public String insertLog( String shippercode, String logisticcode,HttpServletResponse response){
+        response.setHeader("Access-Control-Allow-Origin","*");
         return couponsService.insertLog(shippercode, logisticcode);
     }
     //删除优惠券id和用户id

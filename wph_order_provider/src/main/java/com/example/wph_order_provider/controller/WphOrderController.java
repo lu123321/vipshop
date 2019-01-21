@@ -57,7 +57,8 @@ public class WphOrderController {
     }
 
     @PostMapping("/orderdel")
-    public String del(@RequestParam("orderid")Integer orderid){
+    public String del(@RequestParam("orderid")Integer orderid,HttpServletResponse response){
+        response.setHeader("Access-Control-Allow-Origin","*");
         return wphOrderService.deleteById(orderid);
     }
 
@@ -133,7 +134,8 @@ public class WphOrderController {
      */
     @PostMapping("/updatetuihuo")
 
-    int updatetuihuo(@RequestParam("orderid") Integer orderid,@RequestParam("paynumber") String paynumber){
+    int updatetuihuo(HttpServletResponse response,@RequestParam("orderid") Integer orderid,@RequestParam("paynumber") String paynumber){
+        response.setHeader("Access-Control-Allow-Origin","*");
         return wphOrderService.updatetuihuo(orderid,paynumber);
     };
     /**
